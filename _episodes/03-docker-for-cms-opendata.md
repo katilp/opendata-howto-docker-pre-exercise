@@ -98,9 +98,9 @@ CMSSW should now be available.
 
 <p>Start ROOT by typing <code>root</code> in the container prompt. In the ROOT prompt, type <code>TBrowser t</code> to open the ROOT graphical window. Exit from ROOT either by choosing the option from the TBrowser window or by typing <code>.q</code> in the ROOT prompt. Then type <code>exit</code> to leave the container.</p>
 
-<p>If you find that X11 forwarding is _not_ working and the ROOT graphical window does not open, try typing the following before starting your Docker container.
+<p>If you find that X11 forwarding is _not_ working and the ROOT graphical window does not open, try typing the following before starting your Docker container.</p>
 
-<div class="language-bash highlighter-rouge">
+<div class="language-plaintext bash highlighter-rouge">
 <div class="highlight"><pre class="highlight">
 <code>
 xhost local:root
