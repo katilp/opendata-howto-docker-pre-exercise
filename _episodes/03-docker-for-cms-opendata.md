@@ -35,7 +35,7 @@ The first time you start a container, a docker image file gets downloaded from a
 download, even as long as 20-30 minutes, depending on the speed of your internet
 connection. After the download, a container created from that image starts. The download needs to be done only once. Afterwards, when starting a container, it will find the downloaded image on your computer, and it will be much faster. 
 
-Before typing the full command it might be worth having a look at the options passed with it. For a more complete listing of options, see [the official Docker documentation](https://docs.docker.com/engine/reference/commandline/container_run/) on the ```run``` command or simply type ````docker run --help```. 
+Before typing the full command it might be worth having a look at the options passed with it. For a more complete listing of options, see [the official Docker documentation](https://docs.docker.com/engine/reference/commandline/container_run/) on the ```run``` command or simply type ```docker run --help```. 
 
 To start a CMS open data container and open it in a bash shell, one would need only type
 
@@ -85,7 +85,7 @@ CMSSW should now be available.
 [21:53:43] cmsusr@docker-desktop ~/CMSSW_5_3_32/src $
 </code></pre></div></div>
 
-<p>This is now a ```bash``` shell in the CMS open data environment in which you have access to a complete CMS software release that
+<p>This is now a bash shell in the CMS open data environment in which you have access to a complete CMS software release that
 is appropriate for interfacing with the 2011 and 2012 7 and 8 TeV datasets.</p>
 
 <p> The following options give us X11-forwarding:</p>
@@ -122,10 +122,10 @@ docker run -it --name cms_od -P -p 5901:5901 -p 6080:6080 cmsopendata/cmssw_5_3_
 <div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 Setting up CMSSW_5_3_32
 CMSSW should now be available.
-[16:42:38] cmsusr@f3d2e685fafc ~/CMSSW_5_3_32/src $
+~/CMSSW_5_3_32/src $
 </code></pre></div></div>
 
-<p>This is now a ```bash``` shell in the CMS open data environment in which you have access to a complete CMS software release that
+<p>This is now a bash shell in the CMS open data environment in which you have access to a complete CMS software release that
 is appropriate for interfacing with the 2011 and 2012 7 and 8 TeV datasets.</p>
 
 <p>If the docker command exits without giving you the output above, 
@@ -391,8 +391,6 @@ Then fire up your Docker container, adding the following
 ~~~
 {: .bash}
 
-Your full `docker run ...` command would then look like this
-
 <div id="docker-run-with-mount">
 
     <div>
@@ -406,6 +404,7 @@ Your full `docker run ...` command would then look like this
 
             <article role="tabpanel" class="tab-pane active" id="shell-linux">
 
+<p>Your full <code>docker run ...</code> command would then look like this:</p>
 <div class="language-bash highlighter-rouge">
 <div class="highlight"><pre class="highlight">
 <code>
@@ -416,6 +415,7 @@ docker run -it --name my_od --net=host --env="DISPLAY" -v $HOME/.Xauthority:/hom
 
             <article role="tabpanel" class="tab-pane" id="shell-windows">
 
+<p>Your full <code>docker run ...</code> command would then look like this:</p>
 <div class="language-bash highlighter-rouge">
 <div class="highlight"><pre class="highlight">
 <code>
@@ -424,10 +424,9 @@ docker run -it --name cms_od -P -p 5901:5901 -p 6080:6080 -v ${HOME}/cms_open_da
 
             </article><!-- Windows  -->
 
-
             <article role="tabpanel" class="tab-pane" id="shell-macos">
 
-<p> FIXME: Check this on Mac! </p>
+<p> Check this on Mac! </p>
 <div class="language-bash highlighter-rouge">
 <div class="highlight"><pre class="highlight">
 <code>
