@@ -1,5 +1,5 @@
 ---
-title: "Using Docker with the CMS open data - NB: update in progess"
+title: "Using Docker with the CMS open data"
 teaching: Self-guided
 exercises: 40 min
 questions:
@@ -12,7 +12,7 @@ objectives:
 - "Delete and rebuild containers"
 - "Share a local directory from your computer to the container (pass a volume)"
 keypoints:
-- "You have now set up a docker container as a working enviroment for CMS open data and you know how to open a graphical window in it and how to pass files between you own computer and the container."
+- "You have now set up a docker container as a working enviroment for CMS open data and you know how to open a graphical window in it and how to pass files between your own computer and the container."
 
 ---
 
@@ -29,16 +29,13 @@ Some guidance can be found on the
 
 
 
-## Using the proper image for CMS open data
+## Download the docker image for CMS open data and start a container
 
-The first time you run ```docker run``` command with an image name, it starts downloading the image from an image registry. The CMS open data image is large and it may take some time to 
+The first time you start a container, a docker image file gets downloaded from an image registry. The CMS open data image is large and it may take some time to 
 download, even as long as 20-30 minutes, depending on the speed of your internet
-connection. When the image download is completed, it will create a container from that image and it will give a ```bash``` shell in which you have access to a complete CMS software release that
-is appropriate for interfacing with the 2011 and 2012 7 and 8 TeV datasets. 
+connection. After the download, a container created from that image starts. The download needs to be done only once. Afterwards, when starting a container, it will find the downloaded image on your computer, and it will be much faster. 
 
-Note that the download needs to be done only once. Afterwards, even if you start a new container, it will find the downloaded image on your computer, and it will be much faster. 
-
-Before typing the full command it might be worth breaking it down for the interested user. For a more complete listing of options, see [the official Docker documentation](https://docs.docker.com/engine/reference/commandline/container_run/) on the ```run``` command. 
+Before typing the full command it might be worth having a look at the options passed with it. For a more complete listing of options, see [the official Docker documentation](https://docs.docker.com/engine/reference/commandline/container_run/) on the ```run``` command or simply type ````docker run --help```. 
 
 To start a CMS open data container and open it in a bash shell, one would need only type
 
@@ -48,7 +45,7 @@ docker run -it <container-name> /bin/bash
 ~~~
 {: .language-bash}
 
-The ```-it``` (or ```-i```) option means to start the container in interactive mode
+The ```-it``` (or ```-i```) option means to start the container in interactive mode.
 
 In the following, we will assign a ```name``` to the container so that we can refer back
 to this environment and still access any files we created in there. You can, of course,
@@ -67,8 +64,8 @@ Depending on your operating system, we will pass some other options which will b
 
     <div>
         <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation"><a data-os="linux" href="#shell-linux" aria-controls="Linux" role="tab" data-toggle="tab">Linux</a></li>
-        <li role="presentation" class="active"><a data-os="windows" href="#shell-windows" aria-controls="Windows" role="tab" data-toggle="tab">Windows</a></li>
+        <li role="presentation" class="active"><a data-os="linux" href="#shell-linux" aria-controls="Linux" role="tab" data-toggle="tab">Linux</a></li>
+        <li role="presentation"><a data-os="windows" href="#shell-windows" aria-controls="Windows" role="tab" data-toggle="tab">Windows</a></li>
         <li role="presentation"><a data-os="macos" href="#shell-macos" aria-controls="MacOS" role="tab" data-toggle="tab">MacOS</a></li>
         </ul>
 
@@ -88,6 +85,8 @@ CMSSW should now be available.
 [21:53:43] cmsusr@docker-desktop ~/CMSSW_5_3_32/src $
 </code></pre></div></div>
 
+<p>This is now a ```bash``` shell in the CMS open data environment in which you have access to a complete CMS software release that
+is appropriate for interfacing with the 2011 and 2012 7 and 8 TeV datasets.</p>
 
 <p> The following options give us X11-forwarding:</p>
 
@@ -97,9 +96,9 @@ CMSSW should now be available.
 ... --net=host --env="DISPLAY" --volume="$HOME/.Xauthority:/home/cmsusr/.Xauthority:rw"  ...
 </code></pre></div></div>
 
-<p>Start ROOT by typing <code>root</code> in the container prompt. In the ROOT prompt, type <code>TBrowser t</code> to open the ROOT graphical window. Exit from ROOT either by choosing the option from the TBrowser window or by typing <code>.q</code> in the ROOT prompt. Then type <code>exit</code> to leave the container.</p>
+<p>To test that X11-forwarding works, start ROOT by typing <code>root</code> in the container prompt. In the ROOT prompt, type <code>TBrowser t</code> to open the ROOT graphical window. If the graphical window opens you are all set and you can exit from ROOT either by choosing the option from the TBrowser window or by typing <code>.q</code> in the ROOT prompt. Then type <code>exit</code> to leave the container.</p>
 
-<p>If you find that X11 forwarding is _not_ working and the ROOT graphical window does not open, try typing the following before starting your Docker container.</p>
+<p>If you find that X11 forwarding is not working and the ROOT graphical window does not open, try typing the following before starting your Docker container.</p>
 
 <div class="language-bash highlighter-rouge">
 <div class="highlight"><pre class="highlight">
@@ -126,9 +125,20 @@ CMSSW should now be available.
 [16:42:38] cmsusr@f3d2e685fafc ~/CMSSW_5_3_32/src $
 </code></pre></div></div>
 
+<p>This is now a ```bash``` shell in the CMS open data environment in which you have access to a complete CMS software release that
+is appropriate for interfacing with the 2011 and 2012 7 and 8 TeV datasets.</p>
+
 <p>If the docker command exits without giving you the output above, 
 see <a href="https://opendata-forum.cern.ch/t/running-cms-opendata-containers-in-wsl2/30">this post</a>
-in the CERN Open Data forum. Note in particular that the <code>.wslconfig</code> file that you need to add must not have a file extension. If Windows adds it automatically, rename the file.</p>
+in the CERN Open Data forum (note in particular that the <code>.wslconfig</code> file that you need to add must not have a file extension, if Windows adds it automatically, rename the file).</p>
+
+<p> The following options open a port from the container to the local host, needed for the graphical windows:</p>
+
+<div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight">
+<code>
+... -p 5901:5901 -p 6080:6080  ...
+</code></pre></div></div>
 
 <p>This container has a VNC application installed to allow opening graphical windows on a remote machine (seen from the container, your own computer is a remote machine). Start the application with <code>start_vnc</code> from your container prompt, and choose a password.
 </p>
@@ -160,7 +170,7 @@ To stop noVNC enter 'pkill -9 -P 109'
 To kill the vncserver enter 'vncserver -kill :1'
 </code></pre></div></div>
 
-<p>Open the URL given in the startup message in a browser and connect with the password you've chosen. To test, start ROOT by typing <code>root</code> in the container prompt. In the ROOT prompt, type <code>TBrowser t</code> to open the ROOT graphical window. Check that it opens in the VNC tab in your broswer. Exit from ROOT either by choosing the option from the TBrowser window or by typing <code>.q</code> in the ROOT prompt.
+<p>Open the Web browser URL given in the startup message in a browser and connect with the password you've chosen. To test, start ROOT by typing <code>root</code> in the container prompt. In the ROOT prompt, type <code>TBrowser t</code> to open the ROOT graphical window. Check that it opens in the VNC tab in your broswer. If the graphical window opens you are all set and you can exit from ROOT either by choosing the option from the TBrowser window or by typing <code>.q</code> in the ROOT prompt.
 </p>
 
 <p> Importantly, take note of the two commands to stop noVNC and kill the vncserver in the startup message, and before exiting the container type them in the container prompt. Then exit the container.
@@ -387,8 +397,8 @@ Your full `docker run ...` command would then look like this
 
     <div>
         <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation"><a data-os="linux" href="#shell-linux" aria-controls="Linux" role="tab" data-toggle="tab">Linux</a></li>
-        <li role="presentation" class="active"><a data-os="windows" href="#shell-windows" aria-controls="Windows" role="tab" data-toggle="tab">Windows</a></li>
+        <li role="presentation" class="active"><a data-os="linux" href="#shell-linux" aria-controls="Linux" role="tab" data-toggle="tab">Linux</a></li>
+        <li role="presentation"><a data-os="windows" href="#shell-windows" aria-controls="Windows" role="tab" data-toggle="tab">Windows</a></li>
         <li role="presentation"><a data-os="macos" href="#shell-macos" aria-controls="MacOS" role="tab" data-toggle="tab">MacOS</a></li>
         </ul>
 
