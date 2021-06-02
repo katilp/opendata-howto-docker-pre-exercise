@@ -67,9 +67,9 @@ Depending on your operating system, we will pass some other options which will b
 
     <div>
         <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation"><a data-os="linux" href="#shell-linux" aria-controls="Linux" role="tab" data-toggle="tab">Linux</a></li>
         <li role="presentation" class="active"><a data-os="windows" href="#shell-windows" aria-controls="Windows" role="tab" data-toggle="tab">Windows</a></li>
         <li role="presentation"><a data-os="macos" href="#shell-macos" aria-controls="MacOS" role="tab" data-toggle="tab">MacOS</a></li>
-        <li role="presentation"><a data-os="linux" href="#shell-linux" aria-controls="Linux" role="tab" data-toggle="tab">Linux</a></li>
         </ul>
 
         <div class="tab-content">
@@ -80,7 +80,7 @@ Depending on your operating system, we will pass some other options which will b
 <div class="language-plaintext bash highlighter-rouge">
 <div class="highlight"><pre class="highlight">
 <code>
-docker run -it --name my_od --net=host --env="DISPLAY" --volume="$HOME/.Xauthority:/home/cmsusr/.Xauthority:rw"  cmsopendata/cmssw_5_3_32 /bin/bash
+docker run -it --name my_od --net=host --env="DISPLAY" -v $HOME/.Xauthority:/home/cmsusr/.Xauthority:rw  cmsopendata/cmssw_5_3_32 /bin/bash
 </code>
 <code>
 Setting up CMSSW_5_3_32
@@ -96,8 +96,17 @@ CMSSW should now be available.
 ... --net=host --env="DISPLAY" --volume="$HOME/.Xauthority:/home/cmsusr/.Xauthority:rw"  ...
 </code></pre></div></div>
 
-<p>Start ROOT by typing <code>root</code> in the container prompt. In the ROOT prompt, type <code>TBrowser t</code> to open the ROOT graphical window. Exit from ROOT either by choosing the option from the TBrowser window or by typing <code>.q</code> in the ROOT prompt. Then type <code>exit</code> to leave the container.
-</p>
+<p>Start ROOT by typing <code>root</code> in the container prompt. In the ROOT prompt, type <code>TBrowser t</code> to open the ROOT graphical window. Exit from ROOT either by choosing the option from the TBrowser window or by typing <code>.q</code> in the ROOT prompt. Then type <code>exit</code> to leave the container.</p>
+
+<p>If you find that X11 forwarding is _not_ working and the ROOT graphical window does not open, try typing the following before starting your Docker container.
+
+<div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight">
+<code>
+xhost local:root
+</code></pre></div></div>
+
+
 
 
             </article><!-- linux  -->
@@ -172,7 +181,24 @@ exit
 
             <article role="tabpanel" class="tab-pane" id="shell-macos">
             
-<p>Start the image download and open the container with...</p>
+<p>Start the image download and open the container with... just testing the format in the following:</p>
+
+<div class="language-plaintext source highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+Code line
+Second line
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight">
+<code>
+Code line with bash
+Another code line with bash
+</code></pre></div></div>
+
+<div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+Output line
+Second output line
+</code></pre></div></div>
 
             </article><!-- Mac  -->
 
@@ -180,6 +206,108 @@ exit
 
     </div><!-- nav-tabs  -->
 </div><!-- docker-run  -->
+
+## Coming back to the same container
+
+ You can come back to the same container you've used earlier with the ```docker start ...``` command. Note that running the ```docker run ...``` command as before would create a new container from the image you've downloaded. This would be a new environment, and any files that you've made or any code that you've written before will not be there! To go to the same working area with all our files and code saved each time you will need to start the existing container.
+
+There are two ways to do this: by giving your container instance a *name* or by making sure you
+reference the *container id*. The former approach is probably easier and preferred, but we discuss 
+both below. 
+
+### Start container by name
+
+The easiest way to start a container that you want to return to is using the name as defined with the ```--name``` option in the ```docker run ...``` command before. 
+Use ```-i``` (or ```-it```) for opening the container in interactive mode.  
+
+So to re-```start``` your container
+
+~~~
+docker start -i my_od
+~~~
+{: .language-bash}
+
+
+### Start/Attach container by container ID
+
+If you did not name your container instance but still want to return to a very specifc
+environment, you will need to ```start``` and then ```attach``` to the exact same container as before. 
+First of all, you want to see what other Docker processes we have running. To do this, run the following
+command
+~~~
+docker ps -a
+~~~
+{: .language-bash}
+
+You'll see a list of docker processes that may look something like the following (the exact output
+        will vary from user to user).
+
+~~~
+CONTAINER ID        IMAGE                      COMMAND                  CREATED             STATUS                      PORTS               NAMES
+4f323c317b90        hello-world                "/hello"                 3 minutes ago       Exited (0) 3 minutes ago                        modest_jang
+7719a7d74190        cmsopendata/cmssw_5_3_32   "/opt/cms/entrypoint…"   9 minutes ago       Exited (0) 2 minutes ago                        happy_greider
+8939ade0bfac        cmsopendata/cmssw_5_3_32   "/opt/cms/entrypoint…"   16 hours ago        Exited (128) 16 hours ago                       hungry_bhaskara
+e914cef3c45a        cmsopendata/cmssw_5_3_32   "/opt/cms/entrypoint…"   6 days ago          Exited (1) 9 minutes ago                        beautiful_tereshkova
+b3a888c059f7        cmsopendata/cmssw_5_3_32   "/opt/cms/entrypoint…"   13 days ago         Exited (0) 13 days ago                          affectionate_ardinghelli
+~~~
+{: .output}
+
+You'll want to attach using the ```CONTAINER ID```. In the above example, I know that I've been using the most 
+recent CMS open data container, ```7719a7d74190```. So to reattach, I run the following line
+which will ```start``` and ```attach``` all in one line. Note that you 
+would want to change the ```CONTAINER ID``` for your particular case. 
+
+~~~
+docker start -a 7719a7d74190
+~~~
+{: .language-bash}
+
+Voila! You should be back in the same container.
+
+> ## CHALLENGE! Test persistence
+>
+> Go into the container and create a test file using some
+> simple shell commands. Type the following exactly as you see it.
+> It will dump some text into a file and then print the contents
+> of the file to the screen
+> ~~~
+> echo "I am still here" > test.tmp
+> cat test.tmp
+> 
+> ~~~
+> {: .language-bash}
+>
+> After you've done this, exit out of the container and start it again.
+> If you did it correctly, you should be able to list the contents
+> of the directory with ```ls -l``` and see your file from before!
+> If not, check that you followed all the instructions
+> above correctly or contact the facilitators. 
+{: .challenge}
+
+## Copy file(s) into or out of a container
+
+Sometimes you will want to copy a file directly into or out of a container. Let's start with copying
+a file *out*. 
+
+Suppose you have created your **my_od** container *and* you did the challenge
+question above to *Test persistence*. In your docker image, there should be a file now 
+called ```test.tmp``` Run the following on your *local* machine and *not* in a docker environment. 
+It should copy the file out and onto your local machine where you can inspect it. 
+
+~~~
+docker cp my_od:/home/cmsusr/CMSSW_5_3_32/src/test.tmp .
+~~~
+{: .language-bash}
+
+If you want to copy a file *into* a container instance, it works the way you might expect. 
+Suppose you have a local file called ```localfile.tmp```. You can copy it into the same instance
+as follows.
+
+~~~
+docker cp localfile.tmp my_od:/home/cmsusr/CMSSW_5_3_32/src/
+~~~
+{: .language-bash}
+
 
 ### Additional flags
 
@@ -191,9 +319,6 @@ One example we will show you will walk you through creating a local working dire
 analysis code. This means that you can edit your scripts or files
 *locally* and exectute them in Docker. It will give you much greater flexibility in using whatever
 backup or version control you are comfortable with. 
-
-In a separate module we will show you how to mount the CERN-VM file system (CVMFS), giving you more access to CMS software and
-calibration information. CVMFS will be discussed in greater detail in that module
 
 As these flags are discussed, we will modify this primary `docker` command in those sections.
 
@@ -224,148 +349,6 @@ docker rm $(docker ps -aq)
 >
 {: .callout}
 
-## Using Docker repeatedly
-
-The next time you want to run Docker, it will not need to download any significant data 
-so it should open in seconds. You could choose to run the same command as before and while that would
-work and quickly put you into a Docker environment, 
-there are some issues with this. Most significantly, any files that you make or any code that you write in that
-environment will not be there! Instead of the above command, we want to run Docker in a *persistent* way so that
-we keep going into the same working area with all our files and code saved each time. 
-
-There are two ways to do this: by giving your container instance a *name* or by making sure you
-reference the *container id*. The former approach is probably easier and preferred, but we discuss 
-both below. 
-
-### Start docker by name
-
-The easiest way to start a docker instance that you want to return to is using the ```--name```
-option, as shown in the first example. If you've named your instance similarly, you can
-```start``` the instance, just by providing the name. 
-You will also use ```-i``` for interactive rather than ```-it```. It will still come up as normal. 
-
-Note also that you do not need the full ```cmsopendata/cmssw_5_3_32 ``` argument anymore. 
-
-So to re-```start``` your container, just do the following
-and you will still have X11-forwarding (on Linux and Mac) and the mounted disk volumes, assuming you 
-ran the full command earlier. 
-
-~~~
-docker start -i myopendataproject
-~~~
-{: .language-bash}
-
-
-### Start/Attach to a particular process
-
-If you did not name your container instance but still want to return to a very specifc
-environment, you will need to ```start``` and then ```attach``` to the exact same Docker instance as before. 
-First of all, you want to see what other Docker processes we have running. To do this, run the following
-command
-~~~
-docker ps -a
-~~~
-{: .language-bash}
-
-You'll see a list of docker processes that may look something like the following (the exact output
-        will vary from user to user).
-
-~~~
-CONTAINER ID        IMAGE                      COMMAND                  CREATED             STATUS                      PORTS               NAMES
-4f323c317b90        hello-world                "/hello"                 3 minutes ago       Exited (0) 3 minutes ago                        modest_jang
-7719a7d74190        cmsopendata/cmssw_5_3_32   "/opt/cms/entrypoint…"   9 minutes ago       Exited (0) 2 minutes ago                        happy_greider
-8939ade0bfac        cmsopendata/cmssw_5_3_32   "/opt/cms/entrypoint…"   16 hours ago        Exited (128) 16 hours ago                       hungry_bhaskara
-e914cef3c45a        cmsopendata/cmssw_5_3_32   "/opt/cms/entrypoint…"   6 days ago          Exited (1) 9 minutes ago                        beautiful_tereshkova
-b3a888c059f7        cmsopendata/cmssw_5_3_32   "/opt/cms/entrypoint…"   13 days ago         Exited (0) 13 days ago                          affectionate_ardinghelli
-~~~
-{: .output}
-
-You'll want to attach using the ```CONTAINER ID```. In the above example, I know that I've been using the most 
-recent container instance for cmsopendata, ```7719a7d74190```. So to reattach, I run the following line
-which will ```start``` and ```attach``` all in one line. Note that you 
-would want to change the ```CONTAINER ID``` for your particular case. 
-
-~~~
-docker start -a 7719a7d74190
-~~~
-{: .language-bash}
-
-Voila! You should be back in the same container. 
-
-
-> ## CHALLENGE! Test X11 forwarding
->
-> For Windows users,
-> open a specific CMS open data container ```docker run -it -P -p 5901:5901 -p 6080:6080 cmsopendata/cmssw_5_3_32_vnc:latest /bin/bash```.
-> In the container, type ```start_vnc``` and choose a password.
-> Open a browser window with the given URL (enter the password), and start ROOT.
-> If the web browser doesn't work for you, alternative:
->  - Go to https://bintray.com/tigervnc/stable/tigervnc/1.10.0 and download vncviewer64-1.10.0.exe
->  - Run vncviewer64-1.10.0.exe, enter vnc server name: 127.0.0.1:5901, click connect, enter password
->
-> For Mac and Linux users,
-> open the CMS open data container with ```docker start...``` or ```docker run...``` 
-> as instructed above and open ROOT, simply by typing ```root``` on the command line. 
->
-> Do you see the ROOT splash screen pop up? 
-> If not, check that you followed all the instructions
-> above correctly or contact the facilitators. 
->
-> To exit the ROOT interpreter type ```.q```.
->
-> If you find that X11 forwarding is _not_ working, try typing the following
-> before going starting your Docker container.
->
-> ~~~
-> xhost local:root
-> ~~~
-> {: .bash}
->
-{: .challenge}
-
-> ## CHALLENGE! Test persistence
->
-> Go into the Docker environment and create a test file using some
-> simple shell commands. Type the following exactly as you see it.
-> It will dump some text into a file and then print the contents
-> of the file to the screen
-> ~~~
-> echo "I am still here" > test.tmp
-> cat test.tmp
-> 
-> ~~~
-> {: .language-bash}
->
-> After you've done this, exit out of the container and try to attach to the same
-> instance. If you did it correctly, you should be able to list the contents
-> of the directory with ```ls -l``` and see your file from before!
-> If not, check that you followed all the instructions
-> above correctly or contact the facilitators. 
-{: .challenge}
-
-## Copy file(s) into or out of a container
-
-Sometimes you will want to copy a file directly into or out of a container. Let's start with copying
-a file *out*. 
-
-Suppose you have created your **myopendataproject** container *and* you did the challenge
-question above to *Test persistence*. In your docker image, there should be a file now 
-called ```test.tmp``` Run the following on your *local* machine and *not* in a docker environment. 
-It should copy the file out and onto your local machine where you can inspect it. 
-
-~~~
-docker cp myopendataproject:/home/cmsusr/CMSSW_5_3_32/src/test.tmp .
-~~~
-{: .language-bash}
-
-If you want to copy a file *into* a container instance, it works the way you might expect. 
-Suppose you have a local file called ```localfile.tmp```. You can copy it into the same instance
-as follows.
-
-~~~
-docker cp localfile.tmp myopendataproject:/home/cmsusr/CMSSW_5_3_32/src/
-~~~
-{: .language-bash}
 
 ## Mounting a local volume
 
@@ -386,11 +369,7 @@ Docker container.
 There are more options and if you want to read more, please visit the 
 [official Docker documentation](https://docs.docker.com/storage/volumes/).
 
-When working with the CMS open data, you will find yourself using this approach in at
-least two ways:
-* Having a local working directory for all your editing/version control, etc.
-* Mounting the CVMFS file system (next module). 
-
+When working with the CMS open data, you will find yourself using this approach to have a local working directory for all your editing/version control, etc.
 Note that all your compiling and executing still has to be done *in the Docker container*! 
 But having your source code also visible on your local laptop/desktop will make things easier for you. 
 
@@ -416,7 +395,7 @@ Your full `docker` command would then look like this
 
 > ## Local machine
 > ~~~
-> docker run -it --name myopendataproject --net=host --env="DISPLAY" --volume="$HOME/.Xauthority:/home/cmsusr/.Xauthority:rw" -v ${HOME}/cms_open_data_work:/home/cmsusr/cms_open_data_work:shared cmsopendata/cmssw_5_3_32 /bin/bash
+> docker run -it --name myopendataproject --net=host --env="DISPLAY" -v $HOME/.Xauthority:/home/cmsusr/.Xauthority:rw -v ${HOME}/cms_open_data_work:/home/cmsusr/cms_open_data_work:shared cmsopendata/cmssw_5_3_32 /bin/bash
 > ~~~
 > {: .language-bash}
 {: .challenge}
