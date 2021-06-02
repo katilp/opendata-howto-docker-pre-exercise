@@ -25,7 +25,7 @@ using the [dedicated Mattermost channel](https://mattermost.web.cern.ch/cmsodws2
 if we are missing something. 
 
 Some guidance can be found on the 
-[Open Data Portal introduction to Docker](http://opendata.cern.ch/docs/cms-guide-docker). Hwoever, the use of graphical interfaces, such the graphics window from ROOT, depends on the operating system of your computer. Therefore, in the following, separate instructions are given for Windows WSL, Linux and MacOS.
+[Open Data Portal introduction to Docker](http://opendata.cern.ch/docs/cms-guide-docker). However, the use of graphical interfaces, such the graphics window from ROOT, depends on the operating system of your computer. Therefore, in the following, separate instructions are given for Windows WSL, Linux and MacOS.
 
 
 
@@ -36,7 +36,32 @@ download, even as long as 20-30 minutes, depending on the speed of your internet
 connection. When the image download is completed, it will create a container from that image and it will give a ```bash``` shell in which you have access to a complete CMS software release that
 is appropriate for interfacing with the 2011 and 2012 7 and 8 TeV datasets. 
 
-Note that the download needs to be done only once. Afterwards, even if you start a new container, it will find the downloaded image on your computer, and it will be much faster.
+Note that the download needs to be done only once. Afterwards, even if you start a new container, it will find the downloaded image on your computer, and it will be much faster. 
+
+Before typing the full command it might be worth breaking it down for the interested user. For a more complete listing of options, see [the official Docker documentation](https://docs.docker.com/engine/reference/commandline/container_run/) on the ```run``` command. 
+
+To start a CMS open data container and open it in a bash shell, one would need only type
+
+~~~
+docker run -it <container-name> /bin/bash
+
+~~~
+{: .language-bash}
+
+The ```-it``` (or ```-i```) option means to start the container in interactive mode
+
+In the following, we will assign a ```name``` to the container so that we can refer back
+to this environment and still access any files we created in there. You can, of course,
+choose a different name than ```my_od```! :)
+
+~~~
+... --name my_od ...
+
+~~~
+{: .language-bash}
+
+
+Depending on your operating system, we will pass some other options which will be explained below.
 
 <div id="docker-run">
 
@@ -48,31 +73,6 @@ Note that the download needs to be done only once. Afterwards, even if you start
         </ul>
 
         <div class="tab-content">
-            <article role="tabpanel" class="tab-pane active" id="shell-windows">
-
-<p>Start the image download and open the container with</p>
-<div class="language-plaintext bash highlighter-rouge">
-<div class="highlight"><pre class="highlight">
-<code>
-docker run -it --name cms_od -P -p 5901:5901 -p 6080:6080 cmsopendata/cmssw_5_3_32_vnc:latest /bin/bash
-</code></pre></div></div>
-<code>
-Setting up CMSSW_5_3_32
-CMSSW should now be available.
-[16:42:38] cmsusr@f3d2e685fafc ~/CMSSW_5_3_32/src $
-</code>
-<p>If the docker command exits without giving you the output above, 
-see <a href="https://opendata-forum.cern.ch/t/running-cms-opendata-containers-in-wsl2/30">this post</a>
-in the CERN Open Data forum. Note in particular that the <code>.wslconfig</code> file that you need to add must not have a file extension. If Windows adds it automatically, rename the file.</p>
-
-
-
-            </article><!-- Windows  -->
-
-
-            <article role="tabpanel" class="tab-pane" id="shell-macos">
-            
-            </article><!-- Mac  -->
 
             <article role="tabpanel" class="tab-pane" id="shell-linux">
 
@@ -81,53 +81,105 @@ in the CERN Open Data forum. Note in particular that the <code>.wslconfig</code>
 <div class="highlight"><pre class="highlight">
 <code>
 docker run -it --name my_od --net=host --env="DISPLAY" --volume="$HOME/.Xauthority:/home/cmsusr/.Xauthority:rw"  cmsopendata/cmssw_5_3_32 /bin/bash
-</code></pre></div></div>
+</code>
 <code>
 Setting up CMSSW_5_3_32
 CMSSW should now be available.
 [21:53:43] cmsusr@docker-desktop ~/CMSSW_5_3_32/src $
-</code>
+</code></pre></div></div>
+
+<p> The following options give us X11-forwarding:</p>
+
+<div class="language-plaintext bash highlighter-rouge">
+<div class="highlight"><pre class="highlight">
+<code>
+... --net=host --env="DISPLAY" --volume="$HOME/.Xauthority:/home/cmsusr/.Xauthority:rw"  ...
+</code></pre></div></div>
+
+<p>Start ROOT by typing <code>root</code> in the container prompt. In the ROOT prompt, type <code>TBrowser t</code> to open the ROOT graphical window. Exit from ROOT either by choosing the option from the TBrowser window or by typing <code>.q</code> in the ROOT prompt. Then type <code>exit</code> to leave the container.
+</p>
 
 
             </article><!-- linux  -->
+
+            <article role="tabpanel" class="tab-pane active" id="shell-windows">
+
+<p>Start the image download and open the container with</p>
+<div class="language-plaintext bash highlighter-rouge">
+<div class="highlight"><pre class="highlight">
+<code>
+docker run -it --name cms_od -P -p 5901:5901 -p 6080:6080 cmsopendata/cmssw_5_3_32_vnc:latest /bin/bash
+</code>
+<code>
+Setting up CMSSW_5_3_32
+CMSSW should now be available.
+[16:42:38] cmsusr@f3d2e685fafc ~/CMSSW_5_3_32/src $
+</code></pre></div></div>
+
+<p>If the docker command exits without giving you the output above, 
+see <a href="https://opendata-forum.cern.ch/t/running-cms-opendata-containers-in-wsl2/30">this post</a>
+in the CERN Open Data forum. Note in particular that the <code>.wslconfig</code> file that you need to add must not have a file extension. If Windows adds it automatically, rename the file.</p>
+
+<p>This container has a VNC application installed to allow opening graphical windows on a remote machine (seen from the container, your own computer is a remote machine). Start the application with <code>start_vnc</code> from your container prompt, and choose a password.
+</p>
+
+<div class="language-plaintext bash highlighter-rouge">
+<div class="highlight"><pre class="highlight">
+<code>
+[16:42:38] cmsusr@f3d2e685fafc ~/CMSSW_5_3_32/src $ start_vnc
+
+You will require a password to access your desktops.
+
+Password:
+Verify:
+xauth:  file /home/cmsusr/.Xauthority does not exist
+
+New 'myvnc:1' desktop is f3d2e685fafc:1
+
+Starting applications specified in /home/cmsusr/.vnc/xstartup
+Log file is /home/cmsusr/.vnc/f3d2e685fafc:1.log
+
+[1] 109
+VNC connection points:
+        VNC viewer address: 127.0.0.1:5901
+        OSX built-in VNC viewer command: open vnc://127.0.0.1:5901
+        Web browser URL: http://127.0.0.1:6080/vnc.html?host=127.0.0.1&port=6080
+
+To stop noVNC enter 'pkill -9 -P 109'
+To kill the vncserver enter 'vncserver -kill :1'
+</code></pre></div></div>
+
+<p>Open the URL given in the startup message in a browser and connect with the password you've chosen. To test, start ROOT by typing <code>root</code> in the container prompt. In the ROOT prompt, type <code>TBrowser t</code> to open the ROOT graphical window. Check that it opens in the VNC tab in your broswer. Exit from ROOT either by choosing the option from the TBrowser window or by typing <code>.q</code> in the ROOT prompt.
+</p>
+
+<p> Importantly, take note of the two commands to stop noVNC and kill the vncserver in the startup message, and before exiting the container type them in the container prompt. Then exit the container.
+</p>
+
+<div class="language-plaintext bash highlighter-rouge">
+<div class="highlight"><pre class="highlight">
+<code>
+[16:43:41] cmsusr@f3d2e685fafc ~/CMSSW_5_3_32/src $ pkill -9 -P 109
+[16:43:50] cmsusr@f3d2e685fafc ~/CMSSW_5_3_32/src $ vncserver -kill :1
+Killing Xvnc process ID 101
+[1]+  Exit 137                /usr/local/novnc/utils/launch.sh --vnc 127.0.0.1:5901 > /dev/null 2>&1
+[16:43:56] cmsusr@f3d2e685fafc ~/CMSSW_5_3_32/src $ exit
+exit
+</code></pre></div></div>
+
+
+            </article><!-- Windows  -->
+
+
+            <article role="tabpanel" class="tab-pane" id="shell-macos">
+            
+<p>Start the image download and open the container with...</p>
+
+            </article><!-- Mac  -->
+
         </div> <!-- tab-contents  -->
 
     </div><!-- nav-tabs  -->
 </div><!-- docker-run  -->
-
-
-It might be worth breaking down this command for the interested user. For a more complete
-listing of options, see [the official Docker documentation](https://docs.docker.com/engine/reference/commandline/container_run/) on the ```run``` command. 
-
-To start a CMSSW container instance and open it in a bash shell, one would need only type
-
-~~~
-docker run -it cmsopendata/cmssw_5_3_32 /bin/bash
-
-~~~
-{: .language-bash}
-
-The ```-it``` option means to start the instance in interactive mode
-
-Adding the following assigns a ```name``` to the instance so that we can refer back
-to this environment and still access any files we created in there. You can, of course,
-choose a different name than ```myopendataproject```! :)
-
-~~~
-... --name myopendataproject ...
-
-~~~
-{: .language-bash}
-Adding the following gives us X11-forwarding, though this will not work with
-Windows10 WSL2 Linux.
-
-~~~
-... --net=host --env="DISPLAY" --volume="$HOME/.Xauthority:/home/cmsusr/.Xauthority:rw"  ...
-
-~~~
-{: .language-bash}
-
-When you're done, you can just type ```exit``` to leave the Docker environment. 
 
 ### Additional flags
 
