@@ -74,23 +74,24 @@ Depending on your operating system, we will pass some other options which will b
 
         <div class="tab-content">
 
-            <article role="tabpanel" class="tab-pane" id="shell-linux">
+            <article role="tabpanel" class="tab-pane active" id="shell-linux">
 
 <p>Start the image download and open the container with</p>
-<div class="language-plaintext bash highlighter-rouge">
+<div class="language-bash highlighter-rouge">
 <div class="highlight"><pre class="highlight">
 <code>
 docker run -it --name my_od --net=host --env="DISPLAY" -v $HOME/.Xauthority:/home/cmsusr/.Xauthority:rw  cmsopendata/cmssw_5_3_32 /bin/bash
-</code>
-<code>
+</code></pre></div></div>
+<div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 Setting up CMSSW_5_3_32
 CMSSW should now be available.
 [21:53:43] cmsusr@docker-desktop ~/CMSSW_5_3_32/src $
 </code></pre></div></div>
 
+
 <p> The following options give us X11-forwarding:</p>
 
-<div class="language-plaintext bash highlighter-rouge">
+<div class="language-bash highlighter-rouge">
 <div class="highlight"><pre class="highlight">
 <code>
 ... --net=host --env="DISPLAY" --volume="$HOME/.Xauthority:/home/cmsusr/.Xauthority:rw"  ...
@@ -100,7 +101,7 @@ CMSSW should now be available.
 
 <p>If you find that X11 forwarding is _not_ working and the ROOT graphical window does not open, try typing the following before starting your Docker container.</p>
 
-<div class="language-plaintext bash highlighter-rouge">
+<div class="language-bash highlighter-rouge">
 <div class="highlight"><pre class="highlight">
 <code>
 xhost local:root
@@ -111,15 +112,15 @@ xhost local:root
 
             </article><!-- linux  -->
 
-            <article role="tabpanel" class="tab-pane active" id="shell-windows">
+            <article role="tabpanel" class="tab-pane" id="shell-windows">
 
 <p>Start the image download and open the container with</p>
-<div class="language-plaintext bash highlighter-rouge">
+<div class="language-bash highlighter-rouge">
 <div class="highlight"><pre class="highlight">
 <code>
 docker run -it --name cms_od -P -p 5901:5901 -p 6080:6080 cmsopendata/cmssw_5_3_32_vnc:latest /bin/bash
-</code>
-<code>
+</code></pre></div></div>
+<div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 Setting up CMSSW_5_3_32
 CMSSW should now be available.
 [16:42:38] cmsusr@f3d2e685fafc ~/CMSSW_5_3_32/src $
@@ -132,11 +133,12 @@ in the CERN Open Data forum. Note in particular that the <code>.wslconfig</code>
 <p>This container has a VNC application installed to allow opening graphical windows on a remote machine (seen from the container, your own computer is a remote machine). Start the application with <code>start_vnc</code> from your container prompt, and choose a password.
 </p>
 
-<div class="language-plaintext bash highlighter-rouge">
+<div class="language-bash highlighter-rouge">
 <div class="highlight"><pre class="highlight">
 <code>
-[16:42:38] cmsusr@f3d2e685fafc ~/CMSSW_5_3_32/src $ start_vnc
-
+~/CMSSW_5_3_32/src $ start_vnc
+</code></pre></div></div>
+<div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 You will require a password to access your desktops.
 
 Password:
@@ -164,15 +166,12 @@ To kill the vncserver enter 'vncserver -kill :1'
 <p> Importantly, take note of the two commands to stop noVNC and kill the vncserver in the startup message, and before exiting the container type them in the container prompt. Then exit the container.
 </p>
 
-<div class="language-plaintext bash highlighter-rouge">
+<div class="language-bash highlighter-rouge">
 <div class="highlight"><pre class="highlight">
 <code>
-[16:43:41] cmsusr@f3d2e685fafc ~/CMSSW_5_3_32/src $ pkill -9 -P 109
-[16:43:50] cmsusr@f3d2e685fafc ~/CMSSW_5_3_32/src $ vncserver -kill :1
-Killing Xvnc process ID 101
-[1]+  Exit 137                /usr/local/novnc/utils/launch.sh --vnc 127.0.0.1:5901 > /dev/null 2>&1
-[16:43:56] cmsusr@f3d2e685fafc ~/CMSSW_5_3_32/src $ exit
-exit
+~/CMSSW_5_3_32/src $ pkill -9 -P 109
+~/CMSSW_5_3_32/src $ vncserver -kill :1
+~/CMSSW_5_3_32/src $ exit
 </code></pre></div></div>
 
 
@@ -228,19 +227,17 @@ docker start -i my_od
 {: .language-bash}
 
 
-### Start/Attach container by container ID
+### Start container by container ID or by name assigned by Docker
 
-If you did not name your container instance but still want to return to a very specifc
-environment, you will need to ```start``` and then ```attach``` to the exact same container as before. 
-First of all, you want to see what other Docker processes we have running. To do this, run the following
+If you did not name your container, you will need to find the container ID or the container name assigned automatically by docker to return to the exact same container as before. 
+First of all, you want to see the list of containers you have locally. To do this, run the following
 command
 ~~~
 docker ps -a
 ~~~
 {: .language-bash}
 
-You'll see a list of docker processes that may look something like the following (the exact output
-        will vary from user to user).
+You'll see a list of containers that may look something like the following (the exact output will vary from user to user).
 
 ~~~
 CONTAINER ID        IMAGE                      COMMAND                  CREATED             STATUS                      PORTS               NAMES
@@ -252,15 +249,22 @@ b3a888c059f7        cmsopendata/cmssw_5_3_32   "/opt/cms/entrypoint…"   13 day
 ~~~
 {: .output}
 
-You'll want to attach using the ```CONTAINER ID```. In the above example, I know that I've been using the most 
-recent CMS open data container, ```7719a7d74190```. So to reattach, I run the following line
-which will ```start``` and ```attach``` all in one line. Note that you 
-would want to change the ```CONTAINER ID``` for your particular case. 
+You can restart a container with the ```CONTAINER ID``` or with the ```NAME```. In the above example, I know that I've been using the most 
+recent CMS open data container, with ```7719a7d74190``` as ```CONTAINER ID``` and ```happy_greider``` as ```NAME```. To restart it, I can run one of the following commands. Note that you 
+would want to change the ```CONTAINER ID``` or  ```NAME``` for your particular case. 
 
 ~~~
-docker start -a 7719a7d74190
+docker start -i 7719a7d74190
 ~~~
 {: .language-bash}
+
+or 
+
+~~~
+docker start -i happy_greider
+~~~
+{: .language-bash}
+
 
 Voila! You should be back in the same container.
 
@@ -290,8 +294,8 @@ Sometimes you will want to copy a file directly into or out of a container. Let'
 a file *out*. 
 
 Suppose you have created your **my_od** container *and* you did the challenge
-question above to *Test persistence*. In your docker image, there should be a file now 
-called ```test.tmp``` Run the following on your *local* machine and *not* in a docker environment. 
+question above to *Test persistence*. In your container, there should be a file now 
+called ```test.tmp``` Run the following on your *local* machine and *not* in the container. 
 It should copy the file out and onto your local machine where you can inspect it. 
 
 ~~~
@@ -309,24 +313,10 @@ docker cp localfile.tmp my_od:/home/cmsusr/CMSSW_5_3_32/src/
 {: .language-bash}
 
 
-### Additional flags
+## Stopping and deleting containers
 
-Later on in this lesson we will show you two additional arguments to this command, both related to 
-mounting local directories on your laptop/desktop 
-such that it will be visible in the Docker container. 
-
-One example we will show you will walk you through creating a local working directory for your 
-analysis code. This means that you can edit your scripts or files
-*locally* and exectute them in Docker. It will give you much greater flexibility in using whatever
-backup or version control you are comfortable with. 
-
-As these flags are discussed, we will modify this primary `docker` command in those sections.
-
-### Stopping docker instances
-
-As you are learning how to use Docker, you may find yourself with multiple instances running. Or maybe
-you started an instance with your favourite name with some set of flags and now you want to re-start
-that same instance but with new flags. In that case, you will want to stop and remove the running
+As you are learning how to use Docker, you may find yourself with multiple containers. Or maybe
+you started a container with your favourite name with some set of flags and now you want use that same name but with new flags. In that case, you will want to stop and remove the running
 containers. 
 
 To **stop** all containers you would type the following on your local machine. 
@@ -344,7 +334,7 @@ docker rm $(docker ps -aq)
 {: .bash}
 
 > ## Don't worry!
-> Note that these commands *will not* remove the actual Docker *files* that you downloaded and may have taken
+> Note that these commands *will not* remove the actual Docker *image* that you downloaded and may have taken
 > quite some time to download! Whew!
 >
 {: .callout}
@@ -353,7 +343,7 @@ docker rm $(docker ps -aq)
 ## Mounting a local volume
 
 Sometimes you may want to mount a filesystem from your local machine or some other remote system
-so that your docker image can see it. Let's first see how this is done in a general way. 
+so that your docker container can see it. Let's first see how this is done in a general way. 
 
 The basic usage is 
 
@@ -363,7 +353,7 @@ docker run -v <path on host>:<path in container> <image>
 {: .language-bash}
 
 Where the `path on host` is the full path to the local file system/directory you want to 
-make visible to docker. The `path in container` is where it will be mounted in your
+make available in the container. The `path in container` is where it will be mounted in your
 Docker container. 
 
 There are more options and if you want to read more, please visit the 
@@ -373,7 +363,7 @@ When working with the CMS open data, you will find yourself using this approach 
 Note that all your compiling and executing still has to be done *in the Docker container*! 
 But having your source code also visible on your local laptop/desktop will make things easier for you. 
 
-Let's try this. First, before you start up your Docker image, create a local directory
+Let's try this. First, before you start up your container, create a local directory
 where you will be doing your code development. In the example below, I'm calling it
 `cms_open_data_work` and it will live in my `$HOME` directory. You may choose a shorter directory name if you like. :)
 
@@ -387,23 +377,65 @@ where you will be doing your code development. In the example below, I'm calling
 
 Then fire up your Docker container, adding the following
 ~~~
--v ${HOME}/cms_open_data_work:/home/cmsusr:shared
+-v ${HOME}/cms_open_data_work:/home/cmsusr
 ~~~
 {: .bash}
 
-Your full `docker` command would then look like this
+Your full `docker run ...` command would then look like this
 
-> ## Local machine
-> ~~~
-> docker run -it --name myopendataproject --net=host --env="DISPLAY" -v $HOME/.Xauthority:/home/cmsusr/.Xauthority:rw -v ${HOME}/cms_open_data_work:/home/cmsusr/cms_open_data_work:shared cmsopendata/cmssw_5_3_32 /bin/bash
-> ~~~
-> {: .language-bash}
-{: .challenge}
+<div id="docker-run-with-mount">
+
+    <div>
+        <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation"><a data-os="linux" href="#shell-linux" aria-controls="Linux" role="tab" data-toggle="tab">Linux</a></li>
+        <li role="presentation" class="active"><a data-os="windows" href="#shell-windows" aria-controls="Windows" role="tab" data-toggle="tab">Windows</a></li>
+        <li role="presentation"><a data-os="macos" href="#shell-macos" aria-controls="MacOS" role="tab" data-toggle="tab">MacOS</a></li>
+        </ul>
+
+        <div class="tab-content">
+
+            <article role="tabpanel" class="tab-pane active" id="shell-linux">
+
+<div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight">
+<code>
+docker run -it --name my_od --net=host --env="DISPLAY" -v $HOME/.Xauthority:/home/cmsusr/.Xauthority:rw   -v ${HOME}/cms_open_data_work:/home/cmsusr/cms_open_data_work cmsopendata/cmssw_5_3_32 /bin/bash
+</code></pre></div></div>
+
+            </article><!-- Linux  -->
+
+            <article role="tabpanel" class="tab-pane" id="shell-windows">
+
+<div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight">
+<code>
+docker run -it --name cms_od -P -p 5901:5901 -p 6080:6080 -v ${HOME}/cms_open_data_work:/home/cmsusr/cms_open_data_work cmsopendata/cmssw_5_3_32_vnc:latest /bin/bash
+</code></pre></div></div>
+
+            </article><!-- Windows  -->
+
+
+            <article role="tabpanel" class="tab-pane" id="shell-macos">
+
+<p> FIXME: Check this on Mac! </p>
+<div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight">
+<code>
+docker run -it --name my_od --net=host --env="DISPLAY" -v $HOME/.Xauthority:/home/cmsusr/.Xauthority:rw   -v ${HOME}/cms_open_data_work:/home/cmsusr/cms_open_data_work cmsopendata/cmssw_5_3_32 /bin/bash
+</code></pre></div></div>
+
+            </article><!-- Mac  -->         
+
+        </div> <!-- tab-contents  -->
+
+    </div><!-- nav-tabs  -->
+</div><!-- docker-run-with-mount  -->            
+
 
 ~~~
 Setting up CMSSW_5_3_32
 CMSSW should now be available.
-[21:53:43] cmsusr@docker-desktop ~/CMSSW_5_3_32/src $
+~/CMSSW_5_3_32/src $
 ~~~
 {: .output}
 
@@ -416,7 +448,7 @@ and then do your work in that directory.
 > `cmsusr` but sometimes is mounted as `cmsinst`. Note that in the following set of commands, we add a line
 > to change the user/group with the `chown` command. 
 >
-> If this is an issue, you'll also need to do this in Docker for any new directories you check out
+> If this is an issue, you'll also need to do this in the container for any new directories you check out
 > on your local machine.
 {: .callout}
 
@@ -424,133 +456,15 @@ and then do your work in that directory.
 > ## Docker container
 > ~~~
 > cd /home/cmsusr/CMSSW_5_3_32/src
-> sudo chown -R cmsusr.cmsusr ~/cms_open_data_work/
+> sudo chown -R cmsusr.cmsusr ~/cms_open_data_work/ # this is only needed if owner is not cmsusr
 > ln -s ~/cms_open_data_work/
 > cd /home/cmsusr/CMSSW_5_3_32/src/cms_open_data_work/
 > ~~~
 > {: .language-bash}
 {: .prereq}
 
-Now, open a new terminal on your local machine (or simply exit out of your container) and check out one of the repositories
-you'll be working with. If you are not familiar with git/Github, check out the [Git pre-exercises](https://swcarpentry.github.io/git-novice/). 
-
-> ## Local machine
-> ~~~
-> cd ~/cms_open_data_work
-> git clone https://github.com/katilp/AOD2NanoAODOutreachTool.git AOD2NanoAOD
-> ~~~
-> {: .language-bash}
-{: .challenge}
-~~~
-Cloning into 'AOD2NanoAOD'...
-remote: Enumerating objects: 60, done.
-remote: Counting objects: 100% (60/60), done.
-remote: Compressing objects: 100% (54/54), done.
-remote: Total 343 (delta 29), reused 13 (delta 5), pack-reused 283
-Receiving objects: 100% (343/343), 743.11 KiB | 461.00 KiB/s, done.
-Resolving deltas: 100% (162/162), done.
-~~~
-{: .output}
-
-Next, go back into your Docker container (either in your other window or by restarting *that same* container, and see if you can 
-see this new directory that you checked out on your local machine. 
-
-> ## Docker container
-> ~~~
-> cd /home/cmsusr/CMSSW_5_3_32/src/cms_open_data_work
-> ls -l
-> ~~~
-> {: .language-bash}
-{: .prereq}
-~~~
-total 4
-drwxr-xr-x 8 cmsinst cmsinst 4096 Sep 26 20:48 AOD2NanoAOD
-~~~
-{: .output}
-
-Voila! You now have a workflow where you can edit files *locally*, using whatever
-tools are on your local machine, and then *exectute* them in the Docker 
-environment. 
-
-Let's try compiling and running this new code!
-Note that to actually *compile* the code, we want to be in the
-`/home/cmsusr/CMSSW_5_3_32/src` directory.
-
-> ## Docker container
-> ~~~
-> cd /home/cmsusr/CMSSW_5_3_32/src
-> sudo chown -R cmsusr.cmsusr cms_open_data_work/AOD2NanoAOD/
-> scram b
-> ~~~
-> {: .language-bash}
-{: .prereq}
-~~~
-Reading cached build data
->> Local Products Rules ..... started
->> Local Products Rules ..... done
->> Building CMSSW version CMSSW_5_3_32 ----
->> Entering Package cms_open_data_work/AOD2NanoAOD
->> Creating project symlinks
-Entering library rule at cms_open_data_work/AOD2NanoAOD
->> Compiling edm plugin /home/cmsusr/CMSSW_5_3_32/src/cms_open_data_work/AOD2NanoAOD/src/AOD2NanoAOD.cc 
->> Building edm plugin tmp/slc6_amd64_gcc472/src/cms_open_data_work/AOD2NanoAOD/src/cms_open_data_workAOD2NanoAOD/libcms_open_data_workAOD2NanoAOD.so
-Leaving library rule at cms_open_data_work/AOD2NanoAOD
-@@@@ Running edmWriteConfigs for cms_open_data_workAOD2NanoAOD
---- Registered EDM Plugin: cms_open_data_workAOD2NanoAOD
->> Leaving Package cms_open_data_work/AOD2NanoAOD
->> Package cms_open_data_work/AOD2NanoAOD built
->> Subsystem cms_open_data_work built
->> Local Products Rules ..... started
->> Local Products Rules ..... done
-gmake[1]: Entering directory `/home/cmsusr/CMSSW_5_3_32'
->> Creating project symlinks
->> Done python_symlink
->> Compiling python modules cfipython/slc6_amd64_gcc472
->> Compiling python modules python
->> Compiling python modules src/cms_open_data_work/AOD2NanoAOD/python
->> All python modules compiled
-@@@@ Refreshing Plugins:edmPluginRefresh
->> Pluging of all type refreshed.
->> Done generating edm plugin poisoned information
-gmake[1]: Leaving directory `/home/cmsusr/CMSSW_5_3_32'
-~~~
-{: .output}
-
-And now we can run it! The following command may take anywhere from 10-20 minutes to run.
-
-> ## Docker container
-> ~~~
-> cd /home/cmsusr/CMSSW_5_3_32/src/cms_open_data_work/AOD2NanoAOD/
-> cmsRun configs/data_cfg.py
-> ~~~
-> {: .bash}
-{: .prereq}
-~~~
-200926 22:12:20 802 secgsi_InitProxy: cannot access private key file: /home/cmsusr/.globus/userkey.pem
-26-Sep-2020 22:46:14 CEST  Initiating request to open file root://eospublic.cern.ch//eos/opendata/cms/Run2012B/TauPlusX/AOD/22Jan2013-v1/20000/0040CF04-8E74-E211-AD0C-00266CFFA344.root
-26-Sep-2020 22:46:17 CEST  Successfully opened file root://eospublic.cern.ch//eos/opendata/cms/Run2012B/TauPlusX/AOD/22Jan2013-v1/20000/0040CF04-8E74-E211-AD0C-00266CFFA344.root
-26-Sep-2020 22:51:14 CEST  Closed file root://eospublic.cern.ch//eos/opendata/cms/Run2012B/TauPlusX/AOD/22Jan2013-v1/20000/0040CF04-8E74-E211-AD0C-00266CFFA344.root
-
-=============================================
-
-MessageLogger Summary
-
- type     category        sev    module        subroutine        count    total
- ---- -------------------- -- ---------------- ----------------  -----    -----
-    1 fileAction           -s file_close                             1        1
-    2 fileAction           -s file_open                              2        2
-
- type    category    Examples: run/evt        run/evt          run/evt
- ---- -------------------- ---------------- ---------------- ----------------
-    1 fileAction           PostEndRun
-    2 fileAction           pre-events       pre-events
-
-Severity    # Occurrences   Total Occurrences
---------    -------------   -----------------
-System                  3                   3
-~~~
-{: .output}
-
+Now, open a new terminal on your local machine (or simply exit out of your container) and you can use that to check out one of the git repositories
+you'll be working with. We will see that in the next section.
 
 
 
