@@ -391,6 +391,7 @@ Then fire up your Docker container, adding the following
 ~~~
 {: .bash}
 
+
 <div id="docker-run-with-mount">
 
     <div>
@@ -440,7 +441,9 @@ docker run -it --name my_od --net=host --env="DISPLAY" -v $HOME/.Xauthority:/hom
     </div><!-- nav-tabs  -->
 </div><!-- docker-run-with-mount  -->            
 
+
 Testing the tabs:
+
 
 <div id="tab-test">
 
