@@ -396,14 +396,14 @@ Then fire up your Docker container, adding the following
 
     <div>
         <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a data-os="linux" href="#shell-linux" aria-controls="Linux" role="tab" data-toggle="tab">Linux</a></li>
-        <li role="presentation"><a data-os="windows" href="#shell-windows" aria-controls="Windows" role="tab" data-toggle="tab">Windows</a></li>
-        <li role="presentation"><a data-os="macos" href="#shell-macos" aria-controls="MacOS" role="tab" data-toggle="tab">MacOS</a></li>
+        <li role="presentation" class="active"><a data-os="linux" href="#shell-linux-mnt" aria-controls="Linux" role="tab" data-toggle="tab">Linux</a></li>
+        <li role="presentation"><a data-os="windows" href="#shell-windows-mnt" aria-controls="Windows" role="tab" data-toggle="tab">Windows</a></li>
+        <li role="presentation"><a data-os="macos" href="#shell-macos-mnt" aria-controls="MacOS" role="tab" data-toggle="tab">MacOS</a></li>
         </ul>
 
         <div class="tab-content">
 
-            <article role="tabpanel" class="tab-pane active" id="shell-linux">
+            <article role="tabpanel" class="tab-pane active" id="shell-linux-mnt">
 
 <p>Your full <code>docker run ...</code> command would then look like this:</p>
 <div class="language-bash highlighter-rouge">
@@ -414,7 +414,7 @@ docker run -it --name my_od --net=host --env="DISPLAY" -v $HOME/.Xauthority:/hom
 
             </article><!-- Linux  -->
 
-            <article role="tabpanel" class="tab-pane" id="shell-windows">
+            <article role="tabpanel" class="tab-pane" id="shell-windows-mnt">
 
 <p>Your full <code>docker run ...</code> command would then look like this:</p>
 <div class="language-bash highlighter-rouge">
@@ -425,7 +425,7 @@ docker run -it --name cms_od -P -p 5901:5901 -p 6080:6080 -v ${HOME}/cms_open_da
 
             </article><!-- Windows  -->
 
-            <article role="tabpanel" class="tab-pane" id="shell-macos">
+            <article role="tabpanel" class="tab-pane" id="shell-macos-mnt">
 
 <p> Check this on Mac! </p>
 <div class="language-bash highlighter-rouge">
@@ -440,39 +440,6 @@ docker run -it --name my_od --net=host --env="DISPLAY" -v $HOME/.Xauthority:/hom
 
     </div><!-- nav-tabs  -->
 </div><!-- docker-run-with-mount  -->            
-
-
-Testing the tabs:
-
-
-<div id="tab-test">
-
-  <div>
-    <ul class="nav nav-tabs" role="tablist">
-      <li role="presentation" class="active"><a data-os="windows" href="#shell-windows" aria-controls="Windows" role="tab" data-toggle="tab">Windows</a></li>
-      <li role="presentation"><a data-os="macos" href="#shell-macos" aria-controls="MacOS" role="tab" data-toggle="tab">MacOS</a></li>
-      <li role="presentation"><a data-os="linux" href="#shell-linux" aria-controls="Linux" role="tab" data-toggle="tab">Linux</a></li>
-    </ul>
-
-    <div class="tab-content">
-      <article role="tabpanel" class="tab-pane active" id="shell-windows">
-      Windows part      
-      </article>
-      <article role="tabpanel" class="tab-pane" id="shell-macos">
-    Mac
-      </article>
-      <article role="tabpanel" class="tab-pane" id="shell-linux">
-
-
-<p>Linux This works</p>
-<div class="language-plaintext bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run hello-world
-</code></pre></div></div>
-
-
-      </article>
-    </div>
-  </div>
-</div>
 
 
 ~~~
@@ -499,7 +466,7 @@ and then do your work in that directory.
 > ## Docker container
 > ~~~
 > cd /home/cmsusr/CMSSW_5_3_32/src
-> sudo chown -R cmsusr.cmsusr ~/cms_open_data_work/ # this is only needed if owner is not cmsusr
+> sudo chown -R cmsusr.cmsusr ~/cms_open_data_work/ # this is only needed if owner of cms_open_data_work is not cmsusr
 > ln -s ~/cms_open_data_work/
 > cd /home/cmsusr/CMSSW_5_3_32/src/cms_open_data_work/
 > ~~~
