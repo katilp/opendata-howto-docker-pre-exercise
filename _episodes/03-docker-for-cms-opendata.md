@@ -37,13 +37,13 @@ connection. After the download, a container created from that image starts. The 
 
 Before typing the full command it might be worth having a look at the options passed with it. For a more complete listing of options, see [the official Docker documentation](https://docs.docker.com/engine/reference/commandline/container_run/) on the ```run``` command or simply type ```docker run --help```. 
 
-To start a CMS open data container from a docker image and open it in a bash shell, one would need only type
+To start a container from a specific docker image and open it in a bash shell, one would need to only type
 
 ~~~
 docker run -it <image-name> /bin/bash
 
 ~~~
-{: .language-bash}
+{: .bash}
 
 The ```-it``` (or ```-i```) option means to start the container in interactive mode.
 
@@ -140,7 +140,7 @@ in the CERN Open Data forum (note in particular that the <code>.wslconfig</code>
 ... -p 5901:5901 -p 6080:6080  ...
 </code></pre></div></div>
 
-<p>This container has a VNC application installed to allow opening graphical windows on a remote machine (seen from the container, your own computer is a remote machine). Start the application with <code>start_vnc</code> from your container prompt, and choose a password.
+<p>This container has a VNC application installed to allow opening graphical windows on a remote machine (seen from the container, your own computer is a remote machine). Start the application with <code>start_vnc</code> from your container prompt, and choose a password. You will need to start it every time you use the container (if you want to open graphics windows), but you will define the password only at the first time.
 </p>
 
 <div class="language-bash highlighter-rouge">
@@ -173,7 +173,7 @@ To kill the vncserver enter 'vncserver -kill :1'
 <p>Open the Web browser URL given in the startup message in a browser and connect with the password you've chosen. To test, start ROOT by typing <code>root</code> in the container prompt. In the ROOT prompt, type <code>TBrowser t</code> to open the ROOT graphical window. Check that it opens in the VNC tab in your broswer. If the graphical window opens you are all set and you can exit from ROOT either by choosing the option from the TBrowser window or by typing <code>.q</code> in the ROOT prompt.
 </p>
 
-<p> Importantly, take note of the two commands to stop noVNC and kill the vncserver in the startup message, and before exiting the container type them in the container prompt. Then exit the container.
+<p> Importantly, take note of the two commands to stop noVNC and kill the vncserver in the startup message, and before exiting the container type them in the container prompt. If you don't do it, you will not be able to open the graphics window next time you use the same container. Then exit the container.
 </p>
 
 <div class="language-bash highlighter-rouge">
@@ -360,7 +360,7 @@ The basic usage is
 ~~~
 docker run -v <path on host>:<path in container> <image>
 ~~~
-{: .language-bash}
+{: .bash}
 
 Where the `path on host` is the full path to the local file system/directory you want to 
 make available in the container. The `path in container` is where it will be mounted in your
@@ -473,7 +473,7 @@ and then do your work in that directory.
 > {: .language-bash}
 {: .prereq}
 
-Now, open a new terminal on your local machine (or simply exit out of your container) and you can use that to check out one of the git repositories
+Now, open a new terminal on your local machine (or simply exit out of your container) and you can use that to check out the git repositories and editing files
 you'll be working with. We will see that in the next section.
 
 
