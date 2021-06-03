@@ -12,7 +12,7 @@ objectives:
 - "Delete and rebuild containers"
 - "Share a local directory from your computer to the container (pass a volume)"
 keypoints:
-- "You have now set up a docker container as a working enviroment for CMS open data and you know how to open a graphical window in it and how to pass files between your own computer and the container."
+- "You have now set up a docker container as a working enviroment for CMS open data. You know how to open a graphical window in it and how to pass files between your own computer and the container."
 
 ---
 
@@ -37,17 +37,17 @@ connection. After the download, a container created from that image starts. The 
 
 Before typing the full command it might be worth having a look at the options passed with it. For a more complete listing of options, see [the official Docker documentation](https://docs.docker.com/engine/reference/commandline/container_run/) on the ```run``` command or simply type ```docker run --help```. 
 
-To start a CMS open data container and open it in a bash shell, one would need only type
+To start a CMS open data container from a docker image and open it in a bash shell, one would need only type
 
 ~~~
-docker run -it <container-name> /bin/bash
+docker run -it <image-name> /bin/bash
 
 ~~~
 {: .language-bash}
 
 The ```-it``` (or ```-i```) option means to start the container in interactive mode.
 
-In the following, we will assign a ```name``` to the container so that we can refer back
+In the following, we will assign a name to the container so that we can refer back
 to this environment and still access any files we created in there. You can, of course,
 choose a different name than ```my_od```! :)
 
@@ -55,7 +55,7 @@ choose a different name than ```my_od```! :)
 ... --name my_od ...
 
 ~~~
-{: .language-bash}
+{: .bash}
 
 
 Depending on your operating system, we will pass some other options which will be explained below.
@@ -88,9 +88,9 @@ CMSSW should now be available.
 <p>This is now a bash shell in the CMS open data environment in which you have access to a complete CMS software release that
 is appropriate for interfacing with the 2011 and 2012 7 and 8 TeV datasets.</p>
 
-<p> The following options give us X11-forwarding:</p>
+<p> The following options gave us X11-forwarding:</p>
 
-<div class="language-bash highlighter-rouge">
+<div class="language-plaintext source  highlighter-rouge">
 <div class="highlight"><pre class="highlight">
 <code>
 ... --net=host --env="DISPLAY" --volume="$HOME/.Xauthority:/home/cmsusr/.Xauthority:rw"  ...
@@ -132,9 +132,9 @@ is appropriate for interfacing with the 2011 and 2012 7 and 8 TeV datasets.</p>
 see <a href="https://opendata-forum.cern.ch/t/running-cms-opendata-containers-in-wsl2/30">this post</a>
 in the CERN Open Data forum (note in particular that the <code>.wslconfig</code> file that you need to add must not have a file extension, if Windows adds it automatically, rename the file).</p>
 
-<p> The following options open a port from the container to the local host, needed for the graphical windows:</p>
+<p> The following options opened ports from the container to the local host, needed for the graphical windows:</p>
 
-<div class="language-bash highlighter-rouge">
+<div class="language-plaintext source  highlighter-rouge">
 <div class="highlight"><pre class="highlight">
 <code>
 ... -p 5901:5901 -p 6080:6080  ...
@@ -334,14 +334,14 @@ To **stop** all containers you would type the following on your local machine.
 ~~~
 docker stop $(docker ps -aq)
 ~~~
-{: .bash}
+{: .language-bash}
 
 To **remove** all containers, you would type the following on your local machine. 
 
 ~~~
 docker rm $(docker ps -aq)
 ~~~
-{: .bash}
+{: .language-bash}
 
 > ## Don't worry!
 > Note that these commands *will not* remove the actual Docker *image* that you downloaded and may have taken
@@ -382,7 +382,7 @@ where you will be doing your code development. In the example below, I'm calling
 > cd # This is to make sure I'm in my home directory
 > mkdir cms_open_data_work
 > ~~~
-> {: .bash}
+> {: .language-bash}
 {: .challenge}
 
 Then fire up your Docker container, adding the following
@@ -439,6 +439,37 @@ docker run -it --name my_od --net=host --env="DISPLAY" -v $HOME/.Xauthority:/hom
 
     </div><!-- nav-tabs  -->
 </div><!-- docker-run-with-mount  -->            
+
+Testing the tabs:
+
+<div id="tab-test">
+
+  <div>
+    <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation" class="active"><a data-os="windows" href="#shell-windows" aria-controls="Windows" role="tab" data-toggle="tab">Windows</a></li>
+      <li role="presentation"><a data-os="macos" href="#shell-macos" aria-controls="MacOS" role="tab" data-toggle="tab">MacOS</a></li>
+      <li role="presentation"><a data-os="linux" href="#shell-linux" aria-controls="Linux" role="tab" data-toggle="tab">Linux</a></li>
+    </ul>
+
+    <div class="tab-content">
+      <article role="tabpanel" class="tab-pane active" id="shell-windows">
+      Windows part      
+      </article>
+      <article role="tabpanel" class="tab-pane" id="shell-macos">
+    Mac
+      </article>
+      <article role="tabpanel" class="tab-pane" id="shell-linux">
+
+
+<p>Linux This works</p>
+<div class="language-plaintext bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run hello-world
+</code></pre></div></div>
+
+
+      </article>
+    </div>
+  </div>
+</div>
 
 
 ~~~
