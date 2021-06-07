@@ -117,7 +117,7 @@ xhost local:root
 <div class="language-bash highlighter-rouge">
 <div class="highlight"><pre class="highlight">
 <code>
-docker run -it --name cms_od -P -p 5901:5901 -p 6080:6080 cmsopendata/cmssw_5_3_32_vnc:latest /bin/bash
+docker run -it --name my_od -P -p 5901:5901 -p 6080:6080 cmsopendata/cmssw_5_3_32_vnc:latest /bin/bash
 </code></pre></div></div>
 <div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 Setting up CMSSW_5_3_32
@@ -170,7 +170,8 @@ To stop noVNC enter 'pkill -9 -P 109'
 To kill the vncserver enter 'vncserver -kill :1'
 </code></pre></div></div>
 
-<p>Open the Web browser URL given in the startup message in a browser and connect with the password you've chosen. To test, start ROOT by typing <code>root</code> in the container prompt. In the ROOT prompt, type <code>TBrowser t</code> to open the ROOT graphical window. Check that it opens in the VNC tab in your broswer. If the graphical window opens you are all set and you can exit from ROOT either by choosing the option from the TBrowser window or by typing <code>.q</code> in the ROOT prompt.
+<p> When you do this the first time, download a VNC viewer to your local machine from <a href="https://sourceforge.net/projects/tigervnc/files/stable/1.11.0/">TigerVNC</a>. You can then access the GUI in TigerVNC Viewer with the address given in the startup message with the the password you've chosen. It opens with an xterminal of your container.
+To test, start ROOT by typing <code>root</code> in the container terminal prompt. In the ROOT prompt, type <code>TBrowser t</code> to open the ROOT graphical window. Check that it opens in the VNC tab in your broswer. If the graphical window opens you are all set and you can exit from ROOT either by choosing the "Quite Root" option from Browser menu of the TBrowser window or by typing <code>.q</code> in the ROOT prompt.
 </p>
 
 <p> Importantly, take note of the two commands to stop noVNC and kill the vncserver in the startup message, and before exiting the container type them in the container prompt. If you don't do it, you will not be able to open the graphics window next time you use the same container. Then exit the container.
