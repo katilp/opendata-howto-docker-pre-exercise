@@ -174,13 +174,12 @@ To kill the vncserver enter 'vncserver -kill :1'
 To test, start ROOT by typing <code>root</code> in the container terminal prompt. In the ROOT prompt, type <code>TBrowser t</code> to open the ROOT graphical window. Check that it opens in the VNC tab in your broswer. If the graphical window opens you are all set and you can exit from ROOT either by choosing the "Quite Root" option from Browser menu of the TBrowser window or by typing <code>.q</code> in the ROOT prompt.
 </p>
 
-<p> Importantly, take note of the two commands to stop noVNC and kill the vncserver in the startup message, and before exiting the container type them in the container prompt. If you don't do it, you will not be able to open the graphics window next time you use the same container. Then exit the container.
+<p> Importantly, take note of the command to kill the vncserver in the startup message, and before exiting the container type it in the container prompt. If you don't do it, you will not be able to open the graphics window next time you use the same container. Then exit the container.
 </p>
 
 <div class="language-bash highlighter-rouge">
 <div class="highlight"><pre class="highlight">
 <code>
-~/CMSSW_5_3_32/src $ pkill -9 -P 109
 ~/CMSSW_5_3_32/src $ vncserver -kill :1
 ~/CMSSW_5_3_32/src $ exit
 </code></pre></div></div>
@@ -421,7 +420,7 @@ docker run -it --name my_od --net=host --env="DISPLAY" -v $HOME/.Xauthority:/hom
 <div class="language-bash highlighter-rouge">
 <div class="highlight"><pre class="highlight">
 <code>
-docker run -it --name cms_od -P -p 5901:5901 -p 6080:6080 -v ${HOME}/cms_open_data_work:/home/cmsusr/cms_open_data_work cmsopendata/cmssw_5_3_32_vnc:latest /bin/bash
+docker run -it --name my_od -P -p 5901:5901 -p 6080:6080 -v ${HOME}/cms_open_data_work:/home/cmsusr/cms_open_data_work cmsopendata/cmssw_5_3_32_vnc:latest /bin/bash
 </code></pre></div></div>
 
             </article><!-- Windows  -->
