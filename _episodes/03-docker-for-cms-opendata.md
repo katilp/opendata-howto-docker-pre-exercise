@@ -171,10 +171,10 @@ To kill the vncserver enter 'vncserver -kill :1'
 </code></pre></div></div>
 
 <p> When you do this the first time, download a VNC viewer to your local machine from <a href="https://sourceforge.net/projects/tigervnc/files/stable/1.11.0/">TigerVNC</a>. You can then access the GUI in TigerVNC Viewer with the address given in the startup message with the the password you've chosen. It opens with an xterminal of your container.
-To test, start ROOT by typing <code>root</code> in the container terminal prompt. In the ROOT prompt, type <code>TBrowser t</code> to open the ROOT graphical window. Check that it opens in the VNC tab in your broswer. If the graphical window opens you are all set and you can exit from ROOT either by choosing the "Quite Root" option from Browser menu of the TBrowser window or by typing <code>.q</code> in the ROOT prompt.
+To test, start ROOT by typing <code>root</code> in the container terminal prompt. In the ROOT prompt, type <code>TBrowser t</code> to open the ROOT graphical window. If the graphical window opens you are all set and you can exit from ROOT either by choosing the "Quite Root" option from Browser menu of the TBrowser window or by typing <code>.q</code> in the ROOT prompt.
 </p>
 
-<p>You can copy from the VNC Viewer terminal by selecting with mouse, and paste to it by a middle mouse button click. If you are using a touchpad, you may need to define "middle mouse button" in Settings -> Devices -> Touchpad. You can set it to a three-finger tap in "Taps" menu under "Three finger gestures", or to another selection of your choice.
+<p>You can copy from the VNC Viewer terminal by selecting with the mouse, and paste to it by a middle mouse button click. If you are using a touchpad, you may need to define "middle mouse button" in Settings -> Devices -> Touchpad. You can set it to a three-finger tap in "Taps" menu under "Three finger gestures", or to another selection of your choice.
 
 <p> Importantly, take note of the command to kill the vncserver in the startup message, and before exiting the container type it in the container prompt. If you don't do it, you will not be able to open the graphics window next time you use the same container. Then exit the container.
 </p>
