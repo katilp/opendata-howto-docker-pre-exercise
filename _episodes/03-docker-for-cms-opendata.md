@@ -330,7 +330,7 @@ docker cp localfile.tmp my_od:/home/cmsusr/CMSSW_5_3_32/src/
 As you are learning how to use Docker, you may find yourself with multiple containers. Or maybe
 you started a container with your favourite name with some set of flags and now you want use that same name but with new flags. In that case, you will want to stop the container and remove it. 
 
-A container stops when you type the ```exit``` command in the container prompt. It may happen that you accidentally close the terminal where the container is running. In that case, the container will not stop and it will remain running. You can list the running containers with ```docker ps```. You can either return to the container using its name (here "my_od") with the ```attach``` command and exit normally:
+A container stops when you type the ```exit``` command in the container prompt. It may happen that you accidentally close the terminal where the container is running. In that case, the container will not stop and it will remain running. You can list the running containers with ```docker ps```. You can either return to the container using its name (here "my_od") with the ```attach``` command on your local machine and then exit normally from the container prompt:
 
 ~~~
 docker attach my_od
@@ -345,21 +345,21 @@ docker stop my_od
 ~~~
 {: .language-bash}
 
-To stop **all** running containers you would type the following on your local machine. 
+To stop **all** running containers: 
 
 ~~~
-docker stop $(docker ps -aq)
+docker stop $(docker ps -q)
 ~~~
 {: .language-bash}
 
-To **remove** the container "my_od", you would type the following on your local machine. 
+To **remove** the container "my_od", you would type the following. Note that this will delete the container and all files that you may have created in it. 
 
 ~~~
 docker rm my_od
 ~~~
 {: .language-bash}
 
-To remove **all** containers, type the following
+To remove **all** containers:
 ~~~
 docker rm $(docker ps -aq)
 ~~~
