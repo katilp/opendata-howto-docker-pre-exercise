@@ -96,7 +96,12 @@ is appropriate for interfacing with the 2011 and 2012 7 and 8 TeV datasets.</p>
 ... --net=host --env="DISPLAY" --volume="$HOME/.Xauthority:/home/cmsusr/.Xauthority:rw"  ...
 </code></pre></div></div>
 
-<p>To test that X11-forwarding works, start ROOT by typing <code>root</code> in the container prompt. In the ROOT prompt, type <code>TBrowser t</code> to open the ROOT graphical window. If the graphical window opens you are all set and you can exit from ROOT either by choosing the option from the TBrowser window or by typing <code>.q</code> in the ROOT prompt. Then type <code>exit</code> to leave the container.</p>
+<p>To test that X11-forwarding works, start ROOT by typing <code>root</code> in the container prompt. In the ROOT prompt, type <code>TBrowser t</code> to open the ROOT graphical window. If the graphical window opens you are all set and you can exit from ROOT either by choosing the option from the TBrowser window or by typing <code>.q</code> in the ROOT prompt.</p>
+
+<p>Make sure that you can copy instructions from a browser page to the container terminal. One thing you can try is `Shift+Ctrl+V` when pasting into your container terminal, rather than `Ctrl-V`. That sometimes will work. If not, you will see later in these instructions how to pass files from your local computer to the container.</p>
+
+
+<p> Then type <code>exit</code> to leave the container.</p>
 
 <p>If you find that X11 forwarding is not working and the ROOT graphical window does not open, try typing the following before starting your Docker container.</p>
 
@@ -140,6 +145,8 @@ in the CERN Open Data forum (note in particular that the <code>.wslconfig</code>
 ... -p 5901:5901 -p 6080:6080  ...
 </code></pre></div></div>
 
+<p>First make sure that you can copy instructions from a browser page to the container terminal. It works in the same manner as the local WSL linux terminal, i.e. you can usually copy from other sources with `Ctrl+C` and then paste into your container terminal with mouse right click. Copy from the terminal itself by selecting the text to be copied. If this does not work, you will see later in these instructions how to pass files from your local computer to the container.</p>
+
 <p>This container has a VNC application installed to allow opening graphical windows on a remote machine (seen from the container, your own computer is a remote machine). Start the application with <code>start_vnc</code> from your container prompt, and choose a password. You will need to start it every time you use the container (if you want to open graphics windows), but you will define the password only at the first time.
 </p>
 
@@ -176,7 +183,7 @@ To test, start ROOT by typing <code>root</code> in the container terminal prompt
 
 <p>You can copy from the VNC Viewer terminal by selecting with the mouse, and paste to it by a middle mouse button click. If you are using a touchpad, you may need to define "middle mouse button" in Settings -> Devices -> Touchpad. You can set it to a three-finger tap in "Taps" menu under "Three finger gestures", or to another selection of your choice.</p>
 
-<p> Importantly, take note of the command to kill the vncserver in the startup message, and before exiting the container type it in the container prompt. If you don't do it, you will not be able to open the graphics window next time you use the same container. Then exit the container.
+<p> Importantly, take note of the command to kill the vncserver in the startup message, and before exiting the container type it in the container prompt. If you don't do it, you will not be able to open the graphics window next time you use the same container.  Then exit the container.
 </p>
 
 <div class="language-bash highlighter-rouge">
