@@ -162,18 +162,14 @@ Password:
 Verify:
 xauth:  file /home/cmsusr/.Xauthority does not exist
 
-New 'myvnc:1' desktop is f3d2e685fafc:1
+New 'myvnc:1' desktop is e0ca768960bf:1
 
 Starting applications specified in /home/cmsusr/.vnc/xstartup
-Log file is /home/cmsusr/.vnc/f3d2e685fafc:1.log
+Log file is /home/cmsusr/.vnc/e0ca768960bf:1.log
 
-[1] 109
 VNC connection points:
         VNC viewer address: 127.0.0.1:5901
         OSX built-in VNC viewer command: open vnc://127.0.0.1:5901
-        Web browser URL: http://127.0.0.1:6080/vnc.html?host=127.0.0.1&port=6080
-
-To stop noVNC enter 'pkill -9 -P 109'
 To kill the vncserver enter 'vncserver -kill :1'
 </code></pre></div></div>
 
