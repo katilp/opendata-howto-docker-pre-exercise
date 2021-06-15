@@ -122,7 +122,7 @@ xhost local:root
 <div class="language-bash highlighter-rouge">
 <div class="highlight"><pre class="highlight">
 <code>
-docker run -it --name my_od -P -p 5901:5901 -p 6080:6080 cmsopendata/cmssw_5_3_32_vnc:latest /bin/bash
+docker run -it --name my_od -P -p 5901:5901 cmsopendata/cmssw_5_3_32_vnc:latest /bin/bash
 </code></pre></div></div>
 <div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 Setting up CMSSW_5_3_32
@@ -137,12 +137,12 @@ is appropriate for interfacing with the 2011 and 2012 7 and 8 TeV datasets.</p>
 see <a href="https://opendata-forum.cern.ch/t/running-cms-opendata-containers-in-wsl2/30">this post</a>
 in the CERN Open Data forum (note in particular that the <code>.wslconfig</code> file that you need to add must not have a file extension, if Windows adds it automatically, rename the file).</p>
 
-<p> The following options opened ports from the container to the local host, needed for the graphical windows:</p>
+<p> The following options opened a port from the container to the local host, needed for the graphical windows:</p>
 
 <div class="language-plaintext source  highlighter-rouge">
 <div class="highlight"><pre class="highlight">
 <code>
-... -p 5901:5901 -p 6080:6080  ...
+... -p 5901:5901 ...
 </code></pre></div></div>
 
 <p>First make sure that you can copy instructions from a browser page to the container terminal. It works in the same manner as the local WSL linux terminal, i.e. you can usually copy from other sources with `Ctrl+C` and then paste into your container terminal with mouse right click. Copy from the terminal itself by selecting the text to be copied. If this does not work, you will see later in these instructions how to pass files from your local computer to the container.</p>
@@ -445,7 +445,7 @@ docker run -it --name my_od --net=host --env="DISPLAY" -v $HOME/.Xauthority:/hom
 <div class="language-bash highlighter-rouge">
 <div class="highlight"><pre class="highlight">
 <code>
-docker run -it --name my_od -P -p 5901:5901 -p 6080:6080 -v ${HOME}/cms_open_data_work:/home/cmsusr/cms_open_data_work cmsopendata/cmssw_5_3_32_vnc:latest /bin/bash
+docker run -it --name my_od -P -p 5901:5901 -v ${HOME}/cms_open_data_work:/home/cmsusr/cms_open_data_work cmsopendata/cmssw_5_3_32_vnc:latest /bin/bash
 </code></pre></div></div>
 
             </article><!-- Windows  -->
