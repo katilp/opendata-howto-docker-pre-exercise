@@ -438,12 +438,10 @@ Follow the example below, depending on your operating system.
 
             <article role="tabpanel" class="tab-pane" id="shell-macos-mnt">
 
-<p> Check this on Mac! </p>
-<div class="language-bash highlighter-rouge">
-<div class="highlight"><pre class="highlight">
-<code>
-docker run -it --name my_od --net=host --env="DISPLAY" -v $HOME/.Xauthority:/home/cmsusr/.Xauthority:rw   -v ${HOME}/cms_open_data_work:/home/cmsusr/cms_open_data_work cmsopendata/cmssw_5_3_32 /bin/bash
-</code></pre></div></div>
+            <p>Check this on Mac!</p>
+            <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">--net</span><span class="o">=</span>host <span class="nt">--env</span><span class="o">=</span><span class="s2">"DISPLAY"</span> <span class="nt">-v</span> <span class="nv">$HOME</span>/.Xauthority:/home/cmsusr/.Xauthority:rw   <span class="nt">-v</span> <span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/cms_open_data_work:/home/cmsusr/cms_open_data_work cmsopendata/cmssw_5_3_32 /bin/bash
+            </code></pre></div></div>
+
 
             </article><!-- Mac  -->         
 

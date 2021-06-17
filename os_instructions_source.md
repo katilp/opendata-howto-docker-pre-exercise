@@ -193,3 +193,10 @@ VNC connection points:
 ~~~
 {: .output}
 
+### Mounting a local volume example
+
+Check this on Mac!
+~~~
+docker run -it --name my_od --net=host --env="DISPLAY" -v $HOME/.Xauthority:/home/cmsusr/.Xauthority:rw   -v ${HOME}/cms_open_data_work:/home/cmsusr/cms_open_data_work cmsopendata/cmssw_5_3_32 /bin/bash
+~~~
+{: .language-bash}
