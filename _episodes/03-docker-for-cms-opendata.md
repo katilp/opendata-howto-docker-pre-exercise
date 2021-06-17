@@ -42,7 +42,7 @@ Please follow the instructions below, depending on the operating system you are 
     <div>
         <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a data-os="linux" href="#shell-linux" aria-controls="Linux" role="tab" data-toggle="tab">Linux</a></li>
-        <li role="presentation"><a data-os="windows" href="#shell-windows" aria-controls="Windows" role="tab" data-toggle="tab">Windows</a></li>
+        <li role="presentation"><a data-os="windows" href="#shell-windows" aria-controls="Windows" role="tab" data-toggle="tab">Windows WSL2</a></li>
         <li role="presentation"><a data-os="macos" href="#shell-macos" aria-controls="MacOS" role="tab" data-toggle="tab">MacOS</a></li>
         </ul>
 
@@ -92,6 +92,71 @@ Please follow the instructions below, depending on the operating system you are 
 
             <p>Start the image download and open the container with</p>
 
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">-P</span> <span class="nt">-p</span> 5901:5901 cmsopendata/cmssw_5_3_32_vnc:latest /bin/bash
+</code></pre></div></div>
+
+<div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Setting up CMSSW_5_3_32
+CMSSW should now be available.
+~/CMSSW_5_3_32/src $
+</code></pre></div></div>
+
+<p>This is now a bash shell in the CMS open data environment in which you have access to a complete CMS software release that is appropriate for interfacing with the 2011 and 2012 7 and 8 TeV datasets.</p>
+
+<p>If the docker command exits without giving you the output above, see <a href="https://opendata-forum.cern.ch/t/running-cms-opendata-containers-in-wsl2/30">this post</a> in the CERN Open Data forum (note in particular that the <code class="language-plaintext highlighter-rouge">.wslconfig</code> file that you need to add must not have a file extension, if Windows adds it automatically, rename the file).</p>
+
+<p>Now let’s understand the options that were used for the <code class="language-plaintext highlighter-rouge">docker run</code> command.</p>
+
+<ul>
+  <li>First, the <code class="language-plaintext highlighter-rouge">-it</code> (or <code class="language-plaintext highlighter-rouge">-i</code>) option means to start the container in interactive mode. Essentially, it means that you will end up inside the running container.</li>
+  <li>We assign a name to the container using the <code class="language-plaintext highlighter-rouge">--name</code> switch, so that we can refer back to this environment and still access any files we created in there. You can, of course, choose a different name than <code class="language-plaintext highlighter-rouge">my_od</code>.</li>
+  <li>The options <code class="language-plaintext highlighter-rouge">-P -p 5901:5901</code> open/publish a port from the container to the local host, needed for the graphical windows</li>
+  <li><code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_5_3_32_vnc:latest</code> is the name (and <code class="language-plaintext highlighter-rouge">:version</code>) of the image we will use.  If no label is prepended, Docker assumes that it resides in <a href="https://hub.docker.com/">Docker Hub</a>, the official image repository of Docker.</li>
+  <li>Finally, the <code class="language-plaintext highlighter-rouge">/bin/bash</code> option will throw the container into a <code class="language-plaintext highlighter-rouge">bash</code> shell when running interactively.</li>
+</ul>
+
+<p>For a more complete listing of options, see <a href="https://docs.docker.com/engine/reference/commandline/container_run/">the official Docker documentation</a> on the <code class="language-plaintext highlighter-rouge">docker run</code> command.</p>
+
+<p>Now, first make sure that you can copy instructions from a browser page to the container terminal. It works in the same manner as the local WSL linux terminal, i.e. you can usually copy from other sources with <code class="language-plaintext highlighter-rouge">Ctrl+C</code> and then paste into your container terminal with mouse right click. Copy from the terminal itself by selecting the text to be copied. If this does not work, you will see later in these instructions how to pass files from your local computer to the container.</p>
+
+<p>This container has a VNC application installed to allow opening graphical windows on a remote machine (seen from the container, your own computer is a remote machine). Start the application with <code class="language-plaintext highlighter-rouge">start_vnc</code> from your container prompt, and choose a password. You will need to start it every time you use the container (if you want to open graphics windows), but you will define the password only at the first time.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/CMSSW_5_3_32/src <span class="nv">$ </span>start_vnc
+</code></pre></div></div>
+
+<div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>You will require a password to access your desktops.
+
+Password:
+Verify:
+xauth:  file /home/cmsusr/.Xauthority does not exist
+
+New 'myvnc:1' desktop is e0ca768960bf:1
+
+Starting applications specified in /home/cmsusr/.vnc/xstartup
+Log file is /home/cmsusr/.vnc/e0ca768960bf:1.log
+
+VNC connection points:
+        VNC viewer address: 127.0.0.1:5901
+        OSX built-in VNC viewer command: open vnc://127.0.0.1:5901
+To kill the vncserver enter 'vncserver -kill :1'
+</code></pre></div></div>
+
+<p>When you do this the first time, download a VNC viewer to your local machine from <a href="https://sourceforge.net/projects/tigervnc/files/stable/1.11.0/">TigerVNC</a>. You can then access the GUI in TigerVNC Viewer with the address given in the startup message with the the password you’ve chosen. It opens with an xterminal of your container. To test, start ROOT by typing <code class="language-plaintext highlighter-rouge">root</code> in the container terminal prompt. In the ROOT prompt, type <code class="language-plaintext highlighter-rouge">TBrowser t</code> to open the ROOT graphical window. If the graphical window opens you are all set and you can exit from ROOT either by choosing the “Quit Root” option from Browser menu of the TBrowser window or by typing <code class="language-plaintext highlighter-rouge">.q</code> in the ROOT prompt.</p>
+
+<p>You can copy from the VNC Viewer terminal by selecting with the mouse, and paste to it by a middle mouse button click. If you are using a touchpad, you may need to define “middle mouse button” in Settings -&gt; Devices -&gt; Touchpad. You can set it to a three-finger tap in “Taps” menu under “Three finger gestures”, or to another selection of your choice.</p>
+
+<p>Importantly, take note of the command to kill the vncserver in the startup message, and before exiting the container type it in the container prompt. If you don’t do it, you will not be able to open the graphics window next time you use the same container. Then exit the container.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/CMSSW_5_3_32/src <span class="nv">$ </span>vncserver <span class="nt">-kill</span> :1
+~/CMSSW_5_3_32/src <span class="nv">$ </span><span class="nb">exit</span>
+</code></pre></div></div>
+
+            </article><!-- Windows  -->
+
+
+            <article role="tabpanel" class="tab-pane" id="shell-macos">
+
+            <p>Start the image download and open the container with</p>
+
             <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">-P</span> <span class="nt">-p</span> 5901:5901 cmsopendata/cmssw_5_3_32_vnc:latest /bin/bash
             </code></pre></div></div>
 
@@ -102,7 +167,7 @@ Please follow the instructions below, depending on the operating system you are 
 
             <p>This is now a bash shell in the CMS open data environment in which you have access to a complete CMS software release that is appropriate for interfacing with the 2011 and 2012 7 and 8 TeV datasets.</p>
 
-            <p>If the docker command exits without giving you the output above, see this post in the CERN Open Data forum (note in particular that the <code class="language-plaintext highlighter-rouge">.wslconfig</code> file that you need to add must not have a file extension, if Windows adds it automatically, rename the file).</p>
+            <p>If the docker command exits without giving you the output above, see <a href="https://opendata-forum.cern.ch/t/running-cms-opendata-containers-in-wsl2/30">this post</a> in the CERN Open Data forum (note in particular that the <code class="language-plaintext highlighter-rouge">.wslconfig</code> file that you need to add must not have a file extension, if Windows adds it automatically, rename the file).</p>
 
             <p>Now let’s understand the options that were used for the <code class="language-plaintext highlighter-rouge">docker run</code> command.</p>
 
@@ -115,8 +180,6 @@ Please follow the instructions below, depending on the operating system you are 
             </ul>
 
             <p>For a more complete listing of options, see <a href="https://docs.docker.com/engine/reference/commandline/container_run/">the official Docker documentation</a> on the <code class="language-plaintext highlighter-rouge">docker run</code> command.</p>
-
-            <p>Now, first make sure that you can copy instructions from a browser page to the container terminal. It works in the same manner as the local WSL linux terminal, i.e. you can usually copy from other sources with <code class="language-plaintext highlighter-rouge">Ctrl+C</code> and then paste into your container terminal with mouse right click. Copy from the terminal itself by selecting the text to be copied. If this does not work, you will see later in these instructions how to pass files from your local computer to the container.</p>
 
             <p>This container has a VNC application installed to allow opening graphical windows on a remote machine (seen from the container, your own computer is a remote machine). Start the application with <code class="language-plaintext highlighter-rouge">start_vnc</code> from your container prompt, and choose a password. You will need to start it every time you use the container (if you want to open graphics windows), but you will define the password only at the first time.</p>
 
@@ -137,42 +200,8 @@ Please follow the instructions below, depending on the operating system you are 
             VNC connection points:
                     VNC viewer address: 127.0.0.1:5901
                     OSX built-in VNC viewer command: open vnc://127.0.0.1:5901
-            To kill the vncserver enter 'vncserver -kill :1'
+                    To kill the vncserver enter 'vncserver -kill :1'
             </code></pre></div></div>
-
-            <p>When you do this the first time, download a VNC viewer to your local machine from <a href="https://sourceforge.net/projects/tigervnc/files/stable/1.11.0/">TigerVNC</a>. You can then access the GUI in TigerVNC Viewer with the address given in the startup message with the the password you’ve chosen. It opens with an xterminal of your container. To test, start ROOT by typing <code class="language-plaintext highlighter-rouge">root</code> in the container terminal prompt. In the ROOT prompt, type <code class="language-plaintext highlighter-rouge">TBrowser t</code> to open the ROOT graphical window. If the graphical window opens you are all set and you can exit from ROOT either by choosing the “Quit Root” option from Browser menu of the TBrowser window or by typing <code class="language-plaintext highlighter-rouge">.q</code> in the ROOT prompt.</p>
-
-            <p>You can copy from the VNC Viewer terminal by selecting with the mouse, and paste to it by a middle mouse button click. If you are using a touchpad, you may need to define “middle mouse button” in Settings -&gt; Devices -&gt; Touchpad. You can set it to a three-finger tap in “Taps” menu under “Three finger gestures”, or to another selection of your choice.</p>
-
-            <p>Importantly, take note of the command to kill the vncserver in the startup message, and before exiting the container type it in the container prompt. If you don’t do it, you will not be able to open the graphics window next time you use the same container. Then exit the container.</p>
-
-            <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/CMSSW_5_3_32/src <span class="nv">$ </span>vncserver <span class="nt">-kill</span> :1
-            ~/CMSSW_5_3_32/src <span class="nv">$ </span><span class="nb">exit</span>
-            </code></pre></div></div>
-
-            </article><!-- Windows  -->
-
-
-            <article role="tabpanel" class="tab-pane" id="shell-macos">
-
-<p>Start the image download and open the container with... just testing the format in the following:</p>
-
-<div class="language-plaintext source highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-Code line
-Second line
-</code></pre></div></div>
-
-<div class="language-bash highlighter-rouge">
-<div class="highlight"><pre class="highlight">
-<code>
-Code line with bash
-Another code line with bash
-</code></pre></div></div>
-
-<div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-Output line
-Second output line
-</code></pre></div></div>
 
             </article><!-- Mac  -->
 
@@ -383,7 +412,7 @@ Follow the example below, depending on your operating system.
     <div>
         <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a data-os="linux" href="#shell-linux-mnt" aria-controls="Linux" role="tab" data-toggle="tab">Linux</a></li>
-        <li role="presentation"><a data-os="windows" href="#shell-windows-mnt" aria-controls="Windows" role="tab" data-toggle="tab">Windows</a></li>
+        <li role="presentation"><a data-os="windows" href="#shell-windows-mnt" aria-controls="Windows" role="tab" data-toggle="tab">Windows WSL2</a></li>
         <li role="presentation"><a data-os="macos" href="#shell-macos-mnt" aria-controls="MacOS" role="tab" data-toggle="tab">MacOS</a></li>
         </ul>
 

@@ -62,7 +62,7 @@ Docker provides the ability to create, build and/or modify images, which can the
 
 ## Commands Cheatsheet
 
-There are many [Docker commands](https://docs.docker.com/engine/reference/commandline/docker/) that can be executed for different tasks.  However, the most useful for our purposes are the following:
+There are many [Docker commands](https://docs.docker.com/engine/reference/commandline/docker/) that can be executed for different tasks.  However, the most useful for our purposes are the following.  We will show some usage examples for some of these commands later.  Feel free to explore other commands.
 
 * List images:
 ~~~
@@ -73,10 +73,18 @@ docker image ls
 ~~~
 docker image rm <image>
 ~~~
+or
+~~~
+docker rmi <image>
+~~~
 
 * List containers
 ~~~
 docker container ls -a
+~~~
+  or
+~~~
+docker ps -a
 ~~~
   The `-a` option shows all containers (default shows just those running)
 
@@ -84,6 +92,10 @@ docker container ls -a
 * Remove containers
 ~~~
 docker container rm <container>
+~~~
+or
+~~~
+docker rm <container>
 ~~~
 
 * Create and start a container based on a specific image
@@ -107,7 +119,13 @@ docker attach <container>
 docker start -i <container>
 ~~~
 
-We will show some usage examples for some of these commands later.  Feel free to explore other commands.
+* Copy files in or out of a container_run
+~~~
+docker cp <container>:<path> <local path>
+docker cp <local path> <container>:<path>
+~~~
+
+
 
 
 
