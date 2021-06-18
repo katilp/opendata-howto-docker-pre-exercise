@@ -167,8 +167,6 @@ To kill the vncserver enter 'vncserver -kill :1'
 
             <p>This is now a bash shell in the CMS open data environment in which you have access to a complete CMS software release that is appropriate for interfacing with the 2011 and 2012 7 and 8 TeV datasets.</p>
 
-            <p>If the docker command exits without giving you the output above, see <a href="https://opendata-forum.cern.ch/t/running-cms-opendata-containers-in-wsl2/30">this post</a> in the CERN Open Data forum (note in particular that the <code class="language-plaintext highlighter-rouge">.wslconfig</code> file that you need to add must not have a file extension, if Windows adds it automatically, rename the file).</p>
-
             <p>Now let’s understand the options that were used for the <code class="language-plaintext highlighter-rouge">docker run</code> command.</p>
 
             <ul>
@@ -205,6 +203,14 @@ To kill the vncserver enter 'vncserver -kill :1'
 
             </article><!-- Mac  -->
 
+            <p>You can access the GUI in the Mac VNC viewer. The first time you do this, enter your computer's "Settings" menu and turn on "screen sharing" from the "Computer Settings" options, then click on "VNC Viewers" and enter the password you chose. Open the VNC viewer from "Finder" by choosing "connect to server" from the "Go" tab. Paste the "MacOS" address given in the container's VNC startup message and connect. It opens with an xterminal of your container. To test, start ROOT by typing <code>root</code> in the container terminal prompt. In the ROOT prompt, type <code>TBrowser t</code> to open the ROOT graphical window. If the graphical window opens you are all set and you can exit from ROOT either by choosing the "Quit Root" option from Browser menu of the TBrowser window or by typing <code>.q</code> in the ROOT prompt.</p>
+<p>Importantly, take note of the command to kill the vncserver in the startup message, and before exiting the container type it in the container prompt. If you don't do it, you will not be able to open the graphics window next time you use the same container. Then exit the container.</p>
+ <div class="snippet-clipboard-content position-relative" data-snippet-clipboard-copy-content="~/CMSSW_5_3_32/src $ vncserver -kill :1
+~/CMSSW_5_3_32/src $ exit
+"><pre><code>~/CMSSW_5_3_32/src $ vncserver -kill :1
+~/CMSSW_5_3_32/src $ exit
+</code></pre></div>
+<p>{: .language-bash}</p>
         </div> <!-- tab-contents  -->
 
     </div><!-- nav-tabs  -->
