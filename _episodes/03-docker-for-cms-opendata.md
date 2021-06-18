@@ -210,7 +210,7 @@ To kill the vncserver enter 'vncserver -kill :1'
 "><pre><code>~/CMSSW_5_3_32/src $ vncserver -kill :1
 ~/CMSSW_5_3_32/src $ exit
 </code></pre></div>
-<p>{: .language-bash}</p>
+
         </div> <!-- tab-contents  -->
 
     </div><!-- nav-tabs  -->
