@@ -47,29 +47,18 @@ scram b
 
 You can safely ignore the warning.
 
-Before launching the job, let's modify the configuration file (do not worry, you will learn about all this stuff in a different [lesson](https://cms-opendata-workshop.github.io/workshop-lesson-cmssw/)) so it is able access a CMS open data file and cache the conditions data.  As it was mentioned, this will save us time later.
+Before launching the job, let's modify the configuration file (do not worry, you will learn about all this stuff in a different [lesson](https://cms-opendata-workshop.github.io/workshop2021-lesson-cmssw/)) so it is able access a CMS open data file.
 
-Open the `demoanalyzer_cfg.py` file using the `vi` editor ([here](https://www.thegeekdiary.com/basic-vi-commands-cheat-sheet/) you can find a good cheatsheet for that editor). If you're an absolute command line editor hater, you can also copy the file to the shared volume ```~/cms_open_data_work``` and edit it in your local computer and copy it back again to ```DemoAnalyzer/demoanalyzer_cfg.py```
+Open the `demoanalyzer_cfg.py` file using the `nano`. If you're an absolute command line editor hater, you can also copy the file to the shared volume ```~/cms_open_data_work``` and edit it in your local computer and copy it back again to ```DemoAnalyzer/demoanalyzer_cfg.py```
 
 ~~~
-vi DemoAnalyzer/demoanalyzer_cfg.py
+nano DemoAnalyzer/demoanalyzer_cfg.py
 ~~~
 {: .language-bash}
 
-Replace `file:myfile.root` with `root://eospublic.cern.ch//eos/opendata/cms/Run2011A/ElectronHad/AOD/12Oct2013-v1/20001/001F9231-F141-E311-8F76-003048F00942.root` to point to an example file.
+Replace `file:myfile.root` with `'root://eospublic.cern.ch//eos/opendata/cms/Run2012B/DoubleMuParked/AOD/22Jan2013-v1/10000/1EC938EF-ABEC-E211-94E0-90E6BA442F24.root'` to point to an example file.
 
 Chage also the maximum number of events to 10.  I.e., change `-1`to `10` in `process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1))`.
-
-
-**FIXME: This is not actually caching anything. Probably best to remove.**
-
-In addition, insert, below the *PoolSource* module, the following lines:
-
-```
-#needed to cache the conditions data
-process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
-process.GlobalTag.globaltag = 'FT_53_LV5_AN1::All'
-```
 
 > ## Take a look at the final validation config file
 >
@@ -83,12 +72,9 @@ process.GlobalTag.globaltag = 'FT_53_LV5_AN1::All'
 > process.source = cms.Source("PoolSource",
 > # replace 'myfile.root' with the source file you want to use
 >    fileNames = cms.untracked.vstring(
->        'root://eospublic.cern.ch//eos/opendata/cms/Run2011A/ElectronHad/AOD/12Oct2013-v1/20001/001F9231-F141-E311-8F76-003048F00942.root'
+>        'root://eospublic.cern.ch//eos/opendata/cms/Run2012B/DoubleMuParked/AOD/22Jan2013-v1/10000/1EC938EF-ABEC-E211-94E0-90E6BA442F24.root'
 >    )
 > )
-> #needed to cache the conditions data
-> process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
-> process.GlobalTag.globaltag = 'FT_53_LV5_AN1::All'
 >
 > process.demo = cms.EDAnalyzer('DemoAnalyzer'
 > )
@@ -106,20 +92,20 @@ cmsRun DemoAnalyzer/demoanalyzer_cfg.py
 {: .language-bash}
 
 ~~~
-210609 16:01:56 557 secgsi_InitProxy: cannot access private key file: /home/cmsusr/.globus/userkey.pem
-09-Jun-2021 16:01:56 CEST  Initiating request to open file root://eospublic.cern.ch//eos/opendata/cms/Run2011A/ElectronHad/AOD/12Oct2013-v1/20001/001F9231-F141-E311-8F76-003048F00942.root
-09-Jun-2021 16:01:56 CEST  Successfully opened file root://eospublic.cern.ch//eos/opendata/cms/Run2011A/ElectronHad/AOD/12Oct2013-v1/20001/001F9231-F141-E311-8F76-003048F00942.root
-Begin processing the 1st record. Run 166782, Event 340184599, LumiSection 309 at 09-Jun-2021 16:01:59.708 CEST
-Begin processing the 2nd record. Run 166782, Event 340185007, LumiSection 309 at 09-Jun-2021 16:01:59.709 CEST
-Begin processing the 3rd record. Run 166782, Event 340187903, LumiSection 309 at 09-Jun-2021 16:01:59.710 CEST
-Begin processing the 4th record. Run 166782, Event 340227487, LumiSection 309 at 09-Jun-2021 16:01:59.710 CEST
-Begin processing the 5th record. Run 166782, Event 340210607, LumiSection 309 at 09-Jun-2021 16:01:59.711 CEST
-Begin processing the 6th record. Run 166782, Event 340256207, LumiSection 309 at 09-Jun-2021 16:01:59.712 CEST
-Begin processing the 7th record. Run 166782, Event 340165759, LumiSection 309 at 09-Jun-2021 16:01:59.713 CEST
-Begin processing the 8th record. Run 166782, Event 340396487, LumiSection 309 at 09-Jun-2021 16:01:59.713 CEST
-Begin processing the 9th record. Run 166782, Event 340390767, LumiSection 309 at 09-Jun-2021 16:01:59.713 CEST
-Begin processing the 10th record. Run 166782, Event 340435263, LumiSection 309 at 09-Jun-2021 16:01:59.714 CEST
-09-Jun-2021 16:01:59 CEST  Closed file root://eospublic.cern.ch//eos/opendata/cms/Run2011A/ElectronHad/AOD/12Oct2013-v1/20001/001F9231-F141-E311-8F76-003048F00942.root
+210701 04:51:59 606 secgsi_InitProxy: cannot access private key file: /home/cmsusr/.globus/userkey.pem
+01-Jul-2021 04:51:59 CEST  Initiating request to open file root://eospublic.cern.ch//eos/opendata/cms/Run2012B/DoubleMuParked/AOD/22Jan2013-v1/10000/1EC938EF-ABEC-E211-94E0-90E6BA442F24.root
+01-Jul-2021 04:52:03 CEST  Successfully opened file root://eospublic.cern.ch//eos/opendata/cms/Run2012B/DoubleMuParked/AOD/22Jan2013-v1/10000/1EC938EF-ABEC-E211-94E0-90E6BA442F24.root
+Begin processing the 1st record. Run 195013, Event 24425389, LumiSection 66 at 01-Jul-2021 04:52:14.775 CEST
+Begin processing the 2nd record. Run 195013, Event 24546773, LumiSection 66 at 01-Jul-2021 04:52:14.776 CEST
+Begin processing the 3rd record. Run 195013, Event 24679037, LumiSection 66 at 01-Jul-2021 04:52:14.776 CEST
+Begin processing the 4th record. Run 195013, Event 24839453, LumiSection 66 at 01-Jul-2021 04:52:14.777 CEST
+Begin processing the 5th record. Run 195013, Event 24894477, LumiSection 66 at 01-Jul-2021 04:52:14.778 CEST
+Begin processing the 6th record. Run 195013, Event 24980717, LumiSection 66 at 01-Jul-2021 04:52:14.778 CEST
+Begin processing the 7th record. Run 195013, Event 25112869, LumiSection 66 at 01-Jul-2021 04:52:14.779 CEST
+Begin processing the 8th record. Run 195013, Event 25484261, LumiSection 66 at 01-Jul-2021 04:52:14.780 CEST
+Begin processing the 9th record. Run 195013, Event 25702821, LumiSection 66 at 01-Jul-2021 04:52:14.780 CEST
+Begin processing the 10th record. Run 195013, Event 25961949, LumiSection 66 at 01-Jul-2021 04:52:14.781 CEST
+01-Jul-2021 04:52:14 CEST  Closed file root://eospublic.cern.ch//eos/opendata/cms/Run2012B/DoubleMuParked/AOD/22Jan2013-v1/10000/1EC938EF-ABEC-E211-94E0-90E6BA442F24.root
 
 =============================================
 
@@ -132,12 +118,13 @@ MessageLogger Summary
 
  type    category    Examples: run/evt        run/evt          run/evt
  ---- -------------------- ---------------- ---------------- ----------------
-    1 fileAction           PostEndRun
-    2 fileAction           pre-events       pre-events
+    1 fileAction           PostEndRun                        
+    2 fileAction           pre-events       pre-events       
 
 Severity    # Occurrences   Total Occurrences
 --------    -------------   -----------------
 System                  3                   3
+
 ~~~
 {: .output}
 
