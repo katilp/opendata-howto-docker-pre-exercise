@@ -21,11 +21,11 @@ keypoints:
 
 The Docker container we just created provides CMS computing environment to be used with the 2011 and 2012 CMS open data. The Docker container uses Scientific Linux CERN.  As it was mentioned before, it comes equipped with the [ROOT](http://root.cern.ch/) framework and the version of [CMS Software - CMSSW](http://cms-sw.github.io/) compatible with the CMS open data.
 
-Access to the data is through [XRootD](https://xrootd.slac.stanford.edu/).
+Access to the data is through the [XRootD](https://xrootd.slac.stanford.edu/) protocol.
 
 ## Run a simple *demo* for testing and validating
 
-The validation procedure tests that the CMS environment is installed and operational on your Docker container, and that you have access to the CMS Open Data files. **FIXME see below** The test job also accesses the "conditions data", i.e. non-collision data often needed for analysis from specific servers and caches them.  This last action will save us time during the workshop.  These steps also give you a quick introduction to the CMS environment.
+The validation procedure tests that the CMS environment is installed and operational on your Docker container, and that you have access to the CMS Open Data files. These steps also give you a quick introduction to the CMS environment.
 
 Verify first that you are in ```~/CMSSW_5_3_32/src``` directory. You can see that in the container prompt.
 
@@ -49,7 +49,7 @@ You can safely ignore the warning.
 
 Before launching the job, let's modify the configuration file (do not worry, you will learn about all this stuff in a different [lesson](https://cms-opendata-workshop.github.io/workshop2021-lesson-cmssw/)) so it is able access a CMS open data file.
 
-Open the `demoanalyzer_cfg.py` file using the `nano` editor. If you're an absolute command line editor hater, you can also copy the file to the shared volume ```~/cms_open_data_work``` and edit it in your local computer and copy it back again to ```DemoAnalyzer/demoanalyzer_cfg.py```
+Open the `demoanalyzer_cfg.py` file using the `nano` editor. If you're an absolute command line editor hater, you can also copy the file to the shared volume ```~/cms_open_data_work``` (if you created one before) and edit it in your local computer and copy it back again to ```DemoAnalyzer/demoanalyzer_cfg.py```
 
 ~~~
 nano DemoAnalyzer/demoanalyzer_cfg.py

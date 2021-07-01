@@ -30,6 +30,9 @@ their installation procedure.
 
 In the episodes of this lesson that follow, we assume that Windows users have [WSL2](https://docs.microsoft.com/en-us/windows/wsl/install-win10) activated with a Linux bash shell (e.g. Ubuntu) and Docker Desktop installed. All commands indicated with "bash" are expected to be typed in this Linux shell.
 
+> Note that WSL2 can take around an hour to install.
+{: .testimonial}
+
 ## Testing
 
 As you walk through their documentation, you will eventually come to a point where you will
@@ -56,9 +59,9 @@ As it was mentioned above, there is [ample documentation](https://docs.docker.co
 
 One can think of the **container image** as the main ingredients for preparing a dish, and the final dish as the **container** itself.  You can prepare many dishes (**containers**) based on the same ingredients (**container image**). Images can exist without containers, whereas a container needs to run an image to exist. Therefore, containers are dependent on images and use them to construct a run-time environment and run an application.
 
-The final dish, for us, is a container that can be thought of as an isolated machine (running on the local machine) with mostly its own operating system and the adequate software and run-time environment to process CMS open data.
+The final dish, for us, is a container that can be thought of as an isolated machine (running on the host machine) with mostly its own operating system and the adequate software and run-time environment to process CMS open data.
 
-Docker provides the ability to create, build and/or modify images, which can then be used to create containers.  We will not use this aspect of the technology because, as you will see later, we will use already-built and ready-to-use images in order to create our needed containers.
+Docker provides the ability to create, build and/or modify images, which can then be used to create containers.  We will not use this aspect of the technology because, as you will see later, we will use an already-built and ready-to-use image in order to create our needed container.
 
 ## Commands Cheatsheet
 

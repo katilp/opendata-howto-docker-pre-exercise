@@ -1,0 +1,698 @@
+This lesson is still being designed and assembled (Pre-Alpha version)
+ Toggle navigation     [The_CMS_logo] Home
+    * Code_of_Conduct
+    * Setup
+    * Episodes
+          o Introduction
+          o Installing_Docker
+          o Using_Docker_with_the_CMS_open_data
+          o Test_and_validate
+          o All_in_one_page_(Beta)
+    * Extras
+          o Reference
+          o About
+          o Discussion
+          o Figures
+          o Instructor_Notes
+    * License
+    * Improve_this_page
+[                    ]
+****** Docker_pre-exercises ******
+****** Introduction ******
+     ***** Overview *****
+     Teaching: 5 min
+     Exercises: 0 min
+     Questions
+         * What is Docker?
+         * What is the point of these exercises?
+     Objectives
+         * Learn about Docker and why we’re using it
+Let’s learn about Docker and why we’re using it!
+Regardless of what you encounter in this lesson, the definitive guide is any
+official documentation provided by Docker.
+     ***** What is Docker? *****
+     From the Docker_website
+     A container is a standard unit of software that packages up code and
+     all its dependencies so the application runs quickly and reliably
+     from one computing environment to another. A Docker container image
+     is a lightweight, standalone, executable package of software that
+     includes everything needed to run an application: code, runtime,
+     system tools, system libraries and settings.
+     In short, Docker allows a user to work in a computing environment
+     that has been frozen with respect to interdependent libraries and
+     code and related tools. This means that you can use the same software
+     that analysts were using 10 years ago (for example) without
+     downloading all the relevant 10-year-old libraries. :)
+     ***** What can I learn here? *****
+     As much as we’d like, we can’t give you a complete overview of
+     Docker. However, we do hope to explain why we run Docker in the way
+     we do so that you gain some understanding. More specifically, we’ll
+     be showing you how to set up Docker for not just this workshop, but
+     for interfacing with the CMS open data in general
+     ***** Key Points *****
+         * Docker is an implementation of a tool called a container that
+           gives us a self-consistent computing environment
+         * Docker is widely used these days in both industry and academic
+           research
+         * Docker is one way that you can interface with CMS data using
+           the same computing tools as CMS collaborators
+===============================================================================
+****** Installing Docker ******
+     ***** Overview *****
+     Teaching: 10 min
+     Exercises: 15 min
+     Questions
+         * What equipment do I need?
+         * How do I install Docker?
+         * How do I test my installation?
+         * What are the main Docker concepts and commands I need to know?
+     Objectives
+         * Install Docker on your machine
+         * Understand the most basic concepts about images and containers
+Installing Docker is relatively straightforward, particularly because of the
+excellent documentation they provide. Still you want to set aside some time to
+do it properly and test it out.
+***** Installing *****
+Go to the offical Docker_site_and_their_installation_instructions to install
+Docker for your operating system.
+We see no need to go beyond the documentation they provide so we leave it up to
+you to follow their installation procedure.
+In the episodes of this lesson that follow, we assume that Windows users have
+WSL2 activated with a Linux bash shell (e.g. Ubuntu) and Docker Desktop
+installed. All commands indicated with “bash” are expected to be typed in this
+Linux shell.
+***** Testing *****
+As you walk through their documentation, you will eventually come to a point
+where you will run a very simple test, usually involving their hello-world
+container.
+You can find their documentation for this step here.
+Testing their code can be summed up by the ability to run (without generating
+any errors) the following commands.
+docker --version
+docker run hello-world
+***** Images and Containers *****
+As it was mentioned above, there is ample_documentation provided by Docker
+official sites. However, there are a couple of concepts that are crucial for
+the sake of using the container technology with CMS open data: container images
+and containers.
+One can think of the container image as the main ingredients for preparing a
+dish, and the final dish as the container itself. You can prepare many dishes
+(containers) based on the same ingredients (container image). Images can exist
+without containers, whereas a container needs to run an image to exist.
+Therefore, containers are dependent on images and use them to construct a run-
+time environment and run an application.
+The final dish, for us, is a container that can be thought of as an isolated
+machine (running on the local machine) with mostly its own operating system and
+the adequate software and run-time environment to process CMS open data.
+Docker provides the ability to create, build and/or modify images, which can
+then be used to create containers. We will not use this aspect of the
+technology because, as you will see later, we will use already-built and ready-
+to-use images in order to create our needed containers.
+***** Commands Cheatsheet *****
+There are many Docker_commands that can be executed for different tasks.
+However, the most useful for our purposes are the following. We will show some
+usage examples for some of these commands later. Feel free to explore other
+commands.
+    * List images:
+      docker image ls
+    * Remove images
+      docker image rm <image>
+      or
+      docker rmi <image>
+    * List containers
+      docker container ls -a
+      or
+      docker ps -a
+      The -a option shows all containers (default shows just those running)
+    * Remove containers
+      docker container rm <container>
+      or
+      docker rm <container>
+    * Create and start a container based on a specific image
+      docker run [options] <image>
+      This command will be used later to create our CMS open data container.
+    * Stop a running container
+      docker stop <container>
+    * Attach a running (but detached) container
+      docker attach <container>
+    * Start and attach a container that was stopped
+      docker start -i <container>
+    * Copy files in or out of a container_run
+      docker cp <container>:<path> <local path>
+      docker cp <local path> <container>:<path>
+     ***** Key Points *****
+         * For up-to-date details for installing Docker, the official
+           documentation is the best bet.
+         * Make sure you were able to download and run Docker’s hello-
+           world example.
+         * The concepts of image and container, plus the knowledge of
+           certain Dockers commands, is all that is needed to start using
+           CMS open data
+===============================================================================
+****** Using Docker with the CMS open data ******
+     ***** Overview *****
+     Teaching: Self-guided min
+     Exercises: 40 min min
+     Questions
+         * How do I use docker to effectively interface with the CMS open
+           data?
+     Objectives
+         * Download the CMS open data docker image
+         * Open your own CMS open data container and check that graphical
+           windows open
+         * Restart the same container
+         * Copy files into or out of the container
+         * Delete and rebuild containers
+         * Share a local directory from your computer to the container
+           (pass a volume)
+***** Overview *****
+This exercise will walk you through setting up and familiarizing yourself with
+Docker, so that you can effectively use it to interface with the CMS open data.
+It is not meant to completely cover containers and everything you can do with
+Docker. Reach out to the organizers using the dedicated_Mattermost_channel if
+we are missing something.
+Some guidance can be found on the Open_Data_Portal_introduction_to_Docker.
+However, the use of graphical interfaces, such the graphics window from ROOT,
+depends on the operating system of your computer. Therefore, in the following,
+separate instructions are given for Windows WSL, Linux and MacOS.
+***** Download the docker image for CMS open data and start a container *****
+The first time you start a container, a docker image file gets downloaded from
+an image registry. The CMS open data image is large and it may take some time
+to download, even as long as 20-30 minutes, depending on the speed of your
+internet connection. After the download, a container created from that image
+starts. The download needs to be done only once. Afterwards, when starting a
+container, it will find the downloaded image on your computer, and it will be
+much faster.
+Please follow the instructions below, depending on the operating system you are
+using.
+    * Linux
+    * Windows_WSL2
+    * MacOS
+We will use the docker run command to create the container (downloading the
+appropriate image if it is the first time) and start it right away.
+docker run -it --name my_od --net=host --env="DISPLAY" -v $HOME/.Xauthority:/
+home/cmsusr/.Xauthority:rw  cmsopendata/cmssw_5_3_32 /bin/bash
+
+Setting up CMSSW_5_3_32
+            CMSSW should now be available.
+            [21:53:43] cmsusr@docker-desktop ~/CMSSW_5_3_32/src $
+
+This is now a bash shell in the CMS open data environment in which you have
+access to a complete CMS software release that is appropriate for interfacing
+with the 2011 and 2012 7 and 8 TeV datasets.
+Now let’s understand the options that were used for the docker run command.
+    * First, the -it (or -i) option means to start the container in interactive
+      mode. Essentially, it means that you will end up inside the running
+      container.
+    * We assign a name to the container using the --name switch, so that we can
+      refer back to this environment and still access any files we created in
+      there. You can, of course, choose a different name than my_od.
+    * The --net=host switch will allow you to use the host network (Internet
+      access) in the container.
+    * The --env switch will forward the appropriate DISPLAY environmental
+      variable from the host machine to the container so X11-forwarding (the
+      ability to open graphical windows inside the container) can be achieved.
+    * For X11-forwarding to be functional, your local $HOME/.Xauthority file
+      needs to be mounted as the /home/cmsusr/.Xauthority file inside the
+      container. We do this using the --volume (or -v) switch. Note that the
+      colon (:) symbol separates the source and destination points for the
+      mounting procedure. In addition, the rw tag is given (aslo separated by :
+      ) so it can be read and written if necessary. Optionally, you could mount
+      any directory from your local machine to the container using the -
+      v option. This is sometimes useful; for instance, by adding -v /home/joe/
+      playground:/playground to the command line, the playground area can be
+      mounted on the container and serve as a shared area between your local
+      machine and the container. You will check out an example below.
+    * cmsopendata/cmssw_5_3_32 is the name of the image we will use. If no
+      label is prepended, Docker assumes that it resides in Docker_Hub, the
+      official image repository of Docker.
+    * Finally, the /bin/bash option will throw the container into a bash shell
+      when running interactively.
+For a more complete listing of options, see the_official_Docker_documentation
+on the docker run command.
+To test that X11-forwarding works, start the ROOT program by typing root in the
+container prompt. In ROOT prompts , type TBrowser t to open the ROOT graphical
+window. If the graphical window opens you are all set and you can exit from
+ROOT either by choosing the option from the TBrowser window or by typing .q in
+the ROOT prompt.
+Make sure that you can copy instructions from a browser page to the container
+terminal. One thing you can try is Shift+Ctrl+V when pasting into your
+container terminal, rather than Ctrl-V. That sometimes will work. If not, you
+will see later in these instructions how to pass files from your local computer
+to the container.
+Then type exit to leave the container.
+If you find that X11 forwarding is not working and the ROOT graphical window
+does not open, try typing the following before starting your Docker container.
+xhost local:root
+
+
+Start the image download and open the container with
+docker run -it --name my_od -P -p 5901:5901 cmsopendata/cmssw_5_3_32_vnc:latest
+/bin/bash
+Setting up CMSSW_5_3_32
+CMSSW should now be available.
+~/CMSSW_5_3_32/src $
+This is now a bash shell in the CMS open data environment in which you have
+access to a complete CMS software release that is appropriate for interfacing
+with the 2011 and 2012 7 and 8 TeV datasets.
+If the docker command exits without giving you the output above, see this_post
+in the CERN Open Data forum (note in particular that the .wslconfig file that
+you need to add must not have a file extension, if Windows adds it
+automatically, rename the file).
+Now let’s understand the options that were used for the docker run command.
+    * First, the -it (or -i) option means to start the container in interactive
+      mode. Essentially, it means that you will end up inside the running
+      container.
+    * We assign a name to the container using the --name switch, so that we can
+      refer back to this environment and still access any files we created in
+      there. You can, of course, choose a different name than my_od.
+    * The options -P -p 5901:5901 open/publish a port from the container to the
+      local host, needed for the graphical windows
+    * cmsopendata/cmssw_5_3_32_vnc:latest is the name (and :version) of the
+      image we will use. If no label is prepended, Docker assumes that it
+      resides in Docker_Hub, the official image repository of Docker.
+    * Finally, the /bin/bash option will throw the container into a bash shell
+      when running interactively.
+For a more complete listing of options, see the_official_Docker_documentation
+on the docker run command.
+Now, first make sure that you can copy instructions from a browser page to the
+container terminal. It works in the same manner as the local WSL linux
+terminal, i.e. you can usually copy from other sources with Ctrl+C and then
+paste into your container terminal with mouse right click. Copy from the
+terminal itself by selecting the text to be copied. If this does not work, you
+will see later in these instructions how to pass files from your local computer
+to the container.
+This container has a VNC application installed to allow opening graphical
+windows on a remote machine (seen from the container, your own computer is a
+remote machine). Start the application with start_vnc from your container
+prompt, and choose a password. You will need to start it every time you use the
+container (if you want to open graphics windows), but you will define the
+password only at the first time.
+~/CMSSW_5_3_32/src $ start_vnc
+You will require a password to access your desktops.
+
+Password:
+Verify:
+xauth:  file /home/cmsusr/.Xauthority does not exist
+
+New 'myvnc:1' desktop is e0ca768960bf:1
+
+Starting applications specified in /home/cmsusr/.vnc/xstartup
+Log file is /home/cmsusr/.vnc/e0ca768960bf:1.log
+
+VNC connection points:
+        VNC viewer address: 127.0.0.1:5901
+        OSX built-in VNC viewer command: open vnc://127.0.0.1:5901
+To kill the vncserver enter 'vncserver -kill :1'
+When you do this the first time, download a VNC viewer to your local machine
+from TigerVNC. You can then access the GUI in TigerVNC Viewer with the address
+given in the startup message with the the password you’ve chosen. It opens with
+an xterminal of your container. To test, start ROOT by typing root in the
+container terminal prompt. In the ROOT prompt, type TBrowser t to open the ROOT
+graphical window. If the graphical window opens you are all set and you can
+exit from ROOT either by choosing the “Quit Root” option from Browser menu of
+the TBrowser window or by typing .q in the ROOT prompt.
+You can copy from the VNC Viewer terminal by selecting with the mouse, and
+paste to it by a middle mouse button click. If you are using a touchpad, you
+may need to define “middle mouse button” in Settings -> Devices -> Touchpad.
+You can set it to a three-finger tap in “Taps” menu under “Three finger
+gestures”, or to another selection of your choice.
+Importantly, take note of the command to kill the vncserver in the startup
+message, and before exiting the container type it in the container prompt. If
+you don’t do it, you will not be able to open the graphics window next time you
+use the same container. Then exit the container.
+~/CMSSW_5_3_32/src $ vncserver -kill :1
+~/CMSSW_5_3_32/src $ exit
+
+Start the image download and open the container with
+docker run -it --name my_od -P -p 5901:5901 cmsopendata/cmssw_5_3_32_vnc:latest
+/bin/bash
+
+Setting up CMSSW_5_3_32
+            CMSSW should now be available.
+            ~/CMSSW_5_3_32/src $
+
+This is now a bash shell in the CMS open data environment in which you have
+access to a complete CMS software release that is appropriate for interfacing
+with the 2011 and 2012 7 and 8 TeV datasets.
+Now let’s understand the options that were used for the docker run command.
+    * First, the -it (or -i) option means to start the container in interactive
+      mode. Essentially, it means that you will end up inside the running
+      container.
+    * We assign a name to the container using the --name switch, so that we can
+      refer back to this environment and still access any files we created in
+      there. You can, of course, choose a different name than my_od.
+    * The options -P -p 5901:5901 open/publish a port from the container to the
+      local host, needed for the graphical windows
+    * cmsopendata/cmssw_5_3_32_vnc:latest is the name (and :version) of the
+      image we will use. If no label is prepended, Docker assumes that it
+      resides in Docker_Hub, the official image repository of Docker.
+    * Finally, the /bin/bash option will throw the container into a bash shell
+      when running interactively.
+For a more complete listing of options, see the_official_Docker_documentation
+on the docker run command.
+This container has a VNC application installed to allow opening graphical
+windows on a remote machine (seen from the container, your own computer is a
+remote machine). Start the application with start_vnc from your container
+prompt, and choose a password. You will need to start it every time you use the
+container (if you want to open graphics windows), but you will define the
+password only at the first time.
+~/CMSSW_5_3_32/src $ start_vnc
+
+You will require a password to access your desktops.
+
+            Password:
+            Verify:
+            xauth:  file /home/cmsusr/.Xauthority does not exist
+
+            New 'myvnc:1' desktop is e0ca768960bf:1
+
+            Starting applications specified in /home/cmsusr/.vnc/xstartup
+            Log file is /home/cmsusr/.vnc/e0ca768960bf:1.log
+
+            VNC connection points:
+                    VNC viewer address: 127.0.0.1:5901
+                    OSX built-in VNC viewer command: open vnc://127.0.0.1:5901
+                    To kill the vncserver enter 'vncserver -kill :1'
+
+You can access the GUI in the Mac VNC viewer. The first time you do this, enter
+your computer's "Settings" menu and turn on "screen sharing" from the "Computer
+Settings" options, then click on "VNC Viewers" and enter the password you
+chose. Open the VNC viewer from "Finder" by choosing "connect to server" from
+the "Go" tab. Paste the "MacOS" address given in the container's VNC startup
+message and connect. It opens with an xterminal of your container. To test,
+start ROOT by typing root in the container terminal prompt. In the ROOT prompt,
+type TBrowser t to open the ROOT graphical window. If the graphical window
+opens you are all set and you can exit from ROOT either by choosing the "Quit
+Root" option from Browser menu of the TBrowser window or by typing .q in the
+ROOT prompt.
+Importantly, take note of the command to kill the vncserver in the startup
+message, and before exiting the container type it in the container prompt. If
+you don't do it, you will not be able to open the graphics window next time you
+use the same container. Then exit the container.
+~/CMSSW_5_3_32/src $ vncserver -kill :1
+~/CMSSW_5_3_32/src $ exit
+***** Coming back to the same container *****
+You can come back to the same container you’ve used earlier with the docker
+start ... command. Note that running the docker run ... command as before would
+create a new container from the image you’ve downloaded. This would be a new
+environment, and any files that you’ve made or any code that you’ve written
+before will not be there! To go to the same working area with all our files and
+code saved each time you will need to start the existing container.
+There are two ways to do this: by giving your container instance a name or by
+making sure you reference the container id. The former approach is probably
+easier and preferred, but we discuss both below.
+**** Start container by name ****
+The easiest way to start a container that you want to return to is using the
+name as defined with the --name option in the docker run ... command before.
+Use -i (or -it) for opening the container in interactive mode.
+So to re-start your container
+docker start -i my_od
+**** Start container by container ID or by name assigned by Docker ****
+If you did not name your container, you will need to find the container ID or
+the container name assigned automatically by docker to return to the exact same
+container as before. First of all, you want to see the list of containers you
+have locally. To do this, run the following command
+docker ps -a
+You’ll see a list of containers that may look something like the following (the
+exact output will vary from user to user).
+CONTAINER ID        IMAGE                      COMMAND                  CREATED
+STATUS                      PORTS               NAMES
+4f323c317b90        hello-world                "/hello"                 3
+minutes ago       Exited (0) 3 minutes ago                        modest_jang
+7719a7d74190        cmsopendata/cmssw_5_3_32   "/opt/cms/entrypoint…"   9
+minutes ago       Exited (0) 2 minutes ago                        happy_greider
+8939ade0bfac        cmsopendata/cmssw_5_3_32   "/opt/cms/entrypoint…"   16
+hours ago        Exited (128) 16 hours ago
+hungry_bhaskara
+e914cef3c45a        cmsopendata/cmssw_5_3_32   "/opt/cms/entrypoint…"   6 days
+ago          Exited (1) 9 minutes ago
+beautiful_tereshkova
+b3a888c059f7        cmsopendata/cmssw_5_3_32   "/opt/cms/entrypoint…"   13 days
+ago         Exited (0) 13 days ago
+affectionate_ardinghelli
+You can restart a container with the CONTAINER ID or with the NAME. In the
+above example, I know that I’ve been using the most recent CMS open data
+container, with 7719a7d74190 as CONTAINER ID and happy_greider as NAME. To
+restart it, I can run one of the following commands. Note that you would want
+to change the CONTAINER ID or NAME for your particular case.
+docker start -i 7719a7d74190
+or
+docker start -i happy_greider
+Voila! You should be back in the same container.
+     ***** CHALLENGE! Test persistence *****
+     Go into the container and create a test file using some simple shell
+     commands. Type the following exactly as you see it. It will dump some
+     text into a file and then print the contents of the file to the
+     screen
+     echo "I am still here" > test.tmp
+     cat test.tmp
+
+     After you’ve done this, exit out of the container and start it again.
+     If you did it correctly, you should be able to list the contents of
+     the directory with ls -l and see your file from before! If not, check
+     that you followed all the instructions above correctly or contact the
+     facilitators.
+***** Copy file(s) into or out of a container *****
+Sometimes you will want to copy a file directly into or out of a container.
+Let’s start with copying a file out.
+Suppose you have created your my_od container and you did the challenge
+question above to Test persistence. In your container, there should be a file
+now called test.tmp Run the following on your local machine and not in the
+container. It should copy the file out and onto your local machine where you
+can inspect it.
+docker cp my_od:/home/cmsusr/CMSSW_5_3_32/src/test.tmp .
+If you want to copy a file into a container instance, it works the way you
+might expect. Suppose you have a local file called localfile.tmp. You can copy
+it into the same instance as follows.
+docker cp localfile.tmp my_od:/home/cmsusr/CMSSW_5_3_32/src/
+***** Stopping and removing containers *****
+As you are learning how to use Docker, you may find yourself with multiple
+containers. Or maybe you started a container with your favourite name with some
+set of flags and now you want use that same name but with new flags. In that
+case, you will want to stop the container and remove it.
+A container stops when you type the exit command in the container prompt. It
+may happen that you accidentally close the terminal where the container is
+running. In that case, the container will not stop and it will remain running.
+You can list the running containers with docker ps. You can either return to
+the container using its name (here “my_od”) with the attach command on your
+local machine and then exit normally from the container prompt:
+docker attach my_od
+exit
+or stop the container with
+docker stop my_od
+To stop all running containers:
+docker stop $(docker ps -q)
+To remove the container “my_od”, you would type the following. Note that this
+will delete the container and all files that you may have created in it.
+docker rm my_od
+To remove all containers:
+docker rm $(docker ps -aq)
+     ***** Don’t worry! *****
+     Note that these commands will not remove the actual Docker image that
+     you downloaded and may have taken quite some time to download! Whew!
+***** Mounting a local volume *****
+Sometimes you may want to mount a filesystem from your local machine or some
+other remote system so that your docker container can see it. Let’s first see
+how this is done in a general way.
+The basic usage is
+docker run -v <path on host>:<path in container> <image>
+Where the path on host is the full path to the local file system/directory you
+want to make available in the container. The path in container is where it will
+be mounted in your Docker container.
+There are more options and if you want to read more, please visit the official
+Docker_documentation.
+When working with the CMS open data, you will find yourself using this approach
+to have a local working directory for all your editing/version control, etc.
+Note that all your compiling and executing still has to be done in the Docker
+container! But having your source code also visible on your local laptop/
+desktop will make things easier for you.
+Let’s try this. First, before you start up your container, create a local
+directory where you will be doing your code development. In the example below,
+I’m calling it cms_open_data_work and it will live in my $HOME directory. You
+may choose a shorter directory name if you like. :)
+     ***** Local machine *****
+     cd # This is to make sure I'm in my home directory
+     mkdir cms_open_data_work
+Then fire up your Docker container, adding the following
+-v ${HOME}/cms_open_data_work:/home/cmsusr
+Follow the example below, depending on your operating system.
+    * Linux
+    * Windows_WSL2
+    * MacOS
+Your full docker run ... command would then look like this:
+docker run -it --name my_od --net=host --env="DISPLAY" -v $HOME/.Xauthority:/
+home/cmsusr/.Xauthority:rw   -v ${HOME}/cms_open_data_work:/home/cmsusr/
+cms_open_data_work cmsopendata/cmssw_5_3_32 /bin/bash
+
+
+Your full docker run ... command would then look like this:
+docker run -it --name my_od -P -p 5901:5901 -v ${HOME}/cms_open_data_work:/
+home/cmsusr/cms_open_data_work cmsopendata/cmssw_5_3_32_vnc:latest /bin/bash
+
+Your full docker run ... command would then look like this:
+docker run -it --name my_od -P -p 5901:5901 -v ${HOME}/cms_open_data_work:/
+home/cmsusr/cms_open_data_work cmsopendata/cmssw_5_3_32_vnc:latest /bin/bash
+Setting up CMSSW_5_3_32
+CMSSW should now be available.
+~/CMSSW_5_3_32/src $
+When your Docker container starts up, it puts you in /home/cmsusr/CMSSW_5_3_32/
+src, but your new mounted directory is /home/cmsusr/cms_open_data_work. The
+easiest thing to do is to create a soft link to that directory from inside /
+home/cmsusr/CMSSW_5_3_32/src using ln -s ... as shown below, and then do your
+work in that directory.
+     ***** Warning! *****
+     Sometimes the local volume is mounted in the Docker container as the
+     wrong user/group. It should be cmsusr but sometimes is mounted as
+     cmsinst. Note that in the following set of commands, we add a line to
+     change the user/group with the chown command.
+     If this is an issue, you’ll also need to do this in the container for
+     any new directories you check out on your local machine.
+     ***** Docker container *****
+     cd /home/cmsusr/CMSSW_5_3_32/src
+     sudo chown -R cmsusr.cmsusr ~/cms_open_data_work/ # this is only
+     needed if owner of cms_open_data_work is not cmsusr
+     ln -s ~/cms_open_data_work/
+     cd /home/cmsusr/CMSSW_5_3_32/src/cms_open_data_work/
+Now, open a new terminal on your local machine (or simply exit out of your
+container) and you can use that to check out the git repositories and editing
+files you’ll be working with. We will see that in the next section.
+     ***** Key Points *****
+         * You have now set up a docker container as a working enviroment
+           for CMS open data. You know how to open a graphical window in
+           it and how to pass files between your own computer and the
+           container.
+===============================================================================
+****** Test and validate ******
+     ***** Overview *****
+     Teaching: 10 min
+     Exercises: 30 min
+     Questions
+         * What is in the CMS Docker image?
+         * How do I test and validate my Docker container?
+     Objectives
+         * Learn about the details of the CMS Docker container
+         * Test and validate the CMS Docker image by running a CMSSW job.
+     ***** Helpline *****
+     Remember that we are always available to help. Our Mattermost channel
+     is open.
+***** Know your Docker image *****
+The Docker container we just created provides CMS computing environment to be
+used with the 2011 and 2012 CMS open data. The Docker container uses Scientific
+Linux CERN. As it was mentioned before, it comes equipped with the ROOT
+framework and the version of CMS_Software_-_CMSSW compatible with the CMS open
+data.
+Access to the data is through XRootD.
+***** Run a simple demo for testing and validating *****
+The validation procedure tests that the CMS environment is installed and
+operational on your Docker container, and that you have access to the CMS Open
+Data files. FIXME see below The test job also accesses the “conditions data”,
+i.e. non-collision data often needed for analysis from specific servers and
+caches them. This last action will save us time during the workshop. These
+steps also give you a quick introduction to the CMS environment.
+Verify first that you are in ~/CMSSW_5_3_32/src directory. You can see that in
+the container prompt.
+Create a working directory for the demo analyzer, change to that directory and
+create a skeleton for the analyzer:
+mkdir Demo
+cd Demo
+mkedanlzr DemoAnalyzer
+Compile the code:
+scram b
+You can safely ignore the warning.
+Before launching the job, let’s modify the configuration file (do not worry,
+you will learn about all this stuff in a different lesson) so it is able access
+a CMS open data file.
+Open the demoanalyzer_cfg.py file using the nano editor. If you’re an absolute
+command line editor hater, you can also copy the file to the shared volume ~/
+cms_open_data_work and edit it in your local computer and copy it back again to
+DemoAnalyzer/demoanalyzer_cfg.py
+nano DemoAnalyzer/demoanalyzer_cfg.py
+Replace file:myfile.root with 'root://eospublic.cern.ch//eos/opendata/cms/
+Run2012B/DoubleMuParked/AOD/22Jan2013-v1/10000/1EC938EF-ABEC-E211-94E0-
+90E6BA442F24.root' to point to an example file.
+Chage also the maximum number of events to 10. I.e., change -1to 10 in
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1)).
+     ***** Take a look at the final validation config file *****
+     At the end, the config file should look like
+     import FWCore.ParameterSet.Config as cms
+     process = cms.Process("Demo")
+     process.load("FWCore.MessageService.MessageLogger_cfi")
+     process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32
+     (10) )
+     process.source = cms.Source("PoolSource",
+     # replace 'myfile.root' with the source file you want to use
+        fileNames = cms.untracked.vstring(
+            'root://eospublic.cern.ch//eos/opendata/cms/Run2012B/
+     DoubleMuParked/AOD/22Jan2013-v1/10000/1EC938EF-ABEC-E211-94E0-
+     90E6BA442F24.root'
+        )
+     )
+
+     process.demo = cms.EDAnalyzer('DemoAnalyzer'
+     )
+
+     process.p = cms.Path(process.demo)
+Finally, run the cms executable with our configuration:
+cmsRun DemoAnalyzer/demoanalyzer_cfg.py
+210701 04:51:59 606 secgsi_InitProxy: cannot access private key file: /home/
+cmsusr/.globus/userkey.pem
+01-Jul-2021 04:51:59 CEST  Initiating request to open file root://
+eospublic.cern.ch//eos/opendata/cms/Run2012B/DoubleMuParked/AOD/22Jan2013-v1/
+10000/1EC938EF-ABEC-E211-94E0-90E6BA442F24.root
+01-Jul-2021 04:52:03 CEST  Successfully opened file root://eospublic.cern.ch//
+eos/opendata/cms/Run2012B/DoubleMuParked/AOD/22Jan2013-v1/10000/1EC938EF-ABEC-
+E211-94E0-90E6BA442F24.root
+Begin processing the 1st record. Run 195013, Event 24425389, LumiSection 66 at
+01-Jul-2021 04:52:14.775 CEST
+Begin processing the 2nd record. Run 195013, Event 24546773, LumiSection 66 at
+01-Jul-2021 04:52:14.776 CEST
+Begin processing the 3rd record. Run 195013, Event 24679037, LumiSection 66 at
+01-Jul-2021 04:52:14.776 CEST
+Begin processing the 4th record. Run 195013, Event 24839453, LumiSection 66 at
+01-Jul-2021 04:52:14.777 CEST
+Begin processing the 5th record. Run 195013, Event 24894477, LumiSection 66 at
+01-Jul-2021 04:52:14.778 CEST
+Begin processing the 6th record. Run 195013, Event 24980717, LumiSection 66 at
+01-Jul-2021 04:52:14.778 CEST
+Begin processing the 7th record. Run 195013, Event 25112869, LumiSection 66 at
+01-Jul-2021 04:52:14.779 CEST
+Begin processing the 8th record. Run 195013, Event 25484261, LumiSection 66 at
+01-Jul-2021 04:52:14.780 CEST
+Begin processing the 9th record. Run 195013, Event 25702821, LumiSection 66 at
+01-Jul-2021 04:52:14.780 CEST
+Begin processing the 10th record. Run 195013, Event 25961949, LumiSection 66 at
+01-Jul-2021 04:52:14.781 CEST
+01-Jul-2021 04:52:14 CEST  Closed file root://eospublic.cern.ch//eos/opendata/
+cms/Run2012B/DoubleMuParked/AOD/22Jan2013-v1/10000/1EC938EF-ABEC-E211-94E0-
+90E6BA442F24.root
+
+=============================================
+
+MessageLogger Summary
+
+ type     category        sev    module        subroutine        count    total
+ ---- -------------------- -- ---------------- ----------------  -----    -----
+    1 fileAction           -s file_close                             1        1
+    2 fileAction           -s file_open                              2        2
+
+ type    category    Examples: run/evt        run/evt          run/evt
+ ---- -------------------- ---------------- ---------------- ----------------
+    1 fileAction           PostEndRun
+    2 fileAction           pre-events       pre-events
+
+Severity    # Occurrences   Total Occurrences
+--------    -------------   -----------------
+System                  3                   3
+
+     ***** Key Points *****
+         * The CMS Docker image contains all the required ingredients to
+           start analyzing CMS open data.
+         * In order to test and validate the Docker container you can run
+           a simple CMSSW job.
+===============================================================================
+
+Content licensed under CC-BY_4.0 2020–2021 by The_CMS_Collaboration
+Lesson setup licensed under CC-BY_4.0 2018–2021 by The_Carpentries
+                        Edit_on_GitHub / Contributing / Source / Cite / Contact
+                  Using The_Carpentries_style version 9.5.3.
