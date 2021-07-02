@@ -81,6 +81,7 @@ In the episodes of this lesson that follow, we assume that Windows users have
 WSL2 activated with a Linux bash shell (e.g. Ubuntu) and Docker Desktop
 installed. All commands indicated with “bash” are expected to be typed in this
 Linux shell.
+     Note that WSL2 can take around an hour to install.
 ***** Testing *****
 As you walk through their documentation, you will eventually come to a point
 where you will run a very simple test, usually involving their hello-world
@@ -102,12 +103,12 @@ without containers, whereas a container needs to run an image to exist.
 Therefore, containers are dependent on images and use them to construct a run-
 time environment and run an application.
 The final dish, for us, is a container that can be thought of as an isolated
-machine (running on the local machine) with mostly its own operating system and
+machine (running on the host machine) with mostly its own operating system and
 the adequate software and run-time environment to process CMS open data.
 Docker provides the ability to create, build and/or modify images, which can
 then be used to create containers. We will not use this aspect of the
-technology because, as you will see later, we will use already-built and ready-
-to-use images in order to create our needed containers.
+technology because, as you will see later, we will use an already-built and
+ready-to-use image in order to create our needed container.
 ***** Commands Cheatsheet *****
 There are many Docker_commands that can be executed for different tasks.
 However, the most useful for our purposes are the following. We will show some
@@ -152,7 +153,7 @@ commands.
 ****** Using Docker with the CMS open data ******
      ***** Overview *****
      Teaching: Self-guided min
-     Exercises: 40 min min
+     Exercises: 40 min
      Questions
          * How do I use docker to effectively interface with the CMS open
            data?
@@ -231,7 +232,7 @@ Now let’s understand the options that were used for the docker run command.
 For a more complete listing of options, see the_official_Docker_documentation
 on the docker run command.
 To test that X11-forwarding works, start the ROOT program by typing root in the
-container prompt. In ROOT prompts , type TBrowser t to open the ROOT graphical
+container prompt. If ROOT prompts , type TBrowser t to open the ROOT graphical
 window. If the graphical window opens you are all set and you can exit from
 ROOT either by choosing the option from the TBrowser window or by typing .q in
 the ROOT prompt.
@@ -582,14 +583,12 @@ used with the 2011 and 2012 CMS open data. The Docker container uses Scientific
 Linux CERN. As it was mentioned before, it comes equipped with the ROOT
 framework and the version of CMS_Software_-_CMSSW compatible with the CMS open
 data.
-Access to the data is through XRootD.
+Access to the data is through the XRootD protocol.
 ***** Run a simple demo for testing and validating *****
 The validation procedure tests that the CMS environment is installed and
 operational on your Docker container, and that you have access to the CMS Open
-Data files. FIXME see below The test job also accesses the “conditions data”,
-i.e. non-collision data often needed for analysis from specific servers and
-caches them. This last action will save us time during the workshop. These
-steps also give you a quick introduction to the CMS environment.
+Data files. These steps also give you a quick introduction to the CMS
+environment.
 Verify first that you are in ~/CMSSW_5_3_32/src directory. You can see that in
 the container prompt.
 Create a working directory for the demo analyzer, change to that directory and
@@ -605,8 +604,8 @@ you will learn about all this stuff in a different lesson) so it is able access
 a CMS open data file.
 Open the demoanalyzer_cfg.py file using the nano editor. If you’re an absolute
 command line editor hater, you can also copy the file to the shared volume ~/
-cms_open_data_work and edit it in your local computer and copy it back again to
-DemoAnalyzer/demoanalyzer_cfg.py
+cms_open_data_work (if you created one before) and edit it in your local
+computer and copy it back again to DemoAnalyzer/demoanalyzer_cfg.py
 nano DemoAnalyzer/demoanalyzer_cfg.py
 Replace file:myfile.root with 'root://eospublic.cern.ch//eos/opendata/cms/
 Run2012B/DoubleMuParked/AOD/22Jan2013-v1/10000/1EC938EF-ABEC-E211-94E0-
