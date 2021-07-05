@@ -49,48 +49,48 @@ Please follow the instructions below, depending on the operating system you are 
         <div class="tab-content">
 
             <article role="tabpanel" class="tab-pane active" id="shell-linux">
-            <p>We will use the <code class="language-plaintext highlighter-rouge">docker run</code> command to create the container (downloading the appropriate image if it is the first time) and start it right away.</p>
 
-            <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">--net</span><span class="o">=</span>host <span class="nt">--env</span><span class="o">=</span><span class="s2">"DISPLAY"</span> <span class="nt">-v</span> <span class="nv">$HOME</span>/.Xauthority:/home/cmsusr/.Xauthority:rw  cmsopendata/cmssw_5_3_32 /bin/bash
-            </code></pre></div></div>
+<p>We will use the <code class="language-plaintext highlighter-rouge">docker run</code> command to create the container (downloading the appropriate image if it is the first time) and start it right away.</p>
 
-            <div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Setting up CMSSW_5_3_32
-            CMSSW should now be available.
-            [21:53:43] cmsusr@docker-desktop ~/CMSSW_5_3_32/src $
-            </code></pre></div></div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">--net</span><span class="o">=</span>host <span class="nt">--env</span><span class="o">=</span><span class="s2">"DISPLAY"</span> <span class="nt">-v</span> <span class="nv">$HOME</span>/.Xauthority:/home/cmsusr/.Xauthority:rw  cmsopendata/cmssw_5_3_32 /bin/bash
+</code></pre></div></div>
 
-            <p>This is now a bash shell in the CMS open data environment in which you have access to a complete CMS software release that is appropriate for interfacing with the 2011 and 2012 7 and 8 TeV datasets.</p>
+<div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Setting up CMSSW_5_3_32
+CMSSW should now be available.
+[21:53:43] cmsusr@docker-desktop ~/CMSSW_5_3_32/src $
+</code></pre></div></div>
 
-            <p>Now let’s understand the options that were used for the <code class="language-plaintext highlighter-rouge">docker run</code> command.</p>
+<p>This is now a bash shell in the CMS open data environment in which you have access to a complete CMS software release that is appropriate for interfacing with the 2011 and 2012 7 and 8 TeV datasets.</p>
 
-            <ul>
-              <li>First, the <code class="language-plaintext highlighter-rouge">-it</code> (or <code class="language-plaintext highlighter-rouge">-i</code>) option means to start the container in interactive mode. Essentially, it means that you will end up inside the running container.</li>
-              <li>We assign a name to the container using the <code class="language-plaintext highlighter-rouge">--name</code> switch, so that we can refer back to this environment and still access any files we created in there. You can, of course, choose a different name than <code class="language-plaintext highlighter-rouge">my_od</code>.</li>
-              <li>The <code class="language-plaintext highlighter-rouge">--net=host</code> switch will allow you to use the host network (Internet access) in the container.</li>
-              <li>The <code class="language-plaintext highlighter-rouge">--env</code> switch will forward the appropriate <code class="language-plaintext highlighter-rouge">DISPLAY</code> environmental variable from the host machine to the container so X11-forwarding (the ability to open graphical windows inside the container) can be achieved.</li>
-              <li>For X11-forwarding to be functional, your local <code class="language-plaintext highlighter-rouge">$HOME/.Xauthority</code> file needs to be mounted as the <code class="language-plaintext highlighter-rouge">/home/cmsusr/.Xauthority</code> file inside the container.  We do this using the <code class="language-plaintext highlighter-rouge">--volume</code> (or <code class="language-plaintext highlighter-rouge">-v</code>) switch. Note that the colon (<code class="language-plaintext highlighter-rouge">:</code>) symbol separates the source and destination points for the mounting procedure. In addition, the <code class="language-plaintext highlighter-rouge">rw</code> tag is given (aslo separated by <code class="language-plaintext highlighter-rouge">:</code>) so it can be read and written if necessary. <strong>Optionally</strong>, you could mount any directory from your local machine to the container using the <code class="language-plaintext highlighter-rouge">-v</code> option.  This is sometimes useful; for instance, by adding <code class="language-plaintext highlighter-rouge">-v /home/joe/playground:/playground</code> to the command line, the <code class="language-plaintext highlighter-rouge">playground</code> area can be mounted on the container and serve as a shared area between your local machine and the container. You will check out an example below.</li>
-              <li><code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_5_3_32</code> is the name of the image we will use.  If no label is prepended, Docker assumes that it resides in <a href="https://hub.docker.com/">Docker Hub</a>, the official image repository of Docker.</li>
-              <li>Finally, the <code class="language-plaintext highlighter-rouge">/bin/bash</code> option will throw the container into a <code class="language-plaintext highlighter-rouge">bash</code> shell when running interactively.</li>
-            </ul>
+<p>Now let’s understand the options that were used for the <code class="language-plaintext highlighter-rouge">docker run</code> command.</p>
 
-            <p>For a more complete listing of options, see <a href="https://docs.docker.com/engine/reference/commandline/container_run/">the official Docker documentation</a> on the <code class="language-plaintext highlighter-rouge">docker run</code> command.</p>
+<ul>
+  <li>First, the <code class="language-plaintext highlighter-rouge">-it</code> (or <code class="language-plaintext highlighter-rouge">-i</code>) option means to start the container in interactive mode. Essentially, it means that you will end up inside the running container.</li>
+  <li>We assign a name to the container using the <code class="language-plaintext highlighter-rouge">--name</code> switch, so that we can refer back to this environment and still access any files we created in there. You can, of course, choose a different name than <code class="language-plaintext highlighter-rouge">my_od</code>.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">--net=host</code> switch will allow you to use the host network (Internet access) in the container.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">--env</code> switch will forward the appropiate <code class="language-plaintext highlighter-rouge">DISPLAY</code> environmental variable from the host machine to the container so X11-forwarding (the ability to open graphical windows inside the container) can be achieved.</li>
+  <li>For X11-forwarding to be functional, your local <code class="language-plaintext highlighter-rouge">$HOME/.Xauthority</code> file needs to be mounted as the <code class="language-plaintext highlighter-rouge">/home/cmsusr/.Xauthority</code> file inside the container.  We do this using the <code class="language-plaintext highlighter-rouge">--volume</code> (or <code class="language-plaintext highlighter-rouge">-v</code>) switch. Note that the colon (<code class="language-plaintext highlighter-rouge">:</code>) symbol separates the source and destination points for the mounting procedure. In addition, the <code class="language-plaintext highlighter-rouge">rw</code> tag is given (aslo separated by <code class="language-plaintext highlighter-rouge">:</code>) so it can be read and written if necessary. <strong>Optionally</strong>, you could mount any directory from your local machine to the container using the <code class="language-plaintext highlighter-rouge">-v</code> option.  This is sometimes useful; for instance, by adding <code class="language-plaintext highlighter-rouge">-v /home/joe/playground:/playground</code> to the command line, the <code class="language-plaintext highlighter-rouge">playground</code> area can be mounted on the container and serve as a shared area between your local machine and the container. You will check out an example below.</li>
+  <li><code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_5_3_32</code> is the name of the image we will use.  If no label is prepended, Docker assumes that it resides in <a href="https://hub.docker.com/">Docker Hub</a>, the official image repository of Docker.</li>
+  <li>Finally, the <code class="language-plaintext highlighter-rouge">/bin/bash</code> option will throw the container into a <code class="language-plaintext highlighter-rouge">bash</code> shell when running interactively.</li>
+</ul>
 
-            <p>To test that X11-forwarding works, start the ROOT program by typing <code class="language-plaintext highlighter-rouge">root</code> in the container prompt. If ROOT prompts , type <code class="language-plaintext highlighter-rouge">TBrowser t</code> to open the ROOT graphical window. If the graphical window opens you are all set and you can exit from ROOT either by choosing the option from the TBrowser window or by typing <code class="language-plaintext highlighter-rouge">.q</code> in the ROOT prompt.</p>
+<p>For a more complete listing of options, see <a href="https://docs.docker.com/engine/reference/commandline/container_run/">the official Docker documentation</a> on the <code class="language-plaintext highlighter-rouge">docker run</code> command.</p>
 
-            <p>Make sure that you can copy instructions from a browser page to the container terminal. One thing you can try is <code class="language-plaintext highlighter-rouge">Shift+Ctrl+V</code> when pasting into your container terminal, rather than <code class="language-plaintext highlighter-rouge">Ctrl-V</code>. That sometimes will work. If not, you will see later in these instructions how to pass files from your local computer to the container.</p>
+<p>To test that X11-forwarding works, start the ROOT program by typing <code class="language-plaintext highlighter-rouge">root</code> in the container prompt. In ROOT prompts , type <code class="language-plaintext highlighter-rouge">TBrowser t</code> to open the ROOT graphical window. If the graphical window opens you are all set and you can exit from ROOT either by choosing the option from the TBrowser window or by typing <code class="language-plaintext highlighter-rouge">.q</code> in the ROOT prompt.</p>
 
-            <p>Then type <code class="language-plaintext highlighter-rouge">exit</code> to leave the container.</p>
+<p>Make sure that you can copy instructions from a browser page to the container terminal. One thing you can try is <code class="language-plaintext highlighter-rouge">Shift+Ctrl+V</code> when pasting into your container terminal, rather than <code class="language-plaintext highlighter-rouge">Ctrl-V</code>. That sometimes will work. If not, you will see later in these instructions how to pass files from your local computer to the container.</p>
 
-            <p>If you find that X11 forwarding is not working and the ROOT graphical window does not open, try typing the following before starting your Docker container.</p>
-            <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>xhost <span class="nb">local</span>:root
-            </code></pre></div></div>
+<p>Then type <code class="language-plaintext highlighter-rouge">exit</code> to leave the container.</p>
 
+<p>If you find that X11 forwarding is not working and the ROOT graphical window does not open, try typing the following before starting your Docker container.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>xhost <span class="nb">local</span>:root
+</code></pre></div></div>
 
             </article><!-- linux  -->
 
             <article role="tabpanel" class="tab-pane" id="shell-windows">
 
-            <p>Start the image download and open the container with</p>
+<p>Start the image download and open the container with</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">-P</span> <span class="nt">-p</span> 5901:5901 cmsopendata/cmssw_5_3_32_vnc:latest /bin/bash
 </code></pre></div></div>
@@ -155,59 +155,60 @@ To kill the vncserver enter 'vncserver -kill :1'
 
             <article role="tabpanel" class="tab-pane" id="shell-macos">
 
-            <p>Start the image download and open the container with</p>
+<p>Start the image download and open the container with</p>
 
-            <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">-P</span> <span class="nt">-p</span> 5901:5901 cmsopendata/cmssw_5_3_32_vnc:latest /bin/bash
-            </code></pre></div></div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">-P</span> <span class="nt">-p</span> 5901:5901 cmsopendata/cmssw_5_3_32_vnc:latest /bin/bash
+</code></pre></div></div>
 
-            <div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Setting up CMSSW_5_3_32
-            CMSSW should now be available.
-            ~/CMSSW_5_3_32/src $
-            </code></pre></div></div>
+<div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Setting up CMSSW_5_3_32
+CMSSW should now be available.
+~/CMSSW_5_3_32/src $
+</code></pre></div></div>
 
-            <p>This is now a bash shell in the CMS open data environment in which you have access to a complete CMS software release that is appropriate for interfacing with the 2011 and 2012 7 and 8 TeV datasets.</p>
+<p>This is now a bash shell in the CMS open data environment in which you have access to a complete CMS software release that is appropriate for interfacing with the 2011 and 2012 7 and 8 TeV datasets.</p>
 
-            <p>Now let’s understand the options that were used for the <code class="language-plaintext highlighter-rouge">docker run</code> command.</p>
+<p>Now let’s understand the options that were used for the <code class="language-plaintext highlighter-rouge">docker run</code> command.</p>
 
-            <ul>
-              <li>First, the <code class="language-plaintext highlighter-rouge">-it</code> (or <code class="language-plaintext highlighter-rouge">-i</code>) option means to start the container in interactive mode. Essentially, it means that you will end up inside the running container.</li>
-              <li>We assign a name to the container using the <code class="language-plaintext highlighter-rouge">--name</code> switch, so that we can refer back to this environment and still access any files we created in there. You can, of course, choose a different name than <code class="language-plaintext highlighter-rouge">my_od</code>.</li>
-              <li>The options <code class="language-plaintext highlighter-rouge">-P -p 5901:5901</code> open/publish a port from the container to the local host, needed for the graphical windows</li>
-              <li><code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_5_3_32_vnc:latest</code> is the name (and <code class="language-plaintext highlighter-rouge">:version</code>) of the image we will use.  If no label is prepended, Docker assumes that it resides in <a href="https://hub.docker.com/">Docker Hub</a>, the official image repository of Docker.</li>
-              <li>Finally, the <code class="language-plaintext highlighter-rouge">/bin/bash</code> option will throw the container into a <code class="language-plaintext highlighter-rouge">bash</code> shell when running interactively.</li>
-            </ul>
+<ul>
+  <li>First, the <code class="language-plaintext highlighter-rouge">-it</code> (or <code class="language-plaintext highlighter-rouge">-i</code>) option means to start the container in interactive mode. Essentially, it means that you will end up inside the running container.</li>
+  <li>We assign a name to the container using the <code class="language-plaintext highlighter-rouge">--name</code> switch, so that we can refer back to this environment and still access any files we created in there. You can, of course, choose a different name than <code class="language-plaintext highlighter-rouge">my_od</code>.</li>
+  <li>The options <code class="language-plaintext highlighter-rouge">-P -p 5901:5901</code> open/publish a port from the container to the local host, needed for the graphical windows</li>
+  <li><code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_5_3_32_vnc:latest</code> is the name (and <code class="language-plaintext highlighter-rouge">:version</code>) of the image we will use.  If no label is prepended, Docker assumes that it resides in <a href="https://hub.docker.com/">Docker Hub</a>, the official image repository of Docker.</li>
+  <li>Finally, the <code class="language-plaintext highlighter-rouge">/bin/bash</code> option will throw the container into a <code class="language-plaintext highlighter-rouge">bash</code> shell when running interactively.</li>
+</ul>
 
-            <p>For a more complete listing of options, see <a href="https://docs.docker.com/engine/reference/commandline/container_run/">the official Docker documentation</a> on the <code class="language-plaintext highlighter-rouge">docker run</code> command.</p>
+<p>For a more complete listing of options, see <a href="https://docs.docker.com/engine/reference/commandline/container_run/">the official Docker documentation</a> on the <code class="language-plaintext highlighter-rouge">docker run</code> command.</p>
 
-            <p>This container has a VNC application installed to allow opening graphical windows on a remote machine (seen from the container, your own computer is a remote machine). Start the application with <code class="language-plaintext highlighter-rouge">start_vnc</code> from your container prompt, and choose a password. You will need to start it every time you use the container (if you want to open graphics windows), but you will define the password only at the first time.</p>
+<p>This container has a VNC application installed to allow opening graphical windows on a remote machine (seen from the container, your own computer is a remote machine). Start the application with <code class="language-plaintext highlighter-rouge">start_vnc</code> from your container prompt, and choose a password. You will need to start it every time you use the container (if you want to open graphics windows), but you will define the password only at the first time.</p>
 
-            <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/CMSSW_5_3_32/src <span class="nv">$ </span>start_vnc
-            </code></pre></div></div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/CMSSW_5_3_32/src <span class="nv">$ </span>start_vnc
+</code></pre></div></div>
 
-            <div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>You will require a password to access your desktops.
+<div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>You will require a password to access your desktops.
 
-            Password:
-            Verify:
-            xauth:  file /home/cmsusr/.Xauthority does not exist
+Password:
+Verify:
+xauth:  file /home/cmsusr/.Xauthority does not exist
 
-            New 'myvnc:1' desktop is e0ca768960bf:1
+New 'myvnc:1' desktop is e0ca768960bf:1
 
-            Starting applications specified in /home/cmsusr/.vnc/xstartup
-            Log file is /home/cmsusr/.vnc/e0ca768960bf:1.log
+Starting applications specified in /home/cmsusr/.vnc/xstartup
+Log file is /home/cmsusr/.vnc/e0ca768960bf:1.log
 
-            VNC connection points:
-                    VNC viewer address: 127.0.0.1:5901
-                    OSX built-in VNC viewer command: open vnc://127.0.0.1:5901
-                    To kill the vncserver enter 'vncserver -kill :1'
-            </code></pre></div></div>
+VNC connection points:
+        VNC viewer address: 127.0.0.1:5901
+        OSX built-in VNC viewer command: open vnc://127.0.0.1:5901
+        To kill the vncserver enter 'vncserver -kill :1'
+</code></pre></div></div>
 
-            <p>You can access the GUI in the Mac VNC viewer. The first time you do this, enter your computer's "Settings" menu and turn on "screen sharing" from the "Computer Settings" options, then click on "VNC Viewers" and enter the password you chose. Open the VNC viewer from "Finder" by choosing "connect to server" from the "Go" tab. Paste the "MacOS" address given in the container's VNC startup message and connect. It opens with an xterminal of your container. To test, start ROOT by typing <code>root</code> in the container terminal prompt. In the ROOT prompt, type <code>TBrowser t</code> to open the ROOT graphical window. If the graphical window opens you are all set and you can exit from ROOT either by choosing the "Quit Root" option from Browser menu of the TBrowser window or by typing <code>.q</code> in the ROOT prompt.</p>
-<p>Importantly, take note of the command to kill the vncserver in the startup message, and before exiting the container type it in the container prompt. If you don't do it, you will not be able to open the graphics window next time you use the same container. Then exit the container.</p>
- <div class="snippet-clipboard-content position-relative" data-snippet-clipboard-copy-content="~/CMSSW_5_3_32/src $ vncserver -kill :1
-~/CMSSW_5_3_32/src $ exit
-"><pre><code>~/CMSSW_5_3_32/src $ vncserver -kill :1
-~/CMSSW_5_3_32/src $ exit
-</code></pre></div>
+<p>You can access the GUI in the Mac VNC viewer. The first time you do this, enter your computer’s “Settings” menu and turn on “screen sharing” from the “Computer Settings” options, then click on “VNC Viewers” and enter the password you chose. Open the VNC viewer from “Finder” by choosing “connect to server” from the “Go” tab. Paste the “MacOS” address given in the container’s VNC startup message and connect. It opens with an xterminal of your container. To test, start ROOT by typing <code class="language-plaintext highlighter-rouge">root</code> in the container terminal prompt. In the ROOT prompt, type <code class="language-plaintext highlighter-rouge">TBrowser t</code> to open the ROOT graphical window. If the graphical window opens you are all set and you can exit from ROOT either by choosing the “Quit Root” option from Browser menu of the TBrowser window or by typing <code class="language-plaintext highlighter-rouge">.q</code> in the ROOT prompt.</p>
+
+<p>Importantly, take note of the command to kill the vncserver in the startup message, and before exiting the container type it in the container prompt. If you don’t do it, you will not be able to open the graphics window next time you use the same container. Then exit the container.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/CMSSW_5_3_32/src <span class="nv">$ </span>vncserver <span class="nt">-kill</span> :1
+~/CMSSW_5_3_32/src <span class="nv">$ </span><span class="nb">exit</span>
+</code></pre></div></div>
+
           </article><!-- Mac  -->
 
         </div> <!-- tab-contents  -->
@@ -425,10 +426,10 @@ Follow the example below, depending on your operating system.
 
             <article role="tabpanel" class="tab-pane active" id="shell-linux-mnt">
 
-            <p>Your full <code class="language-plaintext highlighter-rouge">docker run ...</code> command would then look like this:</p>
+<p>Your full <code class="language-plaintext highlighter-rouge">docker run ...</code> command would then look like this:</p>
 
-            <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">--net</span><span class="o">=</span>host <span class="nt">--env</span><span class="o">=</span><span class="s2">"DISPLAY"</span> <span class="nt">-v</span> <span class="nv">$HOME</span>/.Xauthority:/home/cmsusr/.Xauthority:rw   <span class="nt">-v</span> <span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/cms_open_data_work:/home/cmsusr/cms_open_data_work cmsopendata/cmssw_5_3_32 /bin/bash
-            </code></pre></div></div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">--net</span><span class="o">=</span>host <span class="nt">--env</span><span class="o">=</span><span class="s2">"DISPLAY"</span> <span class="nt">-v</span> <span class="nv">$HOME</span>/.Xauthority:/home/cmsusr/.Xauthority:rw   <span class="nt">-v</span> <span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/cms_open_data_work:/home/cmsusr/cms_open_data_work cmsopendata/cmssw_5_3_32 /bin/bash
+</code></pre></div></div>
 
             </article><!-- Linux  -->
 
@@ -443,11 +444,9 @@ Follow the example below, depending on your operating system.
 
             <article role="tabpanel" class="tab-pane" id="shell-macos-mnt">
 
-<p>Your full <code class="language-plaintext highlighter-rouge">docker run ...</code> command would then look like this:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">-P</span> <span class="nt">-p</span> 5901:5901 <span class="nt">-v</span> <span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/cms_open_data_work:/home/cmsusr/cms_open_data_work cmsopendata/cmssw_5_3_32_vnc:latest /bin/bash
+<p>Check this on Mac!</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">--net</span><span class="o">=</span>host <span class="nt">--env</span><span class="o">=</span><span class="s2">"DISPLAY"</span> <span class="nt">-v</span> <span class="nv">$HOME</span>/.Xauthority:/home/cmsusr/.Xauthority:rw   <span class="nt">-v</span> <span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/cms_open_data_work:/home/cmsusr/cms_open_data_work cmsopendata/cmssw_5_3_32 /bin/bash
 </code></pre></div></div>
-
 
             </article><!-- Mac  -->         
 

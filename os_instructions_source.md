@@ -1,4 +1,5 @@
-It will be easier to write instructions (and or modifications) for different OS in the standard `md` format here and then just copy the whole, rendered `html` code in the appropriate sections of the `03-docker-for-cms-opendata` episode. This page is not linked from anywhere (it is hidden). The rendered code can be seen with `CTRL+U`.
+It will be easier to write instructions (and or modifications) for different OS in the standard `md` format here and then use the `files/copyTabsHTML.py` script to automatically introduce the corresponding html code into `_episodes/03-docker-for-cms-opendata.md`.  No need to do any manual intervention, as it is prompt to errors.
+**Please do not change the titles below**
 
 ## Linux instructions
 
