@@ -61,7 +61,12 @@ You can safely ignore the warning.
 
 Before launching the job, let's modify the configuration file (do not worry, you will learn about all this stuff in a different [lesson](https://cms-opendata-workshop.github.io/workshop2021-lesson-cmssw/)) so it is able access a CMS open data file.
 
-Open the `demoanalyzer_cfg.py` file using the `nano` editor. If you're an absolute command line editor hater, you can also copy the file to the shared volume ```~/cms_open_data_work``` (if you created one before) and edit it in your local computer and copy it back again to ```DemoAnalyzer/demoanalyzer_cfg.py```
+Open the `demoanalyzer_cfg.py` file using the `nano` editor. 
+
+> Our container comes equiped with legacy software repositories.  Note that you could install a different editor (or any other available program) in the container by issuing, for instance, `sudo yum update` and then `sudo yum install emacs`.
+{: .testimonial}
+
+If you're an absolute command line editor hater, you can also copy the file to the shared volume ```~/cms_open_data_work``` (if you created one before) and edit it in your local computer and copy it back again to ```DemoAnalyzer/demoanalyzer_cfg.py```
 
 ~~~
 nano Demo/DemoAnalyzer/demoanalyzer_cfg.py
