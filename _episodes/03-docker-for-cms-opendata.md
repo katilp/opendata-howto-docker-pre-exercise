@@ -86,6 +86,49 @@ CMSSW should now be available.
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>xhost <span class="nb">local</span>:root
 </code></pre></div></div>
 
+<p>If everything works fine, you are ready to continue with the lesson.</p>
+
+<blockquote class="solution">
+  <h2 id="if-you-still-have-problems-with-x11-forwarding">If you still have problems with X11 forwarding</h2>
+
+  <p><strong>Only in the case you are having problems with X11 forwarding</strong>, there is the option to create a container with an image with a VNC application installed <code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_5_3_32_vnc:latest</code>:</p>
+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">-P</span> <span class="nt">-p</span> 5901:5901 cmsopendata/cmssw_5_3_32_vnc:latest /bin/bash
+</code></pre></div>  </div>
+
+  <p>This application allows opening graphical windows on a remote machine (seen from the container, your own computer is a remote machine). Start the application with <code class="language-plaintext highlighter-rouge">start_vnc</code> from your container prompt, and choose a password. You will need to start it every time you use the container (if you want to open graphics windows), but you will define the password only at the first time.</p>
+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/CMSSW_5_3_32/src <span class="nv">$ </span>start_vnc
+</code></pre></div>  </div>
+
+  <div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>You will require a password to access your desktops.
+
+Password:
+Verify:
+xauth:  file /home/cmsusr/.Xauthority does not exist
+
+New 'myvnc:1' desktop is e0ca768960bf:1
+
+Starting applications specified in /home/cmsusr/.vnc/xstartup
+Log file is /home/cmsusr/.vnc/e0ca768960bf:1.log
+
+VNC connection points:
+        VNC viewer address: 127.0.0.1:5901
+        OSX built-in VNC viewer command: open vnc://127.0.0.1:5901
+To kill the vncserver enter 'vncserver -kill :1'
+</code></pre></div>  </div>
+
+  <p>When you do this the first time, download a VNC viewer to your local machine from, e.g., <a href="https://sourceforge.net/projects/tigervnc/files/stable/1.11.0/">TigerVNC</a>. You can then access the GUI in TigerVNC Viewer with the address given in the startup message with the the password you’ve chosen. It opens with an xterminal of your container. To test, start ROOT by typing <code class="language-plaintext highlighter-rouge">root</code> in the container terminal prompt. In the ROOT prompt, type <code class="language-plaintext highlighter-rouge">TBrowser t</code> to open the ROOT graphical window. If the graphical window opens you are all set and you can exit from ROOT either by choosing the “Quit Root” option from Browser menu of the TBrowser window or by typing <code class="language-plaintext highlighter-rouge">.q</code> in the ROOT prompt.</p>
+
+  <p>You can copy from the VNC Viewer terminal by selecting with the mouse, and paste to it by a middle mouse button click. If you are using a touchpad, you may need to define “middle mouse button” in Settings -&gt; Devices -&gt; Touchpad. You can set it to a three-finger tap in “Taps” menu under “Three finger gestures”, or to another selection of your choice.</p>
+
+  <p>Importantly, take note of the command to kill the vncserver in the startup message, and before exiting the container type it in the container prompt. If you don’t do it, you will not be able to open the graphics window next time you use the same container. Then exit the container.</p>
+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/CMSSW_5_3_32/src <span class="nv">$ </span>vncserver <span class="nt">-kill</span> :1
+~/CMSSW_5_3_32/src <span class="nv">$ </span><span class="nb">exit</span>
+</code></pre></div>  </div>
+</blockquote>
+
             </article><!-- linux  -->
 
             <article role="tabpanel" class="tab-pane" id="shell-windows">

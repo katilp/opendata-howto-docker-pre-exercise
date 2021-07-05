@@ -45,6 +45,58 @@ xhost local:root
 ~~~
 {: .language-bash}
 
+If everything works fine, you are ready to continue with the lesson.
+
+> ## If you still have problems with X11 forwarding
+>
+> **Only in the case you are having problems with X11 forwarding**, there is the option to create a container with an image with a VNC application installed `cmsopendata/cmssw_5_3_32_vnc:latest`:
+> 
+> ~~~
+> docker run -it --name my_od -P -p 5901:5901 cmsopendata/cmssw_5_3_32_vnc:latest /bin/bash
+> ~~~
+> {: .language-bash}
+>
+> This application allows opening graphical windows on a remote machine (seen from the container, your own computer is a remote machine). Start the application with `start_vnc` from your container prompt, and choose a password. You will need to start it every time you use the container (if you want to open graphics windows), but you will define the password only at the first time.
+> 
+> ~~~
+> ~/CMSSW_5_3_32/src $ start_vnc
+> ~~~
+> {: .language-bash}
+> 
+> ~~~
+> You will require a password to access your desktops.
+> 
+> Password:
+> Verify:
+> xauth:  file /home/cmsusr/.Xauthority does not exist
+> 
+> New 'myvnc:1' desktop is e0ca768960bf:1
+> 
+> Starting applications specified in /home/cmsusr/.vnc/xstartup
+> Log file is /home/cmsusr/.vnc/e0ca768960bf:1.log
+> 
+> VNC connection points:
+>         VNC viewer address: 127.0.0.1:5901
+>         OSX built-in VNC viewer command: open vnc://127.0.0.1:5901
+> To kill the vncserver enter 'vncserver -kill :1'
+> ~~~
+> {: .output}
+>
+> When you do this the first time, download a VNC viewer to your local machine from, e.g., [TigerVNC](https://sourceforge.net/projects/tigervnc/files/stable/1.11.0/). You can then access the GUI in TigerVNC Viewer with the address given in the startup message with the the password you've chosen. It opens with an xterminal of your container. To test, start ROOT by typing `root` in the container terminal prompt. In the ROOT prompt, type `TBrowser t` to open the ROOT graphical window. If the graphical window opens you are all set and you can exit from ROOT either by choosing the "Quit Root" option from Browser menu of the TBrowser window or by typing `.q` in the ROOT prompt.
+> 
+> You can copy from the VNC Viewer terminal by selecting with the mouse, and paste to it by a middle mouse button click. If you are using a touchpad, you may need to define "middle mouse button" in Settings -> Devices -> Touchpad. You can set it to a three-finger tap in "Taps" menu under "Three finger gestures", or to another selection of your choice.
+> 
+> Importantly, take note of the command to kill the vncserver in the startup message, and before exiting the container type it in the container prompt. If you don't do it, you will not be able to open the graphics window next time you use the same container. Then exit the container.
+> 
+> ~~~
+> ~/CMSSW_5_3_32/src $ vncserver -kill :1
+> ~/CMSSW_5_3_32/src $ exit
+> ~~~
+> {: .language-bash}
+{: .solution}
+
+
+
 ### Mounting a local volume example
 
 Your full `docker run ...` command would then look like this:
