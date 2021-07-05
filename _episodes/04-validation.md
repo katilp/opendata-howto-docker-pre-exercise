@@ -29,6 +29,17 @@ The validation procedure tests that the CMS environment is installed and operati
 
 Verify first that you are in ```~/CMSSW_5_3_32/src``` directory. You can see that in the container prompt.
 
+Now, you could run the following command to create the CMS runtime variables (in the Docker container these variables are already set when you start the container, however, it will not hurt to issue this command again):
+
+~~~
+cmsenv
+~~~
+
+> ## Work assignment
+>
+> This is a good moment to go to our [assignment form](https://forms.gle/DDboG1MCcSNRBRHFA) and answer some simple questions for this pre-exercise; you must sign in and <strong style="color: red;">click on the submit button</strong> in order to save your work.  You can go back to edit the form at any time.
+{: .challenge}
+
 Create a working directory for the demo analyzer, change to that directory and create a *skeleton* for the analyzer:
 
 ~~~
@@ -38,9 +49,10 @@ mkedanlzr DemoAnalyzer
 ~~~
 {: .language-bash}
 
-Compile the code:
+Go back to the main `src` area and compile the code:
 
 ~~~
+cd ..
 scram b
 ~~~
 {: .language-bash}
@@ -52,7 +64,7 @@ Before launching the job, let's modify the configuration file (do not worry, you
 Open the `demoanalyzer_cfg.py` file using the `nano` editor. If you're an absolute command line editor hater, you can also copy the file to the shared volume ```~/cms_open_data_work``` (if you created one before) and edit it in your local computer and copy it back again to ```DemoAnalyzer/demoanalyzer_cfg.py```
 
 ~~~
-nano DemoAnalyzer/demoanalyzer_cfg.py
+nano Demo/DemoAnalyzer/demoanalyzer_cfg.py
 ~~~
 {: .language-bash}
 
@@ -87,7 +99,7 @@ Chage also the maximum number of events to 10.  I.e., change `-1`to `10` in `pro
 
 Finally, run the cms executable with our configuration:
 ~~~
-cmsRun DemoAnalyzer/demoanalyzer_cfg.py
+cmsRun Demo/DemoAnalyzer/demoanalyzer_cfg.py
 ~~~
 {: .language-bash}
 
@@ -130,3 +142,4 @@ System                  3                   3
 
 {% include links.md %}
 
+Congratulations! You are all set with your Docker environment.
