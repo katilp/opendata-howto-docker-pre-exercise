@@ -67,6 +67,11 @@ Docker provides the ability to create, build and/or modify images, which can the
 
 There are many [Docker commands](https://docs.docker.com/engine/reference/commandline/docker/) that can be executed for different tasks.  However, the most useful for our purposes are the following.  We will show some usage examples for some of these commands later.  Feel free to explore other commands.
 
+* Download image:
+~~~
+docker pull <image>
+~~~
+
 * List images:
 ~~~
 docker image ls
