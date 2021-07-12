@@ -21,6 +21,8 @@ CMSSW should now be available.
 
 This is now a bash shell in the CMS open data environment in which you have access to a complete CMS software release that is appropriate for interfacing with the 2011 and 2012 7 and 8 TeV datasets.
 
+As there are rate limits for pulls from Docker Hub, you may get the following error message: `docker: Error response from daemon: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading.`. In that case, try later (the limit is per 6 hours) or use the mirror `gitlab-registry.cern.ch/cms-cloud/cmssw-docker-opendata/cmssw_5_3_32` instead of `cmsopendata/cmssw_5_3_32`.
+
 Now let's understand the options that were used for the `docker run` command.
 
 * First, the `-it` (or `-i`) option means to start the container in interactive mode. Essentially, it means that you will end up inside the running container.
@@ -127,6 +129,8 @@ CMSSW should now be available.
 
 This is now a bash shell in the CMS open data environment in which you have access to a complete CMS software release that is appropriate for interfacing with the 2011 and 2012 7 and 8 TeV datasets.
 
+As there are rate limits for pulls from Docker Hub, you may get the following error message: `docker: Error response from daemon: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading.`. In that case, try later (the limit is per 6 hours) or use the mirror `gitlab-registry.cern.ch/cms-cloud/cmssw-docker-opendata/cmssw_5_3_32_vnc` instead of `cmsopendata/cmssw_5_3_32_vnc`.
+
 If the docker command exits without giving you the output above, see [this post](https://opendata-forum.cern.ch/t/running-cms-opendata-containers-in-wsl2/30) in the CERN Open Data forum (note in particular that the `.wslconfig` file that you need to add must not have a file extension, if Windows adds it automatically, rename the file).
 
 Now let's understand the options that were used for the `docker run` command.
@@ -207,6 +211,8 @@ CMSSW should now be available.
 {: .output}
 
 This is now a bash shell in the CMS open data environment in which you have access to a complete CMS software release that is appropriate for interfacing with the 2011 and 2012 7 and 8 TeV datasets.
+
+As there are rate limits for pulls from Docker Hub, you may get the following error message: `docker: Error response from daemon: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading.`. In that case, try later (the limit is per 6 hours) or use the mirror `gitlab-registry.cern.ch/cms-cloud/cmssw-docker-opendata/cmssw_5_3_32_vnc` instead of `cmsopendata/cmssw_5_3_32_vnc`.
 
 Now let's understand the options that were used for the `docker run` command.
 
