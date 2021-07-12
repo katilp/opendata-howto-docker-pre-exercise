@@ -54,13 +54,15 @@ Please follow the instructions below, depending on the operating system you are 
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">--net</span><span class="o">=</span>host <span class="nt">--env</span><span class="o">=</span><span class="s2">"DISPLAY"</span> <span class="nt">-v</span> <span class="nv">$HOME</span>/.Xauthority:/home/cmsusr/.Xauthority:rw  cmsopendata/cmssw_5_3_32:latest /bin/bash
 </code></pre></div></div>
-
+                       
 <div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Setting up CMSSW_5_3_32
 CMSSW should now be available.
 [21:53:43] cmsusr@docker-desktop ~/CMSSW_5_3_32/src $
 </code></pre></div></div>
 
 <p>This is now a bash shell in the CMS open data environment in which you have access to a complete CMS software release that is appropriate for interfacing with the 2011 and 2012 7 and 8 TeV datasets.</p>
+              
+<p>As there are rate limits for pulls from Docker Hub, you may get the following error message: <code class="language-plaintext highlighter-rouge">docker: Error response from daemon: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading.</code>. In that case, try later (the limit is per 6 hours) or use the mirror <code class="language-plaintext highlighter-rouge">gitlab-registry.cern.ch/cms-cloud/cmssw-docker-opendata/cmssw_5_3_32</code> instead of <code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_5_3_32</code>.</p>
 
 <p>Now let’s understand the options that were used for the <code class="language-plaintext highlighter-rouge">docker run</code> command.</p>
 
@@ -144,6 +146,8 @@ CMSSW should now be available.
 </code></pre></div></div>
 
 <p>This is now a bash shell in the CMS open data environment in which you have access to a complete CMS software release that is appropriate for interfacing with the 2011 and 2012 7 and 8 TeV datasets.</p>
+              
+<p>As there are rate limits for pulls from Docker Hub, you may get the following error message: <code class="language-plaintext highlighter-rouge">docker: Error response from daemon: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading.</code>. In that case, try later (the limit is per 6 hours) or use the mirror <code class="language-plaintext highlighter-rouge">gitlab-registry.cern.ch/cms-cloud/cmssw-docker-opendata/cmssw_5_3_32_vnc</code> instead of <code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_5_3_32_vnc</code>.</p>
 
 <p>If the docker command exits without giving you the output above, see <a href="https://opendata-forum.cern.ch/t/running-cms-opendata-containers-in-wsl2/30">this post</a> in the CERN Open Data forum (note in particular that the <code class="language-plaintext highlighter-rouge">.wslconfig</code> file that you need to add must not have a file extension, if Windows adds it automatically, rename the file).</p>
 
@@ -210,6 +214,8 @@ CMSSW should now be available.
 
 <p>This is now a bash shell in the CMS open data environment in which you have access to a complete CMS software release that is appropriate for interfacing with the 2011 and 2012 7 and 8 TeV datasets.</p>
 
+<p>As there are rate limits for pulls from Docker Hub, you may get the following error message: <code class="language-plaintext highlighter-rouge">docker: Error response from daemon: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading.</code>. In that case, try later (the limit is per 6 hours) or use the mirror <code class="language-plaintext highlighter-rouge">gitlab-registry.cern.ch/cms-cloud/cmssw-docker-opendata/cmssw_5_3_32_vnc</code> instead of <code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_5_3_32_vnc</code>.</p>
+              
 <p>Now let’s understand the options that were used for the <code class="language-plaintext highlighter-rouge">docker run</code> command.</p>
 
 <ul>
