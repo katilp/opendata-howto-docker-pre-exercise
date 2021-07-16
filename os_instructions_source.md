@@ -263,8 +263,9 @@ Importantly, take note of the command to kill the vncserver in the startup messa
 
 ### Mounting a local volume example
 
-Check this on Mac!
+Your full `docker run ...` command would then look like this:
+
 ~~~
-docker run -it --name my_od --net=host --env="DISPLAY" -v $HOME/.Xauthority:/home/cmsusr/.Xauthority:rw   -v ${HOME}/cms_open_data_work:/home/cmsusr/cms_open_data_work cmsopendata/cmssw_5_3_32 /bin/bash
+docker run -it --name my_od -P -p 5901:5901 -v ${HOME}/cms_open_data_work:/home/cmsusr/cms_open_data_work cmsopendata/cmssw_5_3_32_vnc:latest /bin/bash
 ~~~
 {: .language-bash}
