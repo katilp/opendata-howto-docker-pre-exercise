@@ -19,7 +19,7 @@ keypoints:
 
 ## Know your Docker image
 
-The Docker container we just created provides CMS computing environment to be used with the 2011 and 2012 CMS open data. The Docker container uses Scientific Linux CERN.  As it was mentioned before, it comes equipped with the [ROOT](http://root.cern.ch/) framework and the version of [CMS Software - CMSSW](http://cms-sw.github.io/) compatible with the CMS open data.
+The Docker container we just created provides CMS computing environment to be used with the 2015 CMS open data. The Docker container uses Scientific Linux CERN.  As it was mentioned before, it comes equipped with the [ROOT](http://root.cern.ch/) framework and the version of [CMS Software - CMSSW](http://cms-sw.github.io/) compatible with the CMS open data.
 
 Access to the data is through the [XRootD](https://xrootd.slac.stanford.edu/) protocol.
 
@@ -27,7 +27,7 @@ Access to the data is through the [XRootD](https://xrootd.slac.stanford.edu/) pr
 
 The validation procedure tests that the CMS environment is installed and operational on your Docker container, and that you have access to the CMS Open Data files. These steps also give you a quick introduction to the CMS environment.
 
-Verify first that you are in ```~/CMSSW_5_3_32/src``` directory. You can see that in the container prompt.
+Verify first that you are in ```~/CMSSW_7_6_7/src``` directory. You can see that in the container prompt.
 
 Now, you could run the following command to create the CMS runtime variables (in the Docker container these variables are already set when you start the container, however, it will not hurt to issue this command again):
 
