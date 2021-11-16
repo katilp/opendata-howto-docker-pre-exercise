@@ -15,8 +15,8 @@ and this workshop, and there is a separate pre-exercise for that.
 You should definitely take time to go through either this *or* the [VM exercise](https://cms-opendata-workshop.github.io/workshop2021-lesson-virtualmachine/) before
 participating in the workshop.
 
-If you run into problems with any of these steps, please reach out to the organizers
-through the dedicated [Mattermost channel][mattermost].
+<!--- If you run into problems with any of these steps, please reach out to the organizers
+through the dedicated [Mattermost channel][mattermost]. -->
 
 <!-- this is an html comment -->
 
