@@ -12,10 +12,12 @@ keypoints:
 - "The CMS Docker image contains all the required ingredients to start analyzing CMS open data."
 - "In order to test and validate the Docker container you can run a simple CMSSW job."  
 ---
+<!--
 > ## Helpline
 >
 > Remember that we are always available to help.  Our [Mattermost](https://mattermost.web.cern.ch/cmsodws2021/channels/docker-pre-exercise) channel is open.
 {: .callout}
+-->
 
 ## Know your Docker image
 
@@ -34,7 +36,8 @@ Now, you could run the following command to create the CMS runtime variables (in
 ~~~
 cmsenv
 ~~~
-<---!
+
+<!--
 > ## Work assignment
 >
 > This is a good moment to go to our [assignment form](https://forms.gle/DDboG1MCcSNRBRHFA) and answer some simple questions for this pre-exercise; you must sign in and <strong style="color: red;">click on the submit button</strong> in order to save your work.  You can go back to edit the form at any time.

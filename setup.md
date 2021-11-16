@@ -10,7 +10,7 @@ title: Setup
 > check out the [Software Carpentry lesson on the Unix shell](https://swcarpentry.github.io/shell-novice/).
 {: .prereq}
 
-<-- ! 
+<!--  
 > If you experience problems with clipboard sharing between your host machine and your Docker container, the [text dump file](files/lessonDump.txt) of the lesson might be of help. You can download this file directly in your container using, e.g., the `wget` command, and follow along to copy the necessary commands directly from the text file.
 >
 > Finally, please remember that you will find simple <strong style="color: red;">work assignments that must be submitted</strong> using our [assignment form](https://forms.gle/DDboG1MCcSNRBRHFA); you have to sign in and <strong style="color: red;">click on the submit button</strong> in order to save your work.  You can come back to edit the form at any time.
