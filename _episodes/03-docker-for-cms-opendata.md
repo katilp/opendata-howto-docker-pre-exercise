@@ -124,9 +124,9 @@ To kill the vncserver enter 'vncserver -kill :1'
 
   <p>You can copy from the VNC Viewer terminal by selecting with the mouse, and paste to it by a middle mouse button click. If you are using a touchpad, you may need to define “middle mouse button” in Settings -&gt; Devices -&gt; Touchpad. You can set it to a three-finger tap in “Taps” menu under “Three finger gestures”, or to another selection of your choice.</p>
 
-  <p>Importantly, take note of the command to kill the vncserver in the startup message, and before exiting the container type it in the container prompt. If you don’t do it, you will not be able to open the graphics window next time you use the same container. Then exit the container.</p>
+  <p>Importantly, stop the VNC server before exiting the container. If you don’t do it, you will not be able to open the graphics window next time you use the same container. Do the following:</p>
 
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/CMSSW_7_6_7/src <span class="nv">$ </span>vncserver <span class="nt">-kill</span> :1
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/CMSSW_7_6_7/src <span class="nv">$ </span><span class="nb">stop_vnc</span>
 ~/CMSSW_7_6_7/src <span class="nv">$ </span><span class="nb">exit</span>
 </code></pre></div>  </div>
 </blockquote>
@@ -252,9 +252,9 @@ VNC connection points:
 
 <p>You can access the GUI in the Mac VNC viewer. The first time you do this, enter your computer’s “Settings” menu and turn on “screen sharing” from the “Computer Settings” options, then click on “VNC Viewers” and enter the password you chose. Open the VNC viewer from “Finder” by choosing “connect to server” from the “Go” tab. Paste the “MacOS” address given in the container’s VNC startup message and connect. It opens with an xterminal of your container. To test, start ROOT by typing <code class="language-plaintext highlighter-rouge">root</code> in the container terminal prompt. In the ROOT prompt, type <code class="language-plaintext highlighter-rouge">TBrowser t</code> to open the ROOT graphical window. If the graphical window opens you are all set and you can exit from ROOT either by choosing the “Quit Root” option from Browser menu of the TBrowser window or by typing <code class="language-plaintext highlighter-rouge">.q</code> in the ROOT prompt.</p>
 
-<p>Importantly, take note of the command to kill the vncserver in the startup message, and before exiting the container type it in the container prompt. If you don’t do it, you will not be able to open the graphics window next time you use the same container. Then exit the container.</p>
+<p>Importantly, stop the VNC server before exiting the container. If you don’t do it, you will not be able to open the graphics window next time you use the same container. Do the following:</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/CMSSW_7_6_7/src <span class="nv">$ </span>vncserver <span class="nt">-kill</span> :1
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/CMSSW_7_6_7/src <span class="nv">$ </span><span class="nb">stop_vnc</span>
 ~/CMSSW_7_6_7/src <span class="nv">$ </span><span class="nb">exit</span>
 </code></pre></div></div>
 
