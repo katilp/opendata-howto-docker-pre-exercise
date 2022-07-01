@@ -52,7 +52,7 @@ Please follow the instructions below, depending on the operating system you are 
 
 <p>We will use the <code class="language-plaintext highlighter-rouge">docker run</code> command to create the container (downloading the appropriate image if it is the first time) and start it right away.</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">--net</span><span class="o">=</span>host <span class="nt">--env</span><span class="o">=</span><span class="s2">"DISPLAY"</span> <span class="nt">-v</span> <span class="nv">$HOME</span>/.Xauthority:/home/cmsusr/.Xauthority:rw  cmsopendata/cmssw_7_6_7:latest /bin/bash
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">--net</span><span class="o">=</span>host <span class="nt">--env</span><span class="o">=</span><span class="s2">"DISPLAY"</span> <span class="nt">-v</span> <span class="nv">$HOME</span>/.Xauthority:/home/cmsusr/.Xauthority:rw  cmssw_7_6_7-slc6_amd64_gcc493 /bin/bash
 </code></pre></div></div>
                        
 <div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Setting up CMSSW_7_6_7
@@ -62,7 +62,7 @@ CMSSW should now be available.
 
 <p>This is now a bash shell in the CMS open data environment in which you have access to a complete CMS software release that is appropriate for interfacing with the 2015 13 TeV datasets.</p>
               
-<p>As there are rate limits for pulls from Docker Hub, you may get the following error message: <code class="language-plaintext highlighter-rouge">docker: Error response from daemon: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading.</code>. In that case, try later (the limit is per 6 hours) or use the mirror <code class="language-plaintext highlighter-rouge">gitlab-registry.cern.ch/cms-cloud/cmssw-docker-opendata/cmssw_7_6_7</code> instead of <code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_7_6_7</code>.</p>
+<p>As there are rate limits for pulls from Docker Hub, you may get the following error message: <code class="language-plaintext highlighter-rouge">docker: Error response from daemon: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading.</code>. In that case, try later (the limit is per 6 hours) or use the mirror <code class="language-plaintext highlighter-rouge">gitlab-registry.cern.ch/cms-cloud/cmssw-docker-opendata/cmssw_7_6_7-slc6_amd64_gcc493</code> instead of <code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493</code>.</p>
 
 <p>Now let’s understand the options that were used for the <code class="language-plaintext highlighter-rouge">docker run</code> command.</p>
 
@@ -72,7 +72,7 @@ CMSSW should now be available.
   <li>The <code class="language-plaintext highlighter-rouge">--net=host</code> switch will allow you to use the host network (Internet access) in the container.</li>
   <li>The <code class="language-plaintext highlighter-rouge">--env</code> switch will forward the appropiate <code class="language-plaintext highlighter-rouge">DISPLAY</code> environmental variable from the host machine to the container so X11-forwarding (the ability to open graphical windows inside the container) can be achieved.</li>
   <li>For X11-forwarding to be functional, your local <code class="language-plaintext highlighter-rouge">$HOME/.Xauthority</code> file needs to be mounted as the <code class="language-plaintext highlighter-rouge">/home/cmsusr/.Xauthority</code> file inside the container.  We do this using the <code class="language-plaintext highlighter-rouge">--volume</code> (or <code class="language-plaintext highlighter-rouge">-v</code>) switch. Note that the colon (<code class="language-plaintext highlighter-rouge">:</code>) symbol separates the source and destination points for the mounting procedure. In addition, the <code class="language-plaintext highlighter-rouge">rw</code> tag is given (aslo separated by <code class="language-plaintext highlighter-rouge">:</code>) so it can be read and written if necessary. <strong>Optionally</strong>, you could mount any directory from your local machine to the container using the <code class="language-plaintext highlighter-rouge">-v</code> option.  This is sometimes useful; for instance, by adding <code class="language-plaintext highlighter-rouge">-v /home/joe/playground:/playground</code> to the command line, the <code class="language-plaintext highlighter-rouge">playground</code> area can be mounted on the container and serve as a shared area between your local machine and the container. You will check out an example below.</li>
-  <li><code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_7_6_7:latest</code> is the name (and <code class="language-plaintext highlighter-rouge">:version</code>) of the image we will use. If no label is prepended, Docker assumes that it resides in <a href="https://hub.docker.com/">Docker Hub</a>, the official image repository of Docker.</li>
+  <li><code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493</code> is the name (and <code class="language-plaintext highlighter-rouge">:version</code>) of the image we will use. If no label is prepended, Docker assumes that it resides in <a href="https://hub.docker.com/">Docker Hub</a>, the official image repository of Docker.</li>
   <li>Finally, the <code class="language-plaintext highlighter-rouge">/bin/bash</code> option will throw the container into a <code class="language-plaintext highlighter-rouge">bash</code> shell when running interactively.</li>
 </ul>
 
@@ -93,9 +93,9 @@ CMSSW should now be available.
 <blockquote class="solution">
   <h2 id="if-you-still-have-problems-with-x11-forwarding">If you still have problems with X11 forwarding</h2>
 
-  <p><strong>Only in the case you are having problems with X11 forwarding</strong>, there is the option to create a container with an image with a VNC application installed <code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_7_6_7_vnc:latest</code>:</p>
+  <p><strong>Only in the case you are having problems with X11 forwarding</strong>, there is the option of using a VNC application installed in the container image:</p>
 
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">-P</span> <span class="nt">-p</span> 5901:5901 cmsopendata/cmssw_7_6_7_vnc:latest /bin/bash
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">-P</span> <span class="nt">-p</span> 5901:5901 cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493:latest /bin/bash
 </code></pre></div>  </div>
 
   <p>This application allows opening graphical windows on a remote machine (seen from the container, your own computer is a remote machine). Start the application with <code class="language-plaintext highlighter-rouge">start_vnc</code> from your container prompt, and choose a password. You will need to start it every time you use the container (if you want to open graphics windows), but you will define the password only at the first time.</p>
@@ -137,7 +137,7 @@ To kill the vncserver enter 'vncserver -kill :1'
 
 <p>Start the image download and open the container with</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">-P</span> <span class="nt">-p</span> 5901:5901 cmsopendata/cmssw_7_6_7_vnc:latest /bin/bash
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">-P</span> <span class="nt">-p</span> 5901:5901 cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493 /bin/bash
 </code></pre></div></div>
 
 <div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Setting up CMSSW_7_6_7
@@ -147,7 +147,7 @@ CMSSW should now be available.
 
 <p>This is now a bash shell in the CMS open data environment in which you have access to a complete CMS software release that is appropriate for interfacing with the 2015 13 TeV datasets.</p>
               
-<p>As there are rate limits for pulls from Docker Hub, you may get the following error message: <code class="language-plaintext highlighter-rouge">docker: Error response from daemon: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading.</code>. In that case, try later (the limit is per 6 hours) or use the mirror <code class="language-plaintext highlighter-rouge">gitlab-registry.cern.ch/cms-cloud/cmssw-docker-opendata/cmssw_7_6_7_vnc</code> instead of <code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_7_6_7_vnc</code>.</p>
+<p>As there are rate limits for pulls from Docker Hub, you may get the following error message: <code class="language-plaintext highlighter-rouge">docker: Error response from daemon: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading.</code>. In that case, try later (the limit is per 6 hours) or use the mirror <code class="language-plaintext highlighter-rouge">gitlab-registry.cern.ch/cms-cloud/cmssw-docker-opendata/cmssw_7_6_7-slc6_amd64_gcc493</code> instead of <code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_7_6_7_vnc</code>.</p>
 
 <p>If the docker command exits without giving you the output above, see <a href="https://opendata-forum.cern.ch/t/running-cms-opendata-containers-in-wsl2/30">this post</a> in the CERN Open Data forum (note in particular that the <code class="language-plaintext highlighter-rouge">.wslconfig</code> file that you need to add must not have a file extension, if Windows adds it automatically, rename the file).</p>
 
@@ -157,7 +157,7 @@ CMSSW should now be available.
   <li>First, the <code class="language-plaintext highlighter-rouge">-it</code> (or <code class="language-plaintext highlighter-rouge">-i</code>) option means to start the container in interactive mode. Essentially, it means that you will end up inside the running container.</li>
   <li>We assign a name to the container using the <code class="language-plaintext highlighter-rouge">--name</code> switch, so that we can refer back to this environment and still access any files we created in there. You can, of course, choose a different name than <code class="language-plaintext highlighter-rouge">my_od</code>.</li>
   <li>The options <code class="language-plaintext highlighter-rouge">-P -p 5901:5901</code> open/publish a port from the container to the local host, needed for the graphical windows</li>
-  <li><code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_7_6_7_vnc:latest</code> is the name (and <code class="language-plaintext highlighter-rouge">:version</code>) of the image we will use.  If no label is prepended, Docker assumes that it resides in <a href="https://hub.docker.com/">Docker Hub</a>, the official image repository of Docker.</li>
+  <li><code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493</code> is the name (and <code class="language-plaintext highlighter-rouge">:version</code>) of the image we will use.  If no label is prepended, Docker assumes that it resides in <a href="https://hub.docker.com/">Docker Hub</a>, the official image repository of Docker.</li>
   <li>Finally, the <code class="language-plaintext highlighter-rouge">/bin/bash</code> option will throw the container into a <code class="language-plaintext highlighter-rouge">bash</code> shell when running interactively.</li>
 </ul>
 
@@ -204,7 +204,7 @@ To kill the vncserver enter 'vncserver -kill :1'
 
 <p>Start the image download and open the container with</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">-P</span> <span class="nt">-p</span> 5901:5901 cmsopendata/cmssw_7_6_7_vnc:latest /bin/bash
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">-P</span> <span class="nt">-p</span> 5901:5901 cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493 /bin/bash
 </code></pre></div></div>
 
 <div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Setting up CMSSW_7_6_7
@@ -214,7 +214,7 @@ CMSSW should now be available.
 
 <p>This is now a bash shell in the CMS open data environment in which you have access to a complete CMS software release that is appropriate for interfacing with the 2015 13 TeV datasets.</p>
 
-<p>As there are rate limits for pulls from Docker Hub, you may get the following error message: <code class="language-plaintext highlighter-rouge">docker: Error response from daemon: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading.</code>. In that case, try later (the limit is per 6 hours) or use the mirror <code class="language-plaintext highlighter-rouge">gitlab-registry.cern.ch/cms-cloud/cmssw-docker-opendata/cmssw_7_6_7_vnc</code> instead of <code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_7_6_7_vnc</code>.</p>
+<p>As there are rate limits for pulls from Docker Hub, you may get the following error message: <code class="language-plaintext highlighter-rouge">docker: Error response from daemon: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading.</code>. In that case, try later (the limit is per 6 hours) or use the mirror <code class="language-plaintext highlighter-rouge">gitlab-registry.cern.ch/cms-cloud/cmssw-docker-opendata/cmssw_7_6_7-slc6_amd64_gcc493</code> instead of <code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493</code>.</p>
               
 <p>Now let’s understand the options that were used for the <code class="language-plaintext highlighter-rouge">docker run</code> command.</p>
 
@@ -222,7 +222,7 @@ CMSSW should now be available.
   <li>First, the <code class="language-plaintext highlighter-rouge">-it</code> (or <code class="language-plaintext highlighter-rouge">-i</code>) option means to start the container in interactive mode. Essentially, it means that you will end up inside the running container.</li>
   <li>We assign a name to the container using the <code class="language-plaintext highlighter-rouge">--name</code> switch, so that we can refer back to this environment and still access any files we created in there. You can, of course, choose a different name than <code class="language-plaintext highlighter-rouge">my_od</code>.</li>
   <li>The options <code class="language-plaintext highlighter-rouge">-P -p 5901:5901</code> open/publish a port from the container to the local host, needed for the graphical windows</li>
-  <li><code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_7_6_7_vnc:latest</code> is the name (and <code class="language-plaintext highlighter-rouge">:version</code>) of the image we will use.  If no label is prepended, Docker assumes that it resides in <a href="https://hub.docker.com/">Docker Hub</a>, the official image repository of Docker.</li>
+  <li><code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493</code> is the name (and <code class="language-plaintext highlighter-rouge">:version</code>) of the image we will use.  If no label is prepended, Docker assumes that it resides in <a href="https://hub.docker.com/">Docker Hub</a>, the official image repository of Docker.</li>
   <li>Finally, the <code class="language-plaintext highlighter-rouge">/bin/bash</code> option will throw the container into a <code class="language-plaintext highlighter-rouge">bash</code> shell when running interactively.</li>
 </ul>
 
@@ -477,7 +477,7 @@ Follow the example below, depending on your operating system.
 
 <p>Your full <code class="language-plaintext highlighter-rouge">docker run ...</code> command would then look like this:</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">--net</span><span class="o">=</span>host <span class="nt">--env</span><span class="o">=</span><span class="s2">"DISPLAY"</span> <span class="nt">-v</span> <span class="nv">$HOME</span>/.Xauthority:/home/cmsusr/.Xauthority:rw   <span class="nt">-v</span> <span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/cms_open_data_work:/home/cmsusr/cms_open_data_work cmsopendata/cmssw_7_6_7 /bin/bash
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">--net</span><span class="o">=</span>host <span class="nt">--env</span><span class="o">=</span><span class="s2">"DISPLAY"</span> <span class="nt">-v</span> <span class="nv">$HOME</span>/.Xauthority:/home/cmsusr/.Xauthority:rw   <span class="nt">-v</span> <span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/cms_open_data_work:/home/cmsusr/cms_open_data_work cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493 /bin/bash
 </code></pre></div></div>
 
             </article><!-- Linux  -->
@@ -486,7 +486,7 @@ Follow the example below, depending on your operating system.
 
 <p>Your full <code class="language-plaintext highlighter-rouge">docker run ...</code> command would then look like this:</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">-P</span> <span class="nt">-p</span> 5901:5901 <span class="nt">-v</span> <span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/cms_open_data_work:/home/cmsusr/cms_open_data_work cmsopendata/cmssw_7_6_7_vnc:latest /bin/bash
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">-P</span> <span class="nt">-p</span> 5901:5901 <span class="nt">-v</span> <span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/cms_open_data_work:/home/cmsusr/cms_open_data_work cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493 /bin/bash
 </code></pre></div></div>
 
             </article><!-- Windows  -->
@@ -495,7 +495,7 @@ Follow the example below, depending on your operating system.
 
 <p>Your full <code class="language-plaintext highlighter-rouge">docker run ...</code> command would then look like this:</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">-P</span> <span class="nt">-p</span> 5901:5901 <span class="nt">-v</span> <span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/cms_open_data_work:/home/cmsusr/cms_open_data_work cmsopendata/cmssw_7_6_7_vnc:latest /bin/bash
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">-P</span> <span class="nt">-p</span> 5901:5901 <span class="nt">-v</span> <span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/cms_open_data_work:/home/cmsusr/cms_open_data_work cmssw_7_6_7-slc6_amd64_gcc493 /bin/bash
 </code></pre></div></div>              
 
             </article><!-- Mac  -->         
