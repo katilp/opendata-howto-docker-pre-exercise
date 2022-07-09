@@ -25,17 +25,40 @@ The Docker container we just created provides CMS computing environment to be us
 
 Access to the data is through the [XRootD](https://xrootd.slac.stanford.edu/) protocol.
 
+## Link to the working directory
+
+When your Docker container starts up, it puts you in `/home/cmsusr/CMSSW_7_6_7/src`, but your new mounted directory is `/home/cmsusr/cms_open_data_work`.
+The easiest thing to do is to create a soft link to that directory from inside `/home/cmsusr/CMSSW_7_6_7/src` using `ln -s ...` as shown below,
+and then do your work in that directory.
+
+> ## Warning!
+> Sometimes the local volume is mounted in the Docker container as the wrong user/group. It should be
+> `cmsusr` but sometimes is mounted as `cmsinst`. Note that in the following set of commands, we add a line
+> to change the user/group with the `chown` command.
+>
+> If this is an issue, you'll also need to do this in the container for any new directories you check out
+> on your local machine.
+{: .callout}
+
+
+> ## Docker container
+> ~~~
+> cd /home/cmsusr/CMSSW_7_6_7/src
+> sudo chown -R cmsusr.cmsusr ~/cms_open_data_work/ # this is only needed if owner of cms_open_data_work is not cmsusr
+> ln -s ~/cms_open_data_work/
+> cd /home/cmsusr/CMSSW_7_6_7/src/cms_open_data_work/
+> ~~~
+> {: .language-bash}
+{: .prereq}
+
+Now, open a new terminal on your local machine (or simply exit out of your container) and you can use that to check out the git repositories and editing files
+you'll be working with.
+
 ## Run a simple *demo* for testing and validating
 
 The validation procedure tests that the CMS environment is installed and operational on your Docker container, and that you have access to the CMS Open Data files. These steps also give you a quick introduction to the CMS environment.
 
 Verify first that you are in ```~/CMSSW_7_6_7/src``` directory. You can see that in the container prompt.
-
-Now, you could run the following command to create the CMS runtime variables (in the Docker container these variables are already set when you start the container, however, it will not hurt to issue this command again):
-
-~~~
-cmsenv
-~~~
 
 <!--
 > ## Work assignment
@@ -64,17 +87,7 @@ You can safely ignore the warning.
 
 Before launching the job, let's modify the configuration file (do not worry, you will learn about all this stuff in a different [lesson](https://cms-opendata-workshop.github.io/workshop2021-lesson-cmssw/)) so it is able access a CMS open data file.
 
-Open the `demoanalyzer_cfg.py` file using the `nano` editor. 
-
-> Our container comes equiped with legacy software repositories.  Note that you could install a different editor (or any other available program) in the container by issuing, for instance, `sudo yum update` and then `sudo yum install emacs`.
-{: .testimonial}
-
-If you're an absolute command line editor hater, you can also copy the file to the shared volume ```~/cms_open_data_work``` (if you created one before) and edit it in your local computer and copy it back again to ```DemoAnalyzer/demoanalyzer_cfg.py```
-
-~~~
-nano Demo/DemoAnalyzer/demoanalyzer_cfg.py
-~~~
-{: .language-bash}
+Open the `demoanalyzer_cfg.py` in the `Demo/DemoAnalyzer` directory with your normal editor on your local computer. As the working directory has been mounted into the container, all changes take effect there as well. 
 
 Replace `file:myfile.root` with `'root://eospublic.cern.ch//eos/opendata/cms/Run2012B/DoubleMuParked/AOD/22Jan2013-v1/10000/1EC938EF-ABEC-E211-94E0-90E6BA442F24.root'` to point to an example file.
 
