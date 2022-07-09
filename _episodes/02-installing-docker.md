@@ -112,7 +112,7 @@ docker run [options] <image>
 ~~~
   This command will be used later to create our CMS open data container.
   
-  The option for mounting a volume from the local computer to the container will also be used so that you can edit files on your normal editor and used them in the container:
+  The option `-v` for mounting a directory from the local computer to the container will also be used so that you can edit files on your normal editor and used them in the container:
 ~~~
 docker -v <directory-on-your-local-computer>:<directory-in-the-container> <image>
 ~~~
