@@ -35,9 +35,9 @@ The containers do not have editors and it is expected that you mount your workin
 
 ## Download the docker image for CMS open data and start a container
 
-The first time you start a container, a docker image file gets downloaded from an image registry. The CMS open data image is large and it may take some time to
-download, even as long as 20-30 minutes, depending on the speed of your internet
-connection. After the download, a container created from that image starts. The download needs to be done only once. Afterwards, when starting a container, it will find the downloaded image on your computer, and it will be much faster.
+The first time you start a container, a docker image file gets downloaded from an image registry. The CMS open data image is large (6.6GB) and it may take very long to
+download, depending on the speed of your internet
+connection. After the download, a container created from that image starts. The image download needs to be done only once. Afterwards, when starting a container, it will find the downloaded image on your computer, and it will be much faster.
 
 The containers do not have editors and it is expected that you mount your working directory from the local computer to the container, and use your normal editor for editing the files. Note that all your compiling and executing still has to be done *in the Docker container*!
 
@@ -70,7 +70,7 @@ Then start the container following the instruction below depending on the operat
 
 <p>We will use the <code class="language-plaintext highlighter-rouge">docker run</code> command to create the container (downloading the appropriate image if it is the first time) and start it right away.</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">--net</span><span class="o">=</span>host <span class="nt">--env</span><span class="o">=</span><span class="s2">"DISPLAY"</span> <span class="nt">-v</span> <span class="nv">$HOME</span>/.Xauthority:/home/cmsusr/.Xauthority:rw  -v ${HOME}/cms_open_data_work:/home/cmsusr cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493 /bin/bash
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -it --name my_od --net=host --env="DISPLAY" -v $HOME/.Xauthority:/home/cmsusr/.Xauthority:rw  -v ${HOME}/cms_open_data_work:/home/cmsusr cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493 /bin/bash
 </code></pre></div></div>
                        
 <div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Setting up CMSSW_7_6_7
@@ -90,7 +90,7 @@ CMSSW should now be available.
   <li>The <code class="language-plaintext highlighter-rouge">--net=host</code> switch will allow you to use the host network (Internet access) in the container.</li>
   <li>The <code class="language-plaintext highlighter-rouge">--env</code> switch will forward the appropiate <code class="language-plaintext highlighter-rouge">DISPLAY</code> environmental variable from the host machine to the container so X11-forwarding (the ability to open graphical windows inside the container) can be achieved.</li>
   <li>For X11-forwarding to be functional, your local <code class="language-plaintext highlighter-rouge">$HOME/.Xauthority</code> file needs to be mounted as the <code class="language-plaintext highlighter-rouge">/home/cmsusr/.Xauthority</code> file inside the container.  We do this using the <code class="language-plaintext highlighter-rouge">--volume</code> (or <code class="language-plaintext highlighter-rouge">-v</code>) switch. Note that the colon (<code class="language-plaintext highlighter-rouge">:</code>) symbol separates the source and destination points for the mounting procedure. In addition, the <code class="language-plaintext highlighter-rouge">rw</code> tag is given (aslo separated by <code class="language-plaintext highlighter-rouge">:</code>) so it can be read and written if necessary. <strong>Optionally</strong>, you could mount any directory from your local machine to the container using the <code class="language-plaintext highlighter-rouge">-v</code> option.  This is sometimes useful; for instance, by adding <code class="language-plaintext highlighter-rouge">-v /home/joe/playground:/playground</code> to the command line, the <code class="language-plaintext highlighter-rouge">playground</code> area can be mounted on the container and serve as a shared area between your local machine and the container. You will check out an example below.</li>
-  <li><code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493</code> is the name (and <code class="language-plaintext highlighter-rouge">:version</code>) of the image we will use. If no label is prepended, Docker assumes that it resides in <a href="https://hub.docker.com/">Docker Hub</a>, the official image repository of Docker.</li>
+  <li><code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493</code> is the name of the image we will use. If no label is prepended, Docker assumes that it resides in <a href="https://hub.docker.com/">Docker Hub</a>, the official image repository of Docker.</li>
   <li>Finally, the <code class="language-plaintext highlighter-rouge">/bin/bash</code> option will throw the container into a <code class="language-plaintext highlighter-rouge">bash</code> shell when running interactively.</li>
 </ul>
 
@@ -111,9 +111,9 @@ CMSSW should now be available.
 <blockquote class="solution">
   <h2 id="if-you-still-have-problems-with-x11-forwarding">If you still have problems with X11 forwarding</h2>
 
-  <p><strong>Only in the case you are having problems with X11 forwarding</strong>, there is the option of using a VNC application installed in the container image:</p>
+  <p><strong>In the case you are having problems with X11 forwarding</strong>, there is the option of using a VNC application installed in the container image:</p>
 
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">-P</span> <span class="nt">-p</span> 5901:5901  -p 6080:6080 cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493:latest /bin/bash
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -it --name my_od -P -p 5901:5901  -p 6080:6080 -v ${HOME}/cms_open_data_work:/home/cmsusr cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493:latest /bin/bash
 </code></pre></div>  </div>
 
   <p>This application allows opening graphical windows on a remote machine (seen from the container, your own computer is a remote machine). Start the application with <code class="language-plaintext highlighter-rouge">start_vnc</code> from your container prompt, and choose a password. You will need to start it every time you use the container (if you want to open graphics windows), but you will define the password only at the first time.</p>
@@ -155,7 +155,7 @@ To kill the vncserver enter 'vncserver -kill :1'
 
 <p>Start the image download and open the container with</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">-P</span> <span class="nt">-p</span> 5901:5901  -p 6080:6080 -v ${HOME}/cms_open_data_work:/home/cmsusr cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493 /bin/bash
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -it --name my_od -P -p 5901:5901 -p 6080:6080 -v ${HOME}/cms_open_data_work:/home/cmsusr cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493 /bin/bash
 </code></pre></div></div>
 
 <div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Setting up CMSSW_7_6_7
@@ -174,8 +174,8 @@ CMSSW should now be available.
 <ul>
   <li>First, the <code class="language-plaintext highlighter-rouge">-it</code> (or <code class="language-plaintext highlighter-rouge">-i</code>) option means to start the container in interactive mode. Essentially, it means that you will end up inside the running container.</li>
   <li>We assign a name to the container using the <code class="language-plaintext highlighter-rouge">--name</code> switch, so that we can refer back to this environment and still access any files we created in there. You can, of course, choose a different name than <code class="language-plaintext highlighter-rouge">my_od</code>.</li>
-  <li>The options <code class="language-plaintext highlighter-rouge">-P -p 5901:5901</code> open/publish a port from the container to the local host, needed for the graphical windows</li>
-  <li><code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493</code> is the name (and <code class="language-plaintext highlighter-rouge">:version</code>) of the image we will use.  If no label is prepended, Docker assumes that it resides in <a href="https://hub.docker.com/">Docker Hub</a>, the official image repository of Docker.</li>
+  <li>The options <code class="language-plaintext highlighter-rouge">-P -p 5901:5901 -p 6080:6080</code> open/publish ports from the container to the local host, needed for the graphical windows</li>
+  <li><code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493</code> is the name of the image we will use.  If no label is prepended, Docker assumes that it resides in <a href="https://hub.docker.com/">Docker Hub</a>, the official image repository of Docker.</li>
   <li>Finally, the <code class="language-plaintext highlighter-rouge">/bin/bash</code> option will throw the container into a <code class="language-plaintext highlighter-rouge">bash</code> shell when running interactively.</li>
 </ul>
 
@@ -222,7 +222,7 @@ To kill the vncserver enter 'vncserver -kill :1'
 
 <p>Start the image download and open the container with</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">-P</span> <span class="nt">-p</span> 5901:5901  -p 6080:6080 -v ${HOME}/cms_open_data_work:/home/cmsusr cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493 /bin/bash
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -it --name my_od -P -p 5901:5901 -p 6080:6080 -v ${HOME}/cms_open_data_work:/home/cmsusr cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493 /bin/bash
 </code></pre></div></div>
 
 <div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Setting up CMSSW_7_6_7
@@ -239,8 +239,8 @@ CMSSW should now be available.
 <ul>
   <li>First, the <code class="language-plaintext highlighter-rouge">-it</code> (or <code class="language-plaintext highlighter-rouge">-i</code>) option means to start the container in interactive mode. Essentially, it means that you will end up inside the running container.</li>
   <li>We assign a name to the container using the <code class="language-plaintext highlighter-rouge">--name</code> switch, so that we can refer back to this environment and still access any files we created in there. You can, of course, choose a different name than <code class="language-plaintext highlighter-rouge">my_od</code>.</li>
-  <li>The options <code class="language-plaintext highlighter-rouge">-P -p 5901:5901</code> open/publish a port from the container to the local host, needed for the graphical windows</li>
-  <li><code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493</code> is the name (and <code class="language-plaintext highlighter-rouge">:version</code>) of the image we will use.  If no label is prepended, Docker assumes that it resides in <a href="https://hub.docker.com/">Docker Hub</a>, the official image repository of Docker.</li>
+  <li>The options <code class="language-plaintext highlighter-rouge">-P -p 5901:5901 -p 6080:6080</code> open/publish ports from the container to the local host, needed for the graphical windows</li>
+  <li><code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493</code> is the name of the image we will use.  If no label is prepended, Docker assumes that it resides in <a href="https://hub.docker.com/">Docker Hub</a>, the official image repository of Docker.</li>
   <li>Finally, the <code class="language-plaintext highlighter-rouge">/bin/bash</code> option will throw the container into a <code class="language-plaintext highlighter-rouge">bash</code> shell when running interactively.</li>
 </ul>
 
