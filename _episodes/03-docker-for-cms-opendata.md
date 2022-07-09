@@ -4,13 +4,13 @@ teaching: Self-guided
 exercises: 40 
 questions:
 - "How do I use docker to effectively interface with the CMS open data?"
+- "What container images are available for my work with the CMS open data?"
 objectives:
 - "Download the CMS open data docker image"
 - "Open your own CMS open data container and check that graphical windows open"
 - "Restart the same container"
 - "Copy files into or out of the container"
 - "Delete and rebuild containers"
-- "Share a local directory from your computer to the container (pass a volume)"
 keypoints:
 - "You have now set up a docker container as a working enviroment for CMS open data. You know how to open a graphical window in it and how to pass files between your own computer and the container."
 
@@ -24,8 +24,12 @@ cover containers and everything you can do with Docker. <!--- Reach out to the o
 using the [dedicated Mattermost channel][mattermost]
 if we are missing something. -->
 
-Some guidance can be found on the
-[Open Data Portal introduction to Docker](http://opendata.cern.ch/docs/cms-guide-docker). However, the use of graphical interfaces, such the graphics window from ROOT, depends on the operating system of your computer. Therefore, in the following, separate instructions are given for Windows WSL, Linux and MacOS.
+Three types of [container images](https://gitlab.cern.ch/cms-cloud/cmssw-docker-opendata/-/blob/master/README.md) are provided: one with the CMS software (CMSSW) compatible with the released data, and two others with [ROOT and python](https://cms-opendata-workshop.github.io/workshop2022-lesson-cpp-root-python/) libraries needed in this tutorial. The CMSSW container is mandatory if you want to access the CMS data in AOD and MiniAOD formats (you will learn about them later), as you will not be able to install CMSSW software on your own computer. The two others are provided to make setting up ROOT and/or python libraries easier for you for this tutorial, but if you wish, you can also install them on your computer. All container images come with [VNC](https://gitlab.cern.ch/cms-cloud/cmssw-docker-opendata/-/blob/master/README.md#use-vnc) for the graphical use interface.
+
+For different CMSSW container images, some guidance can be found on the
+[Open Data Portal introduction to Docker](http://opendata.cern.ch/docs/cms-guide-docker). In this tutorial, we will use the container image needed for the CMS open data from 2015. The use of graphical interfaces, such the graphics window from ROOT, depends on the operating system of your computer. Therefore, in the following, separate instructions are given for Windows WSL, Linux and MacOS.
+
+The containers do not have editors and it is expected that you mount your working directory from the local computer to the container, and use your normal editor for editing the files.
 
 
 
@@ -35,7 +39,21 @@ The first time you start a container, a docker image file gets downloaded from a
 download, even as long as 20-30 minutes, depending on the speed of your internet
 connection. After the download, a container created from that image starts. The download needs to be done only once. Afterwards, when starting a container, it will find the downloaded image on your computer, and it will be much faster.
 
-Please follow the instructions below, depending on the operating system you are using.
+The containers do not have editors and it is expected that you mount your working directory from the local computer to the container, and use your normal editor for editing the files. Note that all your compiling and executing still has to be done *in the Docker container*!
+
+First, before you start up your container, create a local directory
+where you will be doing your code development. In the example below, it is called
+`cms_open_data_work` and it will live in the `$HOME` directory. You may choose a different location and a shorter directory name if you like. :)
+
+> ## Local machine
+> ~~~
+> cd # This is to make sure I'm in my home directory
+> mkdir cms_open_data_work
+> ~~~
+> {: .language-bash}
+{: .challenge}
+
+Then start the container following the instruction below depending on the operating system you are using.
 
 <div id="docker-run">
 
@@ -52,7 +70,7 @@ Please follow the instructions below, depending on the operating system you are 
 
 <p>We will use the <code class="language-plaintext highlighter-rouge">docker run</code> command to create the container (downloading the appropriate image if it is the first time) and start it right away.</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">--net</span><span class="o">=</span>host <span class="nt">--env</span><span class="o">=</span><span class="s2">"DISPLAY"</span> <span class="nt">-v</span> <span class="nv">$HOME</span>/.Xauthority:/home/cmsusr/.Xauthority:rw  cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493 /bin/bash
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">--net</span><span class="o">=</span>host <span class="nt">--env</span><span class="o">=</span><span class="s2">"DISPLAY"</span> <span class="nt">-v</span> <span class="nv">$HOME</span>/.Xauthority:/home/cmsusr/.Xauthority:rw  -v ${HOME}/cms_open_data_work:/home/cmsusr cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493 /bin/bash
 </code></pre></div></div>
                        
 <div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Setting up CMSSW_7_6_7
@@ -95,7 +113,7 @@ CMSSW should now be available.
 
   <p><strong>Only in the case you are having problems with X11 forwarding</strong>, there is the option of using a VNC application installed in the container image:</p>
 
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">-P</span> <span class="nt">-p</span> 5901:5901 cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493:latest /bin/bash
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">-P</span> <span class="nt">-p</span> 5901:5901  -p 6080:6080 cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493:latest /bin/bash
 </code></pre></div>  </div>
 
   <p>This application allows opening graphical windows on a remote machine (seen from the container, your own computer is a remote machine). Start the application with <code class="language-plaintext highlighter-rouge">start_vnc</code> from your container prompt, and choose a password. You will need to start it every time you use the container (if you want to open graphics windows), but you will define the password only at the first time.</p>
@@ -137,7 +155,7 @@ To kill the vncserver enter 'vncserver -kill :1'
 
 <p>Start the image download and open the container with</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">-P</span> <span class="nt">-p</span> 5901:5901 cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493 /bin/bash
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">-P</span> <span class="nt">-p</span> 5901:5901  -p 6080:6080 -v ${HOME}/cms_open_data_work:/home/cmsusr cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493 /bin/bash
 </code></pre></div></div>
 
 <div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Setting up CMSSW_7_6_7
@@ -204,7 +222,7 @@ To kill the vncserver enter 'vncserver -kill :1'
 
 <p>Start the image download and open the container with</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">-P</span> <span class="nt">-p</span> 5901:5901 cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493 /bin/bash
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">-P</span> <span class="nt">-p</span> 5901:5901  -p 6080:6080 -v ${HOME}/cms_open_data_work:/home/cmsusr cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493 /bin/bash
 </code></pre></div></div>
 
 <div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Setting up CMSSW_7_6_7
@@ -417,129 +435,6 @@ docker rm $(docker ps -aq)
 > quite some time to download! Whew!
 >
 {: .callout}
-
-
-## Mounting a local volume
-
-Sometimes you may want to mount a filesystem from your local machine or some other remote system
-so that your docker container can see it. Let's first see how this is done in a general way.
-
-The basic usage is
-
-~~~
-docker run -v <path on host>:<path in container> <image>
-~~~
-{: .bash}
-
-Where the `path on host` is the full path to the local file system/directory you want to
-make available in the container. The `path in container` is where it will be mounted in your
-Docker container.
-
-There are more options and if you want to read more, please visit the
-[official Docker documentation](https://docs.docker.com/storage/volumes/).
-
-When working with the CMS open data, you will find yourself using this approach to have a local working directory for all your editing/version control, etc.
-Note that all your compiling and executing still has to be done *in the Docker container*!
-But having your source code also visible on your local laptop/desktop will make things easier for you.
-
-Let's try this. First, before you start up your container, create a local directory
-where you will be doing your code development. In the example below, I'm calling it
-`cms_open_data_work` and it will live in my `$HOME` directory. You may choose a shorter directory name if you like. :)
-
-> ## Local machine
-> ~~~
-> cd # This is to make sure I'm in my home directory
-> mkdir cms_open_data_work
-> ~~~
-> {: .language-bash}
-{: .challenge}
-
-Then fire up your Docker container, adding the following
-~~~
--v ${HOME}/cms_open_data_work:/home/cmsusr
-~~~
-{: .bash}
-
-Follow the example below, depending on your operating system.
-
-<div id="docker-run-with-mount">
-
-    <div>
-        <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a data-os="linux" href="#shell-linux-mnt" aria-controls="Linux" role="tab" data-toggle="tab">Linux</a></li>
-        <li role="presentation"><a data-os="windows" href="#shell-windows-mnt" aria-controls="Windows" role="tab" data-toggle="tab">Windows WSL2</a></li>
-        <li role="presentation"><a data-os="macos" href="#shell-macos-mnt" aria-controls="MacOS" role="tab" data-toggle="tab">MacOS</a></li>
-        </ul>
-
-        <div class="tab-content">
-
-            <article role="tabpanel" class="tab-pane active" id="shell-linux-mnt">
-
-<p>Your full <code class="language-plaintext highlighter-rouge">docker run ...</code> command would then look like this:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">--net</span><span class="o">=</span>host <span class="nt">--env</span><span class="o">=</span><span class="s2">"DISPLAY"</span> <span class="nt">-v</span> <span class="nv">$HOME</span>/.Xauthority:/home/cmsusr/.Xauthority:rw   <span class="nt">-v</span> <span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/cms_open_data_work:/home/cmsusr/cms_open_data_work cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493 /bin/bash
-</code></pre></div></div>
-
-            </article><!-- Linux  -->
-
-            <article role="tabpanel" class="tab-pane" id="shell-windows-mnt">
-
-<p>Your full <code class="language-plaintext highlighter-rouge">docker run ...</code> command would then look like this:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">-P</span> <span class="nt">-p</span> 5901:5901 <span class="nt">-v</span> <span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/cms_open_data_work:/home/cmsusr/cms_open_data_work cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493 /bin/bash
-</code></pre></div></div>
-
-            </article><!-- Windows  -->
-
-            <article role="tabpanel" class="tab-pane" id="shell-macos-mnt">
-
-<p>Your full <code class="language-plaintext highlighter-rouge">docker run ...</code> command would then look like this:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> my_od <span class="nt">-P</span> <span class="nt">-p</span> 5901:5901 <span class="nt">-v</span> <span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/cms_open_data_work:/home/cmsusr/cms_open_data_work cmssw_7_6_7-slc6_amd64_gcc493 /bin/bash
-</code></pre></div></div>              
-
-            </article><!-- Mac  -->         
-
-        </div> <!-- tab-contents  -->
-
-    </div><!-- nav-tabs  -->
-</div><!-- docker-run-with-mount  -->            
-
-
-~~~
-Setting up CMSSW_7_6_7
-CMSSW should now be available.
-~/CMSSW_7_6_7/src $
-~~~
-{: .output}
-
-When your Docker container starts up, it puts you in `/home/cmsusr/CMSSW_7_6_7/src`, but your new mounted directory is `/home/cmsusr/cms_open_data_work`.
-The easiest thing to do is to create a soft link to that directory from inside `/home/cmsusr/CMSSW_7_6_7/src` using `ln -s ...` as shown below,
-and then do your work in that directory.
-
-> ## Warning!
-> Sometimes the local volume is mounted in the Docker container as the wrong user/group. It should be
-> `cmsusr` but sometimes is mounted as `cmsinst`. Note that in the following set of commands, we add a line
-> to change the user/group with the `chown` command.
->
-> If this is an issue, you'll also need to do this in the container for any new directories you check out
-> on your local machine.
-{: .callout}
-
-
-> ## Docker container
-> ~~~
-> cd /home/cmsusr/CMSSW_7_6_7/src
-> sudo chown -R cmsusr.cmsusr ~/cms_open_data_work/ # this is only needed if owner of cms_open_data_work is not cmsusr
-> ln -s ~/cms_open_data_work/
-> cd /home/cmsusr/CMSSW_7_6_7/src/cms_open_data_work/
-> ~~~
-> {: .language-bash}
-{: .prereq}
-
-Now, open a new terminal on your local machine (or simply exit out of your container) and you can use that to check out the git repositories and editing files
-you'll be working with. We will see that in the next section.
-
 
 
 {% include links.md %}
