@@ -6,9 +6,10 @@ questions:
 - "How do I use docker to effectively interface with the CMS open data?"
 - "What container images are available for my work with the CMS open data?"
 objectives:
-- "Download the CMS open data docker image"
-- "Open your own CMS open data container and check that graphical windows open"
-- "Restart the same container"
+- "Download the CMSSW open data docker image"
+- "Open your own CMSSW open data container and check that graphical windows open"
+- "Download the ROOT and python images and build your own container"
+- "Restart an existing container"
 - "Copy files into or out of the container"
 - "Delete and rebuild containers"
 keypoints:
@@ -30,9 +31,9 @@ For different CMSSW container images, some guidance can be found on the
 [Open Data Portal introduction to Docker](http://opendata.cern.ch/docs/cms-guide-docker). In this tutorial, we will use the container image needed for the CMS open data from 2015. The use of graphical interfaces, such the graphics window from ROOT, depends on the operating system of your computer. Therefore, in the following, separate instructions are given for Windows WSL, Linux and MacOS.
 
 
-## Download the docker image for CMS open data and start a container
+## Download the docker image for CMSSW open data and start a container
 
-The first time you start a container, a docker image file gets downloaded from an image registry. The CMS open data image is large (6.6GB) and it may take very long to
+The first time you start a container, a docker image file gets downloaded from an image registry. The CMSSW open data image is large (6.6GB) and it may take very long to
 download, depending on the speed of your internet
 connection. After the download, a container created from that image starts. The image download needs to be done only once. Afterwards, when starting a container, it will find the downloaded image on your computer, and it will be much faster.
 
@@ -91,7 +92,7 @@ CMSSW should now be available.
   <li>The <code class="language-plaintext highlighter-rouge">--net=host</code> switch will allow you to use the host network (Internet access) in the container.</li>
   <li>The <code class="language-plaintext highlighter-rouge">--env</code> switch will forward the appropiate <code class="language-plaintext highlighter-rouge">DISPLAY</code> environmental variable from the host machine to the container so X11-forwarding (the ability to open graphical windows inside the container) can be achieved.</li>
   <li>For X11-forwarding to be functional, your local <code class="language-plaintext highlighter-rouge">$HOME/.Xauthority</code> file needs to be mounted as the <code class="language-plaintext highlighter-rouge">/home/cmsusr/.Xauthority</code> file inside the container.  We do this using the <code class="language-plaintext highlighter-rouge">--volume</code> (or <code class="language-plaintext highlighter-rouge">-v</code>) switch. Note that the colon (<code class="language-plaintext highlighter-rouge">:</code>) symbol separates the source and destination points for the mounting procedure. In addition, the <code class="language-plaintext highlighter-rouge">rw</code> tag is given (aslo separated by <code class="language-plaintext highlighter-rouge">:</code>) so it can be read and written if necessary. </li>
-  <li>With `-v ${HOME}/cms_open_data_work:/home/cmsusr`, the working directory `cms_open_data_work` that you created in your home directory is mounted with the `-v` option into the container's `/home/cmsusr` directory. This makes it possible to edit files in the CMSSW area of your container with your normal editor on your local computer.</li>
+  <li>With <code class="language-plaintext highlighter-rouge">-v ${HOME}/cms_open_data_work:/home/cmsusr</code>, the working directory <code class="language-plaintext highlighter-rouge">cms_open_data_work</code> that you created in your home directory is mounted with the <code class="language-plaintext highlighter-rouge">-v</code> option into the container's <code class="language-plaintext highlighter-rouge">/home/cmsusr</code> directory. This makes it possible to edit files in the CMSSW area of your container with your normal editor on your local computer.</li>
   <li><code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493</code> is the name of the image we will use. If no label is prepended, Docker assumes that it resides in <a href="https://hub.docker.com/">Docker Hub</a>, the official image repository of Docker.</li>
   <li>Finally, the <code class="language-plaintext highlighter-rouge">/bin/bash</code> option will throw the container into a <code class="language-plaintext highlighter-rouge">bash</code> shell when running interactively.</li>
 </ul>
@@ -177,7 +178,7 @@ CMSSW should now be available.
   <li>First, the <code class="language-plaintext highlighter-rouge">-it</code> (or <code class="language-plaintext highlighter-rouge">-i</code>) option means to start the container in interactive mode. Essentially, it means that you will end up inside the running container.</li>
   <li>We assign a name to the container using the <code class="language-plaintext highlighter-rouge">--name</code> switch, so that we can refer back to this environment and still access any files we created in there. You can, of course, choose a different name than <code class="language-plaintext highlighter-rouge">my_od</code>.</li>
   <li>The options <code class="language-plaintext highlighter-rouge">-P -p 5901:5901 -p 6080:6080</code> open/publish ports from the container to the local host, needed for the graphical windows</li>
-  <li>With `-v ${HOME}/cms_open_data_work:/home/cmsusr`, the working directory `cms_open_data_work` that you created in your home directory is mounted with the `-v` option into the container's `/home/cmsusr` directory. This makes it possible to edit files in the CMSSW area of your container with your normal editor on your local computer.</li>
+  <li>With <code class="language-plaintext highlighter-rouge">-v ${HOME}/cms_open_data_work:/home/cmsusr</code>, the working directory <code class="language-plaintext highlighter-rouge">cms_open_data_work</code> that you created in your home directory is mounted with the <code class="language-plaintext highlighter-rouge">-v</code> option into the container's <code class="language-plaintext highlighter-rouge">/home/cmsusr</code> directory. This makes it possible to edit files in the CMSSW area of your container with your normal editor on your local computer.</li>
   <li><code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493</code> is the name of the image we will use.  If no label is prepended, Docker assumes that it resides in <a href="https://hub.docker.com/">Docker Hub</a>, the official image repository of Docker.</li>
   <li>Finally, the <code class="language-plaintext highlighter-rouge">/bin/bash</code> option will throw the container into a <code class="language-plaintext highlighter-rouge">bash</code> shell when running interactively.</li>
 </ul>
@@ -243,8 +244,8 @@ CMSSW should now be available.
   <li>First, the <code class="language-plaintext highlighter-rouge">-it</code> (or <code class="language-plaintext highlighter-rouge">-i</code>) option means to start the container in interactive mode. Essentially, it means that you will end up inside the running container.</li>
   <li>We assign a name to the container using the <code class="language-plaintext highlighter-rouge">--name</code> switch, so that we can refer back to this environment and still access any files we created in there. You can, of course, choose a different name than <code class="language-plaintext highlighter-rouge">my_od</code>.</li>
   <li>The options <code class="language-plaintext highlighter-rouge">-P -p 5901:5901 -p 6080:6080</code> open/publish ports from the container to the local host, needed for the graphical windows</li>
-  <li>With `-v ${HOME}/cms_open_data_work:/home/cmsusr`, the working directory `cms_open_data_work` that you created in your home directory is mounted with the `-v` option into the container's `/home/cmsusr` directory. This makes it possible to edit files in the CMSSW area of your container with your normal editor on your local computer.</li>
-  <li><code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493</code> is the name of the image we will use.  If no label is prepended, Docker assumes that it resides in <a href="https://hub.docker.com/">Docker Hub</a>, the official image repository of Docker.</li>
+  <li>With <code class="language-plaintext highlighter-rouge">-v ${HOME}/cms_open_data_work:/home/cmsusr</code>, the working directory <code class="language-plaintext highlighter-rouge">cms_open_data_work</code> that you created in your home directory is mounted with the <code class="language-plaintext highlighter-rouge">-v</code> option into the container's <code class="language-plaintext highlighter-rouge">/home/cmsusr</code> directory. This makes it possible to edit files in the CMSSW area of your container with your normal editor on your local computer.</li>
+  <li><code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493</code> is the name of the image we will use.  If no label is prepended, Doc<li>With <code class="language-plaintext highlighter-rouge">-v ${HOME}/cms_open_data_work:/home/cmsusr</code>, the working directory <code class="language-plaintext highlighter-rouge">cms_open_data_work</code> that you created in your home directory is mounted with the <code class="language-plaintext highlighter-rouge">-v</code> option into the container's <code class="language-plaintext highlighter-rouge">/home/cmsusr</code> directory. This makes it possible to edit files in the CMSSW area of your container with your normal editor on your local computer.</li>ker assumes that it resides in <a href="https://hub.docker.com/">Docker Hub</a>, the official image repository of Docker.</li>
   <li>Finally, the <code class="language-plaintext highlighter-rouge">/bin/bash</code> option will throw the container into a <code class="language-plaintext highlighter-rouge">bash</code> shell when running interactively.</li>
 </ul>
 
