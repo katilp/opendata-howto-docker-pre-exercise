@@ -298,8 +298,8 @@ VNC connection points:
 
 <p>Importantly, stop the VNC server before exiting the container. If you don’t do it, you will not be able to open the graphics window next time you use the same container. Do the following:</p>
 
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/CMSSW_7_6_7/src <span class="nv">$ </span><span class="nb">stop_vnc</span>
-~/CMSSW_7_6_7/src <span class="nv">$ </span><span class="nb">exit</span>
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash-4.1 <span class="nv">$ </span><span class="nb">stop_vnc</span>
+bash-4.1 <span class="nv">$ </span><span class="nb">exit</span>
 </code></pre></div></div>
 
           </article><!-- Mac  -->
@@ -311,7 +311,7 @@ VNC connection points:
 
 ## Download the docker images for ROOT and python tools and start container
 
-Containers for ROOT and python libraries are provided for your convenience. These containers can be used in the [C++, ROOT and python tools lesson](https://cms-opendata-workshop.github.io/workshop2022-lesson-cpp-root-python/03-root-and-cpp-read-and-write/index.html).
+Containers for with ROOT and python libraries installed are provided for your convenience. These containers can be used in the [C++, ROOT and python tools lesson](https://cms-opendata-workshop.github.io/workshop2022-lesson-cpp-root-python/03-root-and-cpp-read-and-write/index.html) and later on for your work with CMS open data.
 
 ### ROOT container
 
@@ -361,7 +361,7 @@ The default VNC password is `cms.cern`.
 
 ## Coming back to the same container
 
- You can come back to the same container you've used earlier with the ```docker start ...``` command. Note that running the ```docker run ...``` command as before would create a new container from the image you've downloaded. This would be a new environment, and any files that you've made or any code that you've written before will not be there! To go to the same working area with all our files and code saved each time you will need to start the existing container.
+ You can come back to the same container you've used earlier with the ```docker start ...``` command. Note that running the ```docker run ...``` command as before would create a new container from the image you've downloaded. This would be a new environment, and any files that you've made or any code that you've written before will not be there unless they are in the working directory on your local computer which you mount into the the container. Most often, you do not want to create a new container but you would use the existing container to go to the same working area with all our files and code saved.
 
 There are two ways to do this: by giving your container instance a *name* or by making sure you
 reference the *container id*. The former approach is probably easier and preferred, but we discuss
