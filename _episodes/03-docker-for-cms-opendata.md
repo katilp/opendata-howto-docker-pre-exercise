@@ -51,7 +51,7 @@ where you will be doing your code development. In the example below, it is calle
 {: .challenge}
 
 > ## Warning!
-> If you do not create the directory on your local computer before creating the container, the directory is created automatically but with the wrong user/group. When starting the container, you will get a message `cannot make directory CMSSW_7_6_7 Permission denied`. In that case, delete the directory with ` rm -rf cms_open_data_work/`, and remove the failing container with `docker rm <container-name> so that you can use the same name. In the following, we will use `my_od` as the container name.
+> If you do not create the directory on your local computer before creating the container, the directory is created automatically but with the wrong user/group. When starting the container, you will get a message `cannot make directory CMSSW_7_6_7 Permission denied`. In that case, delete the directory with `rm -rf cms_open_data_work/`, and remove the failing container with `docker rm <container-name>` so that you can use the same name. In the following, we will use `my_od` as the container name.
 {: .callout}
 
 Then start the container following the instructions below depending on the operating system you are using.
