@@ -166,7 +166,7 @@ To kill the vncserver enter 'vncserver -kill :1'
 CMSSW should now be available.
 This is a standalone image for CMSSW_7_6_7 slc6_amd64_gcc493.
 bash-4.1$
-</code>
+</code></pre></div></div>
 
 <p>This is now a bash shell in the CMS open data environment in which you have access to a complete CMS software release that is appropriate for interfacing with the 2015 13 TeV datasets.</p>
               
