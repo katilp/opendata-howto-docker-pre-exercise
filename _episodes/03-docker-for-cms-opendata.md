@@ -67,7 +67,7 @@ Then start the container following the instruction below depending on the operat
 
 <p>We will use the <code class="language-plaintext highlighter-rouge">docker run</code> command to create the container (downloading the appropriate image if it is the first time) and start it right away.</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -it --name my_od --net=host --env="DISPLAY" -v $HOME/.Xauthority:/home/cmsusr/.Xauthority:rw  -v ${HOME}/cms_open_data_work:/home/cmsusr/cms_open_data_work cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493 /bin/bash
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -it --name my_od --net=host --env="DISPLAY" -v $HOME/.Xauthority:/home/cmsusr/.Xauthority:rw  -v ${HOME}/cms_open_data_work:/home/cmsusr cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493 /bin/bash
 </code></pre></div></div>
                        
 <div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Setting up CMSSW_7_6_7
@@ -110,7 +110,7 @@ CMSSW should now be available.
 
   <p><strong>In the case you are having problems with X11 forwarding</strong>, there is the option of using a VNC application installed in the container image:</p>
 
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -it --name my_od -P -p 5901:5901  -p 6080:6080 -v ${HOME}/cms_open_data_work:/home/cmsusr/cms_open_data_work cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493:latest /bin/bash
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -it --name my_od -P -p 5901:5901  -p 6080:6080 -v ${HOME}/cms_open_data_work:/home/cmsusr cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493:latest /bin/bash
 </code></pre></div>  </div>
 
   <p>This application allows opening graphical windows on a remote machine (seen from the container, your own computer is a remote machine). Start the application with <code class="language-plaintext highlighter-rouge">start_vnc</code> from your container prompt, and choose a password. You will need to start it every time you use the container (if you want to open graphics windows), but you will define the password only at the first time.</p>
@@ -152,7 +152,7 @@ To kill the vncserver enter 'vncserver -kill :1'
 
 <p>Start the image download and open the container with</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -it --name my_od -P -p 5901:5901 -p 6080:6080 -v ${HOME}/cms_open_data_work:/home/cmsusr/cms_open_data_work cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493 /bin/bash
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -it --name my_od -P -p 5901:5901 -p 6080:6080 -v ${HOME}/cms_open_data_work:/home/cmsusr cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493 /bin/bash
 </code></pre></div></div>
 
 <div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Setting up CMSSW_7_6_7
@@ -219,7 +219,7 @@ To kill the vncserver enter 'vncserver -kill :1'
 
 <p>Start the image download and open the container with</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -it --name my_od -P -p 5901:5901 -p 6080:6080 -v ${HOME}/cms_open_data_work:/home/cmsusr/cms_open_data_work cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493 /bin/bash
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -it --name my_od -P -p 5901:5901 -p 6080:6080 -v ${HOME}/cms_open_data_work:/home/cmsusr cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493 /bin/bash
 </code></pre></div></div>
 
 <div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Setting up CMSSW_7_6_7
