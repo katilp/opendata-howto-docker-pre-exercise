@@ -55,7 +55,7 @@ where you will be doing your code development. In the example below, it is calle
 > If you do not create the directory on your local computer before creating the container, the directory is created automatically but with the wrong user/group. When starting the container, you will get a message `cannot make directory CMSSW_7_6_7 Permission denied`. In that case, delete the directory with `rm -rf cms_open_data_work/`, and remove the failing container with `docker rm <container-name>` so that you can use the same name. In the following, we will use `my_od` as the container name.
 {: .callout}
 
-Then start the container following the instructions below depending on the operating system you are using.
+Start the container following the instructions below depending on the operating system you are using.
 
 <div id="docker-run">
 
@@ -77,7 +77,8 @@ Then start the container following the instructions below depending on the opera
                        
 <div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Setting up CMSSW_7_6_7
 CMSSW should now be available.
-[21:53:43] cmsusr@docker-desktop ~/CMSSW_7_6_7/src $
+This is a standalone image for CMSSW_7_6_7 slc6_amd64_gcc493.
+bash-4.1$
 </code></pre></div></div>
 
 <p>This is now a bash shell in the CMS open data environment in which you have access to a complete CMS software release that is appropriate for interfacing with the 2015 13 TeV datasets.</p>
@@ -156,15 +157,16 @@ To kill the vncserver enter 'vncserver -kill :1'
 
             <article role="tabpanel" class="tab-pane" id="shell-windows">
 
-<p>Start the image download and open the container with</p>
+<p>We will use the <code class="language-plaintext highlighter-rouge">docker run</code> command to create the container (downloading the appropriate image if it is the first time) and start it right away.</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -it --name my_od -P -p 5901:5901 -p 6080:6080 -v ${HOME}/cms_open_data_work:/home/cmsusr cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493 /bin/bash
 </code></pre></div></div>
 
 <div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Setting up CMSSW_7_6_7
 CMSSW should now be available.
-~/CMSSW_7_6_7/src $
-</code></pre></div></div>
+This is a standalone image for CMSSW_7_6_7 slc6_amd64_gcc493.
+bash-4.1$
+</code>
 
 <p>This is now a bash shell in the CMS open data environment in which you have access to a complete CMS software release that is appropriate for interfacing with the 2015 13 TeV datasets.</p>
               
@@ -187,9 +189,15 @@ CMSSW should now be available.
 
 <p>Now, first make sure that you can copy instructions from a browser page to the container terminal. It works in the same manner as the local WSL linux terminal, i.e. you can usually copy from other sources with <code class="language-plaintext highlighter-rouge">Ctrl+C</code> and then paste into your container terminal with mouse right click. Copy from the terminal itself by selecting the text to be copied. If this does not work, you will see later in these instructions how to pass files from your local computer to the container.</p>
 
-<p>This container has a VNC application installed to allow opening graphical windows on a remote machine (seen from the container, your own computer is a remote machine). Start the application with <code class="language-plaintext highlighter-rouge">start_vnc</code> from your container prompt, and choose a password. You will need to start it every time you use the container (if you want to open graphics windows), but you will define the password only at the first time.</p>
+<p>This container has a VNC application installed to allow opening graphical windows on a remote machine (seen from the container, your own computer is a remote machine). When you use the container for the first time do the following:</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/CMSSW_7_6_7/src <span class="nv">$ </span>start_vnc
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash-4.1 <span class="nv">$ </span>echo "source /usr/local/vnc_utils.sh" >> /home/cmsusr/.bashrc
+bash-4.1 <span class="nv">$ </span>source /usr/local/vnc_utils.sh
+</code></pre></div></div>
+
+<p>Start the application with <code class="language-plaintext highlighter-rouge">start_vnc</code> from your container prompt, and choose a password. You will need to start it every time you use the container (if you want to open graphics windows), but you will define the password only at the first time.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash-4.1 <span class="nv">$ </span>start_vnc
 </code></pre></div></div>
 
 <div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>You will require a password to access your desktops.
@@ -215,8 +223,8 @@ To kill the vncserver enter 'vncserver -kill :1'
 
 <p>Importantly, stop the VNC server before exiting the container. If you don’t do it, you will not be able to open the graphics window next time you use the same container. Do the following:</p>
 
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/CMSSW_7_6_7/src <span class="nv">$ </span><span class="nb">stop_vnc</span>
-~/CMSSW_7_6_7/src <span class="nv">$ </span><span class="nb">exit</span>
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash-4.1 <span class="nv">$ </span><span class="nb">stop_vnc</span>
+bash-4.1 <span class="nv">$ </span><span class="nb">exit</span>
 </code></pre></div></div>
 
             </article><!-- Windows  -->
@@ -224,14 +232,15 @@ To kill the vncserver enter 'vncserver -kill :1'
 
             <article role="tabpanel" class="tab-pane" id="shell-macos">
 
-<p>Start the image download and open the container with</p>
+<p>We will use the <code class="language-plaintext highlighter-rouge">docker run</code> command to create the container (downloading the appropriate image if it is the first time) and start it right away.</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -it --name my_od -P -p 5901:5901 -p 6080:6080 -v ${HOME}/cms_open_data_work:/home/cmsusr cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493 /bin/bash
 </code></pre></div></div>
 
 <div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Setting up CMSSW_7_6_7
 CMSSW should now be available.
-~/CMSSW_7_6_7/src $
+This is a standalone image for CMSSW_7_6_7 slc6_amd64_gcc493.
+bash-4.1$
 </code></pre></div></div>
 
 <p>This is now a bash shell in the CMS open data environment in which you have access to a complete CMS software release that is appropriate for interfacing with the 2015 13 TeV datasets.</p>
