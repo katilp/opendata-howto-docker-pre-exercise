@@ -105,7 +105,7 @@ gmake[1]: Leaving directory `/home/cmsusr/CMSSW_7_6_7'
 
 Before launching the job, let's modify the configuration file (do not worry, you will learn about all this stuff in a different [lesson](https://cms-opendata-workshop.github.io/workshop2022-lesson-cmssw/)) so that it will read a CMS open data file.
 
-Open the `demoanalyzer_cfg.py` in the `Demo/DemoAnalyzer` directory with your normal editor on your local computer. As the working directory has been mounted into the container, all changes take effect there as well. 
+Open the `ConfFile_cfg.py` in the `Demo/DemoAnalyzer/python` directory with your normal editor on your local computer.You will find the `Demo` are under the  `cms_open_data_work/CMSSW_7_6_7/src` directory on your local computer. As the working directory has been mounted into the container, all changes take effect there as well. 
 
 Replace `file:myfile.root` with `root://eospublic.cern.ch//eos/opendata/cms/Run2015D/SingleElectron/MINIAOD/08Jun2016-v1/10000/001A703B-B52E-E611-BA13-0025905A60B6.root` to point to an example file.
 
@@ -138,7 +138,7 @@ Chage also the maximum number of events to 10.  I.e., change `-1`to `10` in `pro
 
 Finally, run the cms executable with our configuration:
 ~~~
-cmsRun DemoAnalyzer/demoanalyzer_cfg.py
+cmsRun DemoAnalyzer/python/ConfFile_cfg.py
 ~~~
 {: .language-bash}
 
