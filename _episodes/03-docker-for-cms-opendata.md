@@ -311,11 +311,11 @@ bash-4.1 <span class="nv">$ </span><span class="nb">exit</span>
 
 ## Download the docker images for ROOT and python tools and start container
 
-Containers for with ROOT and python libraries installed are provided for your convenience. These containers can be used in the [C++, ROOT and python tools lesson](https://cms-opendata-workshop.github.io/workshop2022-lesson-cpp-root-python/03-root-and-cpp-read-and-write/index.html) and later on for your work with CMS open data.
+Containers for with ROOT and python libraries installed are provided for your convenience. These containers can be used in the [C++, ROOT and python tools lesson](https://cms-opendata-workshop.github.io/workshop2022-lesson-cpp-root-python/) and later on for your work with CMS open data.
 
 ### ROOT container
 
-ROOT is included in the CMSSW container, but it is an old version because it needs to be compatible with the environment needed to access CMS open data AOD and MiniAOD files. In this tutorial, and in your work with CMS open data, you will often work on data that have been derived from the AOD or MiniAOD files and are not tied to a specific ROOT version. Therefore, a container with more recent ROOT version is provided.
+ROOT is included in the CMSSW container, but it is an old version because it needs to be compatible with the environment needed to access CMS open data AOD and MiniAOD files. In this tutorial, and in your work with CMS open data, you will often work on data that have been derived from the AOD or MiniAOD files and are not tied to a specific ROOT version. Therefore, a container with more recent ROOT version is provided. 
 
 First, create a working directory on your local computer:
 
@@ -332,9 +332,20 @@ docker run -it --name my_root -P -p 5901:5901 -p 6080:6080 -v ${HOME}/cms_open_d
 ~~~
 {: .language-bash}
 
-The container image has VNC installed in a similar way as the CMSSW container and you can start the graphics windows with `vnc_start`.
+This opens a bash shell where you can type your commands. Edit files in the `cms_open_data_root` directory on your local computer, but run the commands in the container.
+
+The container image has VNC installed in a similar way as the CMSSW container and you can start the graphics windows with `vnc_start`. Connect it with the VNC viewer on your local computer.
 
 The default VNC password is `cms.cern`.
+
+Type `exit` to leave the container, and if you have started VNC, stop it first:
+
+~~~
+stop_vnc
+exit
+~~~
+{: .language-bash}
+
 
 ### Python tools container
 
@@ -355,9 +366,20 @@ docker run -it --name my_python -P -p 5901:5901 -p 6080:6080 -v ${HOME}/cms_open
 ~~~
 {: .language-bash}
 
-The container image has VNC installed in a similar way as the CMSSW container and you can start the graphics windows with `vnc_start`.
+This opens a bash shell where you can type your commands. Edit files in the `cms_open_data_python` directory on your local computer, but run the commands in the container.
+
+
+The container image has VNC installed in a similar way as the CMSSW container and you can start the graphics windows with `vnc_start`. Connect it with the VNC viewer on your local computer.
 
 The default VNC password is `cms.cern`.
+
+Type `exit` to leave the container, and if you have started VNC, stop it first:
+
+~~~
+stop_vnc
+exit
+~~~
+{: .language-bash}
 
 ## Coming back to the same container
 
@@ -443,7 +465,7 @@ Voila! You should be back in the same container.
 
 ## Copy file(s) into or out of a container
 
-Sometimes you will want to copy a file directly into or out of a container. Let's start with copying
+If you started the containers with the local directory mounted into the container, you will see the same files on your local computer and in the container. You can also copy a file directly into or out of a container. Let's start with copying
 a file *out*.
 
 Suppose you have created your **my_od** container *and* you did the challenge
