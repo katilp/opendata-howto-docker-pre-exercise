@@ -334,7 +334,7 @@ docker run -it --name my_root -P -p 5901:5901 -p 6080:6080 -v ${HOME}/cms_open_d
 
 This opens a bash shell where you can type your commands. Edit files in the `cms_open_data_root` directory on your local computer, but run the commands in the container.
 
-The container image has VNC installed in a similar way as the CMSSW container and you can start the graphics windows with `vnc_start`. Connect it with the VNC viewer on your local computer.
+The container image has VNC installed in a similar way as the CMSSW container and you can start the graphics windows with `vnc_start`. Connect it with the VNC viewer on your local computer or with the browser window in the address given at the start message (`http://127.0.0.1:6080/vnc.html`). Note that copy-pasting may not work in the new terminal shell that opens in the graphical window and it is easier to use the original bash shell.
 
 The default VNC password is `cms.cern`.
 
@@ -369,7 +369,7 @@ docker run -it --name my_python -P -p 5901:5901 -p 6080:6080 -v ${HOME}/cms_open
 This opens a bash shell where you can type your commands. Edit files in the `cms_open_data_python` directory on your local computer, but run the commands in the container.
 
 
-The container image has VNC installed in a similar way as the CMSSW container and you can start the graphics windows with `vnc_start`. Connect it with the VNC viewer on your local computer.
+The container image has VNC installed in a similar way as the CMSSW container and you can start the graphics windows with `vnc_start`. Connect it with the VNC viewer on your local computer or with the browser window in the address given at the start message (`http://127.0.0.1:6080/vnc.html`). Note that copy-pasting may not work in the new terminal shell that opens in the graphical window and it is easier to use the original bash shell.
 
 The default VNC password is `cms.cern`.
 
