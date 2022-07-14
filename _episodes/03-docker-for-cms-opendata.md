@@ -303,12 +303,20 @@ mkdir cms_open_data_root
 ~~~
 {: .language-bash}
 
-Then download the ROOT container image and start the container with
+Then, on MacOS and Windows WSL2 (and on native Linux if you do not want to use X11-forwarding), download the ROOT container image and start the container with
 
 ~~~
 docker run -it --name my_root -P -p 5901:5901 -p 6080:6080 -v ${HOME}/cms_open_data_root:/code gitlab-registry.cern.ch/cms-cloud/root-vnc:latest
 ~~~
 {: .language-bash}
+
+If you are on native Linux and want to use X11-forwarding, use
+
+~~~
+docker run -it --name my_root --net=host --env="DISPLAY" -v $HOME/.Xauthority:/home/cmsusr/.Xauthority:rw -v ${HOME}/cms_open_data_root:/code gitlab-registry.cern.ch/cms-cloud/root-vnc:latest
+~~~
+{: .language-bash}
+
 
 This opens a bash shell where you can type your commands. Edit files in the `cms_open_data_root` directory on your local computer, but run the commands in the container.
 
@@ -335,14 +343,30 @@ mkdir cms_open_data_python
 ~~~
 {: .language-bash}
 
-Then download the python container image and start the container with
+Then, on MacOS and Windows WSL2 (and on native Linux if you do not want to use X11-forwarding), download the python container image and start the container with
 
 ~~~
-docker run -it --name my_python -P -p 5901:5901 -p 6080:6080 -v ${HOME}/cms_open_data_python:/code gitlab-registry.cern.ch/cms-cloud/python-vnc:latest
+docker run -it --name my_python -P -p 5901:5901 -p 6080:6080 -p 8888:8888 -v ${HOME}/cms_open_data_python:/code gitlab-registry.cern.ch/cms-cloud/python-vnc:latest
+~~~
+{: .language-bash}
+
+If you are on native Linux and want to use X11-forwarding, use
+
+~~~
+docker run -it --name my_python -P -p 8888:8888 --net=host --env="DISPLAY" -v $HOME/.Xauthority:/home/cmsusr/.Xauthority:rw -v ${HOME}/cms_open_data_python:/code gitlab-registry.cern.ch/cms-cloud/python-vnc:latest
 ~~~
 {: .language-bash}
 
 This opens a bash shell where you can type your commands. Edit files in the `cms_open_data_python` directory on your local computer, but run the commands in the container.
+
+You can run jupyter notebooks in this container by typing in the container prompt
+
+~~~
+jupyter-lab
+~~~
+{: .language-bash}
+
+and opening the link in the message on your browser.
 
 
 The container image has VNC installed in a similar way as the CMSSW container and you can start the graphics windows with `vnc_start`. Open the browser window in the address given at the start message ([http://127.0.0.1:6080/vnc.html](http://127.0.0.1:6080/vnc.html)) with the default VNC password is `cms.cern`. It shows an empty screen to start with and all graphics will pop up there.
