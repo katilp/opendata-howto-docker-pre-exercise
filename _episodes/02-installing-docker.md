@@ -33,6 +33,8 @@ In the episodes of this lesson that follow, we assume that Windows users have [W
 > Note that WSL2 can take around an hour to install.
 {: .testimonial}
 
+If you are new to Linux bash shell, you should first follow [the tutorial on shell environment](https://swcarpentry.github.io/shell-novice/). Make sure that you are familiar with the directory structure and that you know how to create and remove directories and how to create files and save them to a specific directory. Make also sure that you have an editor with which you are confortable. A common choice is VS Code, but you can use any other editor.
+
 ## Testing
 
 As you walk through their documentation, you will eventually come to a point where you will
