@@ -54,7 +54,7 @@ where you will be doing your code development. In the example below, it is calle
 {: .challenge}
 
 > ## Warning!
-> If you do not create the directory on your local computer before creating the container, the directory is created automatically but with the wrong user/group. When starting the container, you will get a message `cannot make directory CMSSW_7_6_7 Permission denied`. In that case, delete the directory with `rm -rf cms_open_data_work/`, and remove the failing container with `docker rm <container-name>` so that you can use the same name. In the following, we will use `my_od` as the container name.
+> If you do not create the directory on your local computer before creating the container, the directory is created automatically but with the wrong user/group. When starting the container, you will get a message `cannot make directory CMSSW_7_6_7 Permission denied`. In that case, delete the directory with `rm -rf cms_open_data_work/`, and remove the failing container with `docker rm <container-name>` so that you can use the same name. In the following, we will use `my_od` as the container name. And then, remember to create the directory before creating the container!
 {: .callout}
 
 Start the container following the instructions below depending on the operating system you are using.
@@ -141,7 +141,9 @@ VNC connection points:
 To kill the vncserver enter 'vncserver -kill :1'
 </code></pre></div>  </div>
 
-  <p>Open the browser window in the address given at the start message (http://127.0.0.1:6080/vnc.html) and connect with the default VNC password `cms.cern`. It shows an empty screen to start with and all graphics will pop up there. To test, start ROOT by typing <code class="language-plaintext highlighter-rouge">root</code> in the container terminal prompt. In the ROOT prompt, type <code class="language-plaintext highlighter-rouge">TBrowser t</code> to open the ROOT graphical window. If the graphical window opens you are all set and you can exit from ROOT either by choosing the “Quit Root” option from Browser menu of the TBrowser window or by typing <code class="language-plaintext highlighter-rouge">.q</code> in the ROOT prompt.</p>
+  <p>Open the browser window in the http address given at the start message and connect with the default VNC password <code class="language-plaintext highlighter-rouge">cms.cern</code>. It shows an empty screen to start with and all graphics will pop up there.</p> 
+  
+  <p>To test, start ROOT by typing <code class="language-plaintext highlighter-rouge">root</code> in the container terminal prompt. In the ROOT prompt, type <code class="language-plaintext highlighter-rouge">TBrowser t</code> to open the ROOT graphical window. If the graphical window opens you are all set and you can exit from ROOT either by choosing the “Quit Root” option from Browser menu of the TBrowser window or by typing <code class="language-plaintext highlighter-rouge">.q</code> in the ROOT prompt.</p>
 
   <p>Importantly, stop the VNC server before exiting the container. If you don’t do it, you will need to do some cleaning before being able to open the graphics window next time you use the same container. Do the following:</p>
 
@@ -207,7 +209,9 @@ VNC connection points:
 To kill the vncserver enter 'vncserver -kill :1'
 </code></pre></div></div>
 
-<p>Open the browser window in the address given at the start message (http://127.0.0.1:6080/vnc.html) and connect with the default VNC password `cms.cern`. It shows an empty screen to start with and all graphics will pop up there. If it does not open, it may be that the Windows firewall is blocking it. In that case, check <a href="https://opendata-forum.cern.ch/t/windows-firewall-issue/68">these instructions</a>. To test, start ROOT by typing <code class="language-plaintext highlighter-rouge">root</code> in the container terminal prompt. In the ROOT prompt, type <code class="language-plaintext highlighter-rouge">TBrowser t</code> to open the ROOT graphical window. If the graphical window opens you are all set and you can exit from ROOT either by choosing the “Quit Root” option from Browser menu of the TBrowser window or by typing <code class="language-plaintext highlighter-rouge">.q</code> in the ROOT prompt.</p>
+<p>Open the browser window in the http address given at the start message and connect with the default VNC password <code class="language-plaintext highlighter-rouge">cms.cern</code>. It shows an empty screen to start with and all graphics will pop up there. If it does not open, it may be that the Windows firewall is blocking it. In that case, check <a href="https://opendata-forum.cern.ch/t/windows-firewall-issue/68">these instructions</a>.</p>
+
+<p>To test, start ROOT by typing <code class="language-plaintext highlighter-rouge">root</code> in the container terminal prompt. In the ROOT prompt, type <code class="language-plaintext highlighter-rouge">TBrowser t</code> to open the ROOT graphical window. If the graphical window opens you are all set and you can exit from ROOT either by choosing the “Quit Root” option from Browser menu of the TBrowser window or by typing <code class="language-plaintext highlighter-rouge">.q</code> in the ROOT prompt.</p>
 
 <p>Importantly, stop the VNC server before exiting the container. If you don’t do it, you will need to do some cleaning before being able to open the graphics window next time you use the same container. Do the following:</p>
 
@@ -267,7 +271,9 @@ VNC connection points:
 To kill the vncserver enter 'vncserver -kill :1'
 </code></pre></div></div>
 
-<p>Open the browser window in the address given at the start message (http://127.0.0.1:6080/vnc.html) and connect with the default VNC password `cms.cern`. It shows an empty screen to start with and all graphics will pop up there. To test, start ROOT by typing <code class="language-plaintext highlighter-rouge">root</code> in the container terminal prompt. In the ROOT prompt, type <code class="language-plaintext highlighter-rouge">TBrowser t</code> to open the ROOT graphical window. If the graphical window opens you are all set and you can exit from ROOT either by choosing the “Quit Root” option from Browser menu of the TBrowser window or by typing <code class="language-plaintext highlighter-rouge">.q</code> in the ROOT prompt.</p>
+<p>Open the browser window in the http address given at the start message and connect with the default VNC password <code class="language-plaintext highlighter-rouge">cms.cern</code>. It shows an empty screen to start with and all graphics will pop up there.</p> 
+
+<p>To test, start ROOT by typing <code class="language-plaintext highlighter-rouge">root</code> in the container terminal prompt. In the ROOT prompt, type <code class="language-plaintext highlighter-rouge">TBrowser t</code> to open the ROOT graphical window. If the graphical window opens you are all set and you can exit from ROOT either by choosing the “Quit Root” option from Browser menu of the TBrowser window or by typing <code class="language-plaintext highlighter-rouge">.q</code> in the ROOT prompt.</p>
 
 <p>Importantly, stop the VNC server before exiting the container. If you don’t do it, you will need to do some cleaning before being able to open the graphics window next time you use the same container. Do the following:</p>
 
@@ -298,7 +304,7 @@ mkdir cms_open_data_root
 ~~~
 {: .language-bash}
 
-Then, download the ROOT container and start it with the `docker run`command.
+Then, download [the ROOT container](https://gitlab.cern.ch/cms-cloud/root-vnc) and start it with the `docker run` command.
 
 If you are on native Linux and want to use X11-forwarding, use
 
@@ -340,7 +346,7 @@ mkdir cms_open_data_python
 ~~~
 {: .language-bash}
 
-Then, download the python container and start it with the `docker run`command.
+Then, download [the python container](https://gitlab.cern.ch/cms-cloud/python-vnc) and start it with the `docker run` command.
 
 If you are on native Linux and want to use X11-forwarding, use
 
@@ -362,7 +368,7 @@ This opens a bash shell where you can type your commands. Edit files in the `cms
 You can run jupyter notebooks in this container by typing in the container prompt
 
 ~~~
-jupyter-lab
+jupyter-lab --ip=0.0.0.0 --no-browser
 ~~~
 {: .language-bash}
 
@@ -392,7 +398,7 @@ docker start -i my_od
 
 > ## CHALLENGE! Test persistence
 >
-> Go into the container and in the directory, create a test file using some
+> Go into the container and in the `/code/CMSSW_7_6_7/src` directory, create a test file using some
 > simple shell commands. Type the following exactly as you see it.
 > It will dump some text into a file and then print the contents
 > of the file to the screen
@@ -403,7 +409,7 @@ docker start -i my_od
 > ~~~
 > {: .language-bash}
 >
-> After you've done this, check if you see the file `test.tmp` in your local computer in the `CMSSW_7_6_7/src/cms_open_data_work` directory.
+> After you've done this, check if you see the file `test.tmp` in your local computer in the `cms_open_data_work/CMSSW_7_6_7/src` directory.
 > If you did it correctly, you should be able to list the contents
 > of the directory with ```ls -l``` and see your file from before!
 > If not, check that you followed all the instructions
@@ -420,7 +426,7 @@ docker start -i my_od
 >
 > Note that with the volume mount, your files will not disappear when you remove the container because they are stored in a directory on the local computer. If you really want to get rid of them, you will have to delete them either on the container or on your local computer.
 >
-> You can make use of this, for example, when you have forgotten to stop VNC with `stop_vnc` when you exit the container. You can remove the container. When you do it, the files that block the VNC from starting will be removed and as they are not located in the mounted directory, they will not be present when you create a new container. But the files in your working area (as `test.tmp` above) will be there again.
+> You can make use of this, for example, when you have forgotten to stop VNC with `stop_vnc` when you exit the container. Probably the quickest way to clean is to remove and recreate the container. When you do it, the files that block the VNC from starting will be removed and as they are not located in the mounted directory, they will not be present when you create a new container. But the files in your working area (as `test.tmp` above) will be there again.
 {: .challenge}
 
 
