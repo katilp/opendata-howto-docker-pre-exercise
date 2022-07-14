@@ -338,7 +338,7 @@ mkdir cms_open_data_python
 Then download the python container image and start the container with
 
 ~~~
-docker run -it --name my_python -P -p 5901:5901 -p 6080:6080 -v ${HOME}/cms_open_data_python:/home/cmsusr/cms_open_data_python gitlab-registry.cern.ch/cms-cloud/python-vnc:latest
+docker run -it --name my_python -P -p 5901:5901 -p 6080:6080 -v ${HOME}/cms_open_data_python:/code gitlab-registry.cern.ch/cms-cloud/python-vnc:latest
 ~~~
 {: .language-bash}
 
