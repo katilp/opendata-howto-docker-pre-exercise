@@ -25,7 +25,7 @@ cover containers and everything you can do with Docker. <!--- Reach out to the o
 using the [dedicated Mattermost channel][mattermost]
 if we are missing something. -->
 
-Three types of [container images](https://gitlab.cern.ch/cms-cloud/cmssw-docker-opendata/-/blob/master/README.md) are provided: one with the CMS software (CMSSW) compatible with the released data, and two others with [ROOT and python](https://cms-opendata-workshop.github.io/workshop2022-lesson-cpp-root-python/) libraries needed in this tutorial. The CMSSW container is mandatory if you want to access the CMS data in AOD and MiniAOD formats (you will learn about them later), as you will not be able to install CMSSW software on your own computer. The two others are provided to make setting up and using ROOT and/or python libraries easier for you for this tutorial, but if you wish, you can also install them on your computer. All container images come with [VNC](https://gitlab.cern.ch/cms-cloud/cmssw-docker-opendata/-/blob/master/README.md#use-vnc) for the graphical use interface. To connect to the VNC server of the container, you will need a VNC viewer (VNC viewer (TigerVNC, RealVNC, TightVNC, OSX built-in VNC viewer, etc.) installed on your local machine. 
+Three types of [container images](https://gitlab.cern.ch/cms-cloud/cmssw-docker-opendata/-/blob/master/README.md) are provided: one with the CMS software (CMSSW) compatible with the released data, and two others with [ROOT and python](https://cms-opendata-workshop.github.io/workshop2022-lesson-cpp-root-python/) libraries needed in this tutorial. The CMSSW container is mandatory if you want to access the CMS data in AOD and MiniAOD formats (you will learn about them later), as you will not be able to install CMSSW software on your own computer. The two others are provided to make setting up and using ROOT and/or python libraries easier for you for this tutorial, but if you wish, you can also install them on your computer. All container images come with [VNC](https://gitlab.cern.ch/cms-cloud/cmssw-docker-opendata/-/blob/master/README.md#use-vnc) for the graphical use interface. It opens directly in a browser window. Optionally, you can also connect to the VNC server of the container using a VNC viewer (VNC viewer (TigerVNC, RealVNC, TightVNC, OSX built-in VNC viewer, etc.) installed on your local machine, but only the browser option fow which no additional tools are needed is described in these instructions.
 
 For different CMSSW container images, some guidance can be found on the
 [Open Data Portal introduction to Docker](http://opendata.cern.ch/docs/cms-guide-docker). In this tutorial, we will use the container image needed for the CMS open data from 2015. The use of graphical interfaces, such the graphics window from ROOT, depends on the operating system of your computer. Therefore, in the following, separate instructions are given for Windows WSL, Linux and MacOS.
@@ -72,13 +72,13 @@ Start the container following the instructions below depending on the operating 
 
 <p>We will use the <code class="language-plaintext highlighter-rouge">docker run</code> command to create the container (downloading the appropriate image if it is the first time) and start it right away.</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -it --name my_od --net=host --env="DISPLAY" -v $HOME/.Xauthority:/home/cmsusr/.Xauthority:rw  -v ${HOME}/cms_open_data_work:/home/cmsusr cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493 /bin/bash
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -it --name my_od --net=host --env="DISPLAY" -v $HOME/.Xauthority:/home/cmsusr/.Xauthority:rw  -v ${HOME}/cms_open_data_work:/code cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493 /bin/bash
 </code></pre></div></div>
                        
 <div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Setting up CMSSW_7_6_7
 CMSSW should now be available.
 This is a standalone image for CMSSW_7_6_7 slc6_amd64_gcc493.
-bash-4.1$
+(/code/CMSSW_7_6_7/src)
 </code></pre></div></div>
 
 <p>This is now a bash shell in the CMS open data environment in which you have access to a complete CMS software release that is appropriate for interfacing with the 2015 13 TeV datasets.</p>
@@ -93,7 +93,7 @@ bash-4.1$
   <li>The <code class="language-plaintext highlighter-rouge">--net=host</code> switch will allow you to use the host network (Internet access) in the container.</li>
   <li>The <code class="language-plaintext highlighter-rouge">--env</code> switch will forward the appropiate <code class="language-plaintext highlighter-rouge">DISPLAY</code> environmental variable from the host machine to the container so X11-forwarding (the ability to open graphical windows inside the container) can be achieved.</li>
   <li>For X11-forwarding to be functional, your local <code class="language-plaintext highlighter-rouge">$HOME/.Xauthority</code> file needs to be mounted as the <code class="language-plaintext highlighter-rouge">/home/cmsusr/.Xauthority</code> file inside the container.  We do this using the <code class="language-plaintext highlighter-rouge">--volume</code> (or <code class="language-plaintext highlighter-rouge">-v</code>) switch. Note that the colon (<code class="language-plaintext highlighter-rouge">:</code>) symbol separates the source and destination points for the mounting procedure. In addition, the <code class="language-plaintext highlighter-rouge">rw</code> tag is given (aslo separated by <code class="language-plaintext highlighter-rouge">:</code>) so it can be read and written if necessary. </li>
-  <li>With <code class="language-plaintext highlighter-rouge">-v ${HOME}/cms_open_data_work:/home/cmsusr</code>, the working directory <code class="language-plaintext highlighter-rouge">cms_open_data_work</code> that you created in your home directory is mounted with the <code class="language-plaintext highlighter-rouge">-v</code> option into the container's <code class="language-plaintext highlighter-rouge">/home/cmsusr</code> directory. This makes it possible to edit files in the CMSSW area of your container with your normal editor on your local computer.</li>
+  <li>With <code class="language-plaintext highlighter-rouge">-v ${HOME}/cms_open_data_work:/code</code>, the working directory <code class="language-plaintext highlighter-rouge">cms_open_data_work</code> that you created in your home directory is mounted with the <code class="language-plaintext highlighter-rouge">-v</code> option into the container's <code class="language-plaintext highlighter-rouge">/code</code> directory. This makes it possible to edit files in the CMSSW area of your container with your normal editor on your local computer.</li>
   <li><code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493</code> is the name of the image we will use. If no label is prepended, Docker assumes that it resides in <a href="https://hub.docker.com/">Docker Hub</a>, the official image repository of Docker.</li>
   <li>Finally, the <code class="language-plaintext highlighter-rouge">/bin/bash</code> option will throw the container into a <code class="language-plaintext highlighter-rouge">bash</code> shell when running interactively.</li>
 </ul>
@@ -117,18 +117,12 @@ bash-4.1$
 
   <p><strong>In the case you are having problems with X11 forwarding</strong>, there is the option of using a VNC application installed in the container image:</p>
 
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -it --name my_od -P -p 5901:5901  -p 6080:6080 -v ${HOME}/cms_open_data_work:/home/cmsusr cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493:latest /bin/bash
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -it --name my_od -P -p 5901:5901  -p 6080:6080 -v ${HOME}/cms_open_data_work:/code cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493:latest /bin/bash
 </code></pre></div>  </div>
   
-  <p>This container has a VNC application installed to allow opening graphical windows on a remote machine (seen from the container, your own computer is a remote machine). When you use the container for the first time do the following:</p>
+  <p>This container has a VNC application installed to allow opening graphical windows on a remote machine (seen from the container, your own computer is a remote machine). Start the application with <code class="language-plaintext highlighter-rouge">start_vnc</code> from your container prompt. You will need to start it every time you use the container (if you want to open graphics windows).</p>
 
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash-4.1 <span class="nv">$ </span>echo "source /usr/local/vnc_utils.sh" >> /home/cmsusr/.bashrc
-bash-4.1 <span class="nv">$ </span>source /usr/local/vnc_utils.sh
-</code></pre></div></div>
-
-  <p>Then, start the application with <code class="language-plaintext highlighter-rouge">start_vnc</code> from your container prompt, and choose a password. You will need to start it every time you use the container (if you want to open graphics windows), but you will define the password only at the first time.</p>
-
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash-4.1 <span class="nv">$ </span>start_vnc
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>start_vnc
 </code></pre></div></div>
 
   <div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>You will require a password to access your desktops.
@@ -148,14 +142,12 @@ VNC connection points:
 To kill the vncserver enter 'vncserver -kill :1'
 </code></pre></div>  </div>
 
-  <p>When you do this the first time, download a VNC viewer to your local machine from, e.g., <a href="https://sourceforge.net/projects/tigervnc/files/stable/1.11.0/">TigerVNC</a>. You can then access the GUI in TigerVNC Viewer with the address given in the startup message with the the password you’ve chosen. It opens with an xterminal of your container. To test, start ROOT by typing <code class="language-plaintext highlighter-rouge">root</code> in the container terminal prompt. In the ROOT prompt, type <code class="language-plaintext highlighter-rouge">TBrowser t</code> to open the ROOT graphical window. If the graphical window opens you are all set and you can exit from ROOT either by choosing the “Quit Root” option from Browser menu of the TBrowser window or by typing <code class="language-plaintext highlighter-rouge">.q</code> in the ROOT prompt.</p>
-
-  <p>You can copy from the VNC Viewer terminal by selecting with the mouse, and paste to it by a middle mouse button click. If you are using a touchpad, you may need to define “middle mouse button” in Settings -&gt; Devices -&gt; Touchpad. You can set it to a three-finger tap in “Taps” menu under “Three finger gestures”, or to another selection of your choice.</p>
+  <p>Open the browser window in the address given at the start message ([http://127.0.0.1:6080/vnc.html](http://127.0.0.1:6080/vnc.html)) with the default VNC password is `cms.cern`. It shows an empty screen to start with and all graphics will pop up there. To test, start ROOT by typing <code class="language-plaintext highlighter-rouge">root</code> in the container terminal prompt. In the ROOT prompt, type <code class="language-plaintext highlighter-rouge">TBrowser t</code> to open the ROOT graphical window. If the graphical window opens you are all set and you can exit from ROOT either by choosing the “Quit Root” option from Browser menu of the TBrowser window or by typing <code class="language-plaintext highlighter-rouge">.q</code> in the ROOT prompt.</p>
 
   <p>Importantly, stop the VNC server before exiting the container. If you don’t do it, you will not be able to open the graphics window next time you use the same container. Do the following:</p>
 
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash-4.1 <span class="nv">$ </span><span class="nb">stop_vnc</span>
-bash-4.1 <span class="nv">$ </span><span class="nb">exit</span>
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> </span><span class="nb">stop_vnc</span>
+ </span><span class="nb">exit</span>
 </code></pre></div>  </div>
 </blockquote>
 
@@ -165,13 +157,13 @@ bash-4.1 <span class="nv">$ </span><span class="nb">exit</span>
 
 <p>We will use the <code class="language-plaintext highlighter-rouge">docker run</code> command to create the container (downloading the appropriate image if it is the first time) and start it right away.</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -it --name my_od -P -p 5901:5901 -p 6080:6080 -v ${HOME}/cms_open_data_work:/home/cmsusr cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493 /bin/bash
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -it --name my_od -P -p 5901:5901 -p 6080:6080 -v ${HOME}/cms_open_data_work:/code cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493 /bin/bash
 </code></pre></div></div>
 
 <div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Setting up CMSSW_7_6_7
 CMSSW should now be available.
 This is a standalone image for CMSSW_7_6_7 slc6_amd64_gcc493.
-bash-4.1$
+(/code/CMSSW_7_6_7/src)
 </code></pre></div></div>
 
 <p>This is now a bash shell in the CMS open data environment in which you have access to a complete CMS software release that is appropriate for interfacing with the 2015 13 TeV datasets.</p>
@@ -186,7 +178,7 @@ bash-4.1$
   <li>First, the <code class="language-plaintext highlighter-rouge">-it</code> (or <code class="language-plaintext highlighter-rouge">-i</code>) option means to start the container in interactive mode. Essentially, it means that you will end up inside the running container.</li>
   <li>We assign a name to the container using the <code class="language-plaintext highlighter-rouge">--name</code> switch, so that we can refer back to this environment and still access any files we created in there. You can, of course, choose a different name than <code class="language-plaintext highlighter-rouge">my_od</code>.</li>
   <li>The options <code class="language-plaintext highlighter-rouge">-P -p 5901:5901 -p 6080:6080</code> open/publish ports from the container to the local host, needed for the graphical windows</li>
-  <li>With <code class="language-plaintext highlighter-rouge">-v ${HOME}/cms_open_data_work:/home/cmsusr</code>, the working directory <code class="language-plaintext highlighter-rouge">cms_open_data_work</code> that you created in your home directory is mounted with the <code class="language-plaintext highlighter-rouge">-v</code> option into the container's <code class="language-plaintext highlighter-rouge">/home/cmsusr</code> directory. This makes it possible to edit files in the CMSSW area of your container with your normal editor on your local computer.</li>
+  <li>With <code class="language-plaintext highlighter-rouge">-v ${HOME}/cms_open_data_work:/code</code>, the working directory <code class="language-plaintext highlighter-rouge">cms_open_data_work</code> that you created in your home directory is mounted with the <code class="language-plaintext highlighter-rouge">-v</code> option into the container's <code class="language-plaintext highlighter-rouge">/code</code> directory. This makes it possible to edit files in the CMSSW area of your container with your normal editor on your local computer.</li>
   <li><code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493</code> is the name of the image we will use.  If no label is prepended, Docker assumes that it resides in <a href="https://hub.docker.com/">Docker Hub</a>, the official image repository of Docker.</li>
   <li>Finally, the <code class="language-plaintext highlighter-rouge">/bin/bash</code> option will throw the container into a <code class="language-plaintext highlighter-rouge">bash</code> shell when running interactively.</li>
 </ul>
@@ -195,15 +187,9 @@ bash-4.1$
 
 <p>Now, first make sure that you can copy instructions from a browser page to the container terminal. It works in the same manner as the local WSL linux terminal, i.e. you can usually copy from other sources with <code class="language-plaintext highlighter-rouge">Ctrl+C</code> and then paste into your container terminal with mouse right click. Copy from the terminal itself by selecting the text to be copied. If this does not work, you will see later in these instructions how to pass files from your local computer to the container.</p>
 
-<p>This container has a VNC application installed to allow opening graphical windows on a remote machine (seen from the container, your own computer is a remote machine). When you use the container for the first time do the following:</p>
+<p>This container has a VNC application installed to allow opening graphical windows on a remote machine (seen from the container, your own computer is a remote machine). Start the application with <code class="language-plaintext highlighter-rouge">start_vnc</code> from your container prompt, and choose a password. You will need to start it every time you use the container (if you want to open graphics windows), but you will define the password only at the first time.</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash-4.1 <span class="nv">$ </span>echo "source /usr/local/vnc_utils.sh" >> /home/cmsusr/.bashrc
-bash-4.1 <span class="nv">$ </span>source /usr/local/vnc_utils.sh
-</code></pre></div></div>
-
-<p>Then, start the application with <code class="language-plaintext highlighter-rouge">start_vnc</code> from your container prompt, and choose a password. You will need to start it every time you use the container (if you want to open graphics windows), but you will define the password only at the first time.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash-4.1 <span class="nv">$ </span>start_vnc
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> </span>start_vnc
 </code></pre></div></div>
 
 <div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>You will require a password to access your desktops.
@@ -223,14 +209,12 @@ VNC connection points:
 To kill the vncserver enter 'vncserver -kill :1'
 </code></pre></div></div>
 
-<p>When you do this the first time, download a VNC viewer to your local machine from <a href="https://sourceforge.net/projects/tigervnc/files/stable/1.11.0/">TigerVNC</a>. You can then access the GUI in TigerVNC Viewer with the address given in the startup message with the the password you’ve chosen. It opens with an xterminal of your container. If it does not open, it may be that the Windows firewall is blocking it. In that case, check <a href="https://opendata-forum.cern.ch/t/windows-firewall-issue/68">these instructions</a>. To test, start ROOT by typing <code class="language-plaintext highlighter-rouge">root</code> in the container terminal prompt. In the ROOT prompt, type <code class="language-plaintext highlighter-rouge">TBrowser t</code> to open the ROOT graphical window. If the graphical window opens you are all set and you can exit from ROOT either by choosing the “Quit Root” option from Browser menu of the TBrowser window or by typing <code class="language-plaintext highlighter-rouge">.q</code> in the ROOT prompt.</p>
-
-<p>You can copy from the VNC Viewer terminal by selecting with the mouse, and paste to it by a middle mouse button click. If you are using a touchpad, you may need to define “middle mouse button” in Settings -&gt; Devices -&gt; Touchpad. You can set it to a three-finger tap in “Taps” menu under “Three finger gestures”, or to another selection of your choice.</p>
+<p>Open the browser window in the address given at the start message ([http://127.0.0.1:6080/vnc.html](http://127.0.0.1:6080/vnc.html)) with the default VNC password is `cms.cern`. It shows an empty screen to start with and all graphics will pop up there. If it does not open, it may be that the Windows firewall is blocking it. In that case, check <a href="https://opendata-forum.cern.ch/t/windows-firewall-issue/68">these instructions</a>. To test, start ROOT by typing <code class="language-plaintext highlighter-rouge">root</code> in the container terminal prompt. In the ROOT prompt, type <code class="language-plaintext highlighter-rouge">TBrowser t</code> to open the ROOT graphical window. If the graphical window opens you are all set and you can exit from ROOT either by choosing the “Quit Root” option from Browser menu of the TBrowser window or by typing <code class="language-plaintext highlighter-rouge">.q</code> in the ROOT prompt.</p>
 
 <p>Importantly, stop the VNC server before exiting the container. If you don’t do it, you will not be able to open the graphics window next time you use the same container. Do the following:</p>
 
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash-4.1 <span class="nv">$ </span><span class="nb">stop_vnc</span>
-bash-4.1 <span class="nv">$ </span><span class="nb">exit</span>
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> </span><span class="nb">stop_vnc</span>
+ </span><span class="nb">exit</span>
 </code></pre></div></div>
 
             </article><!-- Windows  -->
@@ -240,13 +224,13 @@ bash-4.1 <span class="nv">$ </span><span class="nb">exit</span>
 
 <p>We will use the <code class="language-plaintext highlighter-rouge">docker run</code> command to create the container (downloading the appropriate image if it is the first time) and start it right away.</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -it --name my_od -P -p 5901:5901 -p 6080:6080 -v ${HOME}/cms_open_data_work:/home/cmsusr cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493 /bin/bash
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -it --name my_od -P -p 5901:5901 -p 6080:6080 -v ${HOME}/cms_open_data_work:/code cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493 /bin/bash
 </code></pre></div></div>
 
 <div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Setting up CMSSW_7_6_7
 CMSSW should now be available.
 This is a standalone image for CMSSW_7_6_7 slc6_amd64_gcc493.
-bash-4.1$
+(/code/CMSSW_7_6_7/src)
 </code></pre></div></div>
 
 <p>This is now a bash shell in the CMS open data environment in which you have access to a complete CMS software release that is appropriate for interfacing with the 2015 13 TeV datasets.</p>
@@ -259,22 +243,16 @@ bash-4.1$
   <li>First, the <code class="language-plaintext highlighter-rouge">-it</code> (or <code class="language-plaintext highlighter-rouge">-i</code>) option means to start the container in interactive mode. Essentially, it means that you will end up inside the running container.</li>
   <li>We assign a name to the container using the <code class="language-plaintext highlighter-rouge">--name</code> switch, so that we can refer back to this environment and still access any files we created in there. You can, of course, choose a different name than <code class="language-plaintext highlighter-rouge">my_od</code>.</li>
   <li>The options <code class="language-plaintext highlighter-rouge">-P -p 5901:5901 -p 6080:6080</code> open/publish ports from the container to the local host, needed for the graphical windows</li>
-  <li>With <code class="language-plaintext highlighter-rouge">-v ${HOME}/cms_open_data_work:/home/cmsusr</code>, the working directory <code class="language-plaintext highlighter-rouge">cms_open_data_work</code> that you created in your home directory is mounted with the <code class="language-plaintext highlighter-rouge">-v</code> option into the container's <code class="language-plaintext highlighter-rouge">/home/cmsusr</code> directory. This makes it possible to edit files in the CMSSW area of your container with your normal editor on your local computer.</li>
-  <li><code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493</code> is the name of the image we will use.  If no label is prepended, Doc<li>With <code class="language-plaintext highlighter-rouge">-v ${HOME}/cms_open_data_work:/home/cmsusr</code>, the working directory <code class="language-plaintext highlighter-rouge">cms_open_data_work</code> that you created in your home directory is mounted with the <code class="language-plaintext highlighter-rouge">-v</code> option into the container's <code class="language-plaintext highlighter-rouge">/home/cmsusr</code> directory. This makes it possible to edit files in the CMSSW area of your container with your normal editor on your local computer.</li>ker assumes that it resides in <a href="https://hub.docker.com/">Docker Hub</a>, the official image repository of Docker.</li>
+  <li>With <code class="language-plaintext highlighter-rouge">-v ${HOME}/cms_open_data_work:/code</code>, the working directory <code class="language-plaintext highlighter-rouge">cms_open_data_work</code> that you created in your home directory is mounted with the <code class="language-plaintext highlighter-rouge">-v</code> option into the container's <code class="language-plaintext highlighter-rouge">/code</code> directory. This makes it possible to edit files in the CMSSW area of your container with your normal editor on your local computer.</li>
+  <li><code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493</code> is the name of the image we will use.  If no label is prepended, Doc<li>With <code class="language-plaintext highlighter-rouge">-v ${HOME}/cms_open_data_work:/code</code>, the working directory <code class="language-plaintext highlighter-rouge">cms_open_data_work</code> that you created in your home directory is mounted with the <code class="language-plaintext highlighter-rouge">-v</code> option into the container's <code class="language-plaintext highlighter-rouge">/code</code> directory. This makes it possible to edit files in the CMSSW area of your container with your normal editor on your local computer.</li>ker assumes that it resides in <a href="https://hub.docker.com/">Docker Hub</a>, the official image repository of Docker.</li>
   <li>Finally, the <code class="language-plaintext highlighter-rouge">/bin/bash</code> option will throw the container into a <code class="language-plaintext highlighter-rouge">bash</code> shell when running interactively.</li>
 </ul>
 
 <p>For a more complete listing of options, see <a href="https://docs.docker.com/engine/reference/commandline/container_run/">the official Docker documentation</a> on the <code class="language-plaintext highlighter-rouge">docker run</code> command.</p>
 
-  <p>This container has a VNC application installed to allow opening graphical windows on a remote machine (seen from the container, your own computer is a remote machine). When you use the container for the first time do the following:</p>
+<p>This container has a VNC application installed to allow opening graphical windows on a remote machine (seen from the container, your own computer is a remote machine). Start the application with <code class="language-plaintext highlighter-rouge">start_vnc</code> from your container prompt, and choose a password. You will need to start it every time you use the container (if you want to open graphics windows), but you will define the password only at the first time.</p>
 
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash-4.1 <span class="nv">$ </span>echo "source /usr/local/vnc_utils.sh" >> /home/cmsusr/.bashrc
-bash-4.1 <span class="nv">$ </span>source /usr/local/vnc_utils.sh
-</code></pre></div></div>
-
-  <p>Then, start the application with <code class="language-plaintext highlighter-rouge">start_vnc</code> from your container prompt, and choose a password. You will need to start it every time you use the container (if you want to open graphics windows), but you will define the password only at the first time.</p>
-
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash-4.1 <span class="nv">$ </span>start_vnc
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> </span>start_vnc
 </code></pre></div></div>
 
 <div class="language-plaintext output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>You will require a password to access your desktops.
@@ -294,12 +272,12 @@ VNC connection points:
         To kill the vncserver enter 'vncserver -kill :1'
 </code></pre></div></div>
 
-<p>You can access the GUI in the Mac VNC viewer. The first time you do this, enter your computer’s “Settings” menu and turn on “screen sharing” from the “Computer Settings” options, then click on “VNC Viewers” and enter the password you chose. Open the VNC viewer from “Finder” by choosing “connect to server” from the “Go” tab. Paste the “MacOS” address given in the container’s VNC startup message and connect. It opens with an xterminal of your container. To test, start ROOT by typing <code class="language-plaintext highlighter-rouge">root</code> in the container terminal prompt. In the ROOT prompt, type <code class="language-plaintext highlighter-rouge">TBrowser t</code> to open the ROOT graphical window. If the graphical window opens you are all set and you can exit from ROOT either by choosing the “Quit Root” option from Browser menu of the TBrowser window or by typing <code class="language-plaintext highlighter-rouge">.q</code> in the ROOT prompt.</p>
+<p>Open the browser window in the address given at the start message ([http://127.0.0.1:6080/vnc.html](http://127.0.0.1:6080/vnc.html)) with the default VNC password is `cms.cern`. It shows an empty screen to start with and all graphics will pop up there. To test, start ROOT by typing <code class="language-plaintext highlighter-rouge">root</code> in the container terminal prompt. In the ROOT prompt, type <code class="language-plaintext highlighter-rouge">TBrowser t</code> to open the ROOT graphical window. If the graphical window opens you are all set and you can exit from ROOT either by choosing the “Quit Root” option from Browser menu of the TBrowser window or by typing <code class="language-plaintext highlighter-rouge">.q</code> in the ROOT prompt.</p>
 
 <p>Importantly, stop the VNC server before exiting the container. If you don’t do it, you will not be able to open the graphics window next time you use the same container. Do the following:</p>
 
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash-4.1 <span class="nv">$ </span><span class="nb">stop_vnc</span>
-bash-4.1 <span class="nv">$ </span><span class="nb">exit</span>
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> </span><span class="nb">stop_vnc</span>
+ </span><span class="nb">exit</span>
 </code></pre></div></div>
 
           </article><!-- Mac  -->
@@ -328,15 +306,13 @@ mkdir cms_open_data_root
 Then download the ROOT container image and start the container with
 
 ~~~
-docker run -it --name my_root -P -p 5901:5901 -p 6080:6080 -v ${HOME}/cms_open_data_root:/home/cmsusr/cms_open_data_root gitlab-registry.cern.ch/cms-cloud/root-vnc:latest
+docker run -it --name my_root -P -p 5901:5901 -p 6080:6080 -v ${HOME}/cms_open_data_root:/code gitlab-registry.cern.ch/cms-cloud/root-vnc:latest
 ~~~
 {: .language-bash}
 
 This opens a bash shell where you can type your commands. Edit files in the `cms_open_data_root` directory on your local computer, but run the commands in the container.
 
-The container image has VNC installed in a similar way as the CMSSW container and you can start the graphics windows with `vnc_start`. Connect it with the VNC viewer on your local computer or with the browser window in the address given at the start message (`http://127.0.0.1:6080/vnc.html`). Note that copy-pasting may not work in the new terminal shell that opens in the graphical window and it is easier to use the original bash shell.
-
-The default VNC password is `cms.cern`.
+The container image has VNC installed in a similar way as the CMSSW container and you can start the graphics windows with `vnc_start`. Open the browser window in the address given at the start message ([http://127.0.0.1:6080/vnc.html](http://127.0.0.1:6080/vnc.html)) with the default VNC password is `cms.cern`. It shows an empty screen to start with and all graphics will pop up there.
 
 Type `exit` to leave the container, and if you have started VNC, stop it first:
 
@@ -369,9 +345,7 @@ docker run -it --name my_python -P -p 5901:5901 -p 6080:6080 -v ${HOME}/cms_open
 This opens a bash shell where you can type your commands. Edit files in the `cms_open_data_python` directory on your local computer, but run the commands in the container.
 
 
-The container image has VNC installed in a similar way as the CMSSW container and you can start the graphics windows with `vnc_start`. Connect it with the VNC viewer on your local computer or with the browser window in the address given at the start message (`http://127.0.0.1:6080/vnc.html`). Note that copy-pasting may not work in the new terminal shell that opens in the graphical window and it is easier to use the original bash shell.
-
-The default VNC password is `cms.cern`.
+The container image has VNC installed in a similar way as the CMSSW container and you can start the graphics windows with `vnc_start`. Open the browser window in the address given at the start message ([http://127.0.0.1:6080/vnc.html](http://127.0.0.1:6080/vnc.html)) with the default VNC password is `cms.cern`. It shows an empty screen to start with and all graphics will pop up there.
 
 Type `exit` to leave the container, and if you have started VNC, stop it first:
 
@@ -474,7 +448,7 @@ called ```test.tmp``` Run the following on your *local* machine and *not* in the
 It should copy the file out and onto your local machine where you can inspect it.
 
 ~~~
-docker cp my_od:/home/cmsusr/CMSSW_7_6_7/src/test.tmp .
+docker cp my_od:/code/CMSSW_7_6_7/src/test.tmp .
 ~~~
 {: .language-bash}
 
@@ -483,7 +457,7 @@ Suppose you have a local file called ```localfile.tmp```. You can copy it into t
 as follows.
 
 ~~~
-docker cp localfile.tmp my_od:/home/cmsusr/CMSSW_7_6_7/src/
+docker cp localfile.tmp my_od:/code/CMSSW_7_6_7/src/
 ~~~
 {: .language-bash}
 
