@@ -376,6 +376,16 @@ jupyter-lab --ip=0.0.0.0 --no-browser
 
 and opening the link in the message on your browser.
 
+> If you see `Permission denied` when you try to open a new notebook, you most likely forgot to create the local working directory before creating the container. In that case, the directory was created automatically but with the wrong user/group. Exit from the container with `exit`. Then remove the container, remove the working directory, create it again:
+> ~~~
+> docker rm my_python
+> rm -rf cms_open_data_python
+> mkdir cms_open_data_python
+> ~~~
+> {: .language-bash}
+> and create the container again with the `docker run ...` command above.
+{: .testimonial}
+
 For other graphics, on native Linux, use X11-forwarding. On other systems, use VNC that is installed in the container and start the graphics windows with `vnc_start`. Open the browser window in the address given at the start message ([http://127.0.0.1:6080/vnc.html](http://127.0.0.1:6080/vnc.html)) with the default VNC password is `cms.cern`. It shows an empty screen to start with and all graphics will pop up there.
 
 Type `exit` to leave the container, and if you have started VNC, stop it first:
