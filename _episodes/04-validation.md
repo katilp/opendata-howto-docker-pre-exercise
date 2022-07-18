@@ -186,7 +186,7 @@ System                  3
 
 Congratulations! You are all set with your Docker environment.
 
-> Problems have been reported running amr-based containers such as this on MacOS with M1 chip. Increasing the memory available to Docker may help. Please check the possible solutions in [this post]https://opendata-forum.cern.ch/t/cms-open-data-docker-test-and-validate-error/111/12().
+> Problems have been reported running amd-based containers such as this on MacOS with M1 chip. Increasing the memory available to Docker may help. Please check the possible solutions in [this post]https://opendata-forum.cern.ch/t/cms-open-data-docker-test-and-validate-error/111/12().
 {: .testimonial}
 
 
