@@ -189,6 +189,13 @@ Congratulations! You are all set with your Docker environment.
 > Problems have been reported running amd-based containers such as this on MacOS with M1 chip. Increasing the memory available to Docker may help. Please check the possible solutions in [this post]https://opendata-forum.cern.ch/t/cms-open-data-docker-test-and-validate-error/111/12().
 {: .testimonial}
 
-
+> ## CMSSW jobs still not running in a container on a MacOS with M1 chip?
+> If increasing memory for Docker did not help, there's not much we can do. But this is not a show-stopper, you can still work with the CMS Open data, but you have to work differently. You will not be able to run CMSSW jobs in the CMSSW open data container on your own laptop, but you can still use the container. We propose the following:
+> 
+> - run the quick examples as GitHub actions using the CMSSW container (in which case your jobs run on GitHub "runners") and download the ouput files as "artifacts" (an example is coming soon)
+> - for any larger production, you would in any case use other resources than your own laptop, you will learn more about that in the cloud tutorial
+> - you can still use the two other containers (for ROOT and python) to inspect the output of your jobs.
+>
+{: .solution}
 
 {% include links.md %}
