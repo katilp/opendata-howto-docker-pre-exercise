@@ -72,7 +72,7 @@ scram b
 and you will get output similar to this:
 
 ~~~
-bash-4.1$ scram b
+$ scram b
 >> Local Products Rules ..... started
 >> Local Products Rules ..... done
 >> Entering Package Demo/DemoAnalyzer
@@ -89,7 +89,7 @@ Leaving library rule at src/Demo/DemoAnalyzer/plugins
 >> Subsystem Demo built
 >> Local Products Rules ..... started
 >> Local Products Rules ..... done
-gmake[1]: Entering directory `/home/cmsusr/CMSSW_7_6_7'
+gmake[1]: Entering directory `/code/CMSSW_7_6_7'
 >> Creating project symlinks
   src/Demo/DemoAnalyzer/python -> python/Demo/DemoAnalyzer
 >> Done python_symlink
@@ -99,7 +99,7 @@ gmake[1]: Entering directory `/home/cmsusr/CMSSW_7_6_7'
 @@@@ Refreshing Plugins:edmPluginRefresh
 >> Pluging of all type refreshed.
 >> Done generating edm plugin poisoned information
-gmake[1]: Leaving directory `/home/cmsusr/CMSSW_7_6_7'
+gmake[1]: Leaving directory `/code/CMSSW_7_6_7'
 ~~~
 {: .output}
 
@@ -184,6 +184,11 @@ System                  3
 ~~~
 {: .output}
 
-{% include links.md %}
-
 Congratulations! You are all set with your Docker environment.
+
+> Problems have been reported running amr-based containers such as this on MacOS with M1 chip. Increasing the memory available to Docker may help. Please check the possible solutions in [this post]https://opendata-forum.cern.ch/t/cms-open-data-docker-test-and-validate-error/111/12().
+{: .testimonial}
+
+
+
+{% include links.md %}
