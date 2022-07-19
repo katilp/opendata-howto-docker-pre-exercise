@@ -205,8 +205,7 @@ Congratulations! You are all set with your Docker environment.
 >
 > In your new repository, go to the Actions tab, and click on "I understand my workflow, go ahead and enable them". Choose the workflow "Test CMSSW on plain docker" and run the workflow by selecting branch `docker-04` under "Run workflow".
 >
-> <div>![](../assets/img/github_action_run_workflow.png)</div>
->
+> ![](../assets/img/github_action_run_workflow.png)
 > You can follow the job progress and output by clicking on "DemoAnalyzer test - plain docker" and expanding on "Going to a container", and if the job finishes with success, you will find the ouput under "Artifacts" in the workflow summary. In this example, it is the ouput log from the job above, but you could eventually produce some data files later on during this workshop and download them from the same place.
 >
 > Note that every time the workflow runs it takes several minutes to start, as it needs to download the container image. This certainly not ideal for quick testing, but remember that this is a workaround as you were not able to run jobs on the container locally.
