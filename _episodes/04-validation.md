@@ -201,6 +201,17 @@ Congratulations! You are all set with your Docker environment.
 > - for any larger production, you would in any case use other resources than your own laptop, you will learn more about that in the cloud tutorial
 > - you can still use the two other containers (for ROOT and python) to inspect the output of your jobs.
 >
+> To run a short CMSSW example job as a GitHub workflow, first go to the [example repository](https://github.com/cms-opendata-workshop/workshop2022-CMSSW-container-demo). The repository contains the example code generated above, with the two modifications in the configuration file for the file name and the number of events. To get your own version of it click on the arrow to the right of Fork (top right), and choose "Create a new fork". 
+>
+> In your new repository, go to the Actions tab, and click on "I understand my workflow, go ahead and enable them". Choose the workflow "Test CMSSW on plain docker" and run the workflow by selecting branch `docker-04` under "Run workflow".
+>
+> ![](../assets/img/github_action_run_workflow.png)
+>
+> You can follow the job progress and output by clicking on "DemoAnalyzer test - plain docker" and expanding on "Going to a container", and if the job finishes with success, you will find the ouput under "Artifacts" in the workflow summary. In this example, it is the ouput log from the job above, but you could eventually produce some data files later on during this workshop and download them from the same place.
+>
+> Note that every time the workflow runs it takes several minutes to start, as it needs to download the container image. This certainly not ideal for quick testing, but remember that this is a workaround as you were not able to run jobs on the container locally.
+>
+> The workflow is defined in `.github/workflows/main.yaml` and the commands that are passed into the container are in `commands.sh` in branch `docker-04` of the repository.
 {: .solution}
 
 {% include links.md %}
