@@ -186,6 +186,11 @@ System                  3
 
 Congratulations! You are all set with your Docker environment.
 
+> ## Work assignment
+>
+> Now, submit your assignment for this lesson.  You will find a task in our [assignment form](https://forms.gle/7YYRv6ZCTfRYiocr7); remember you must sign in and <strong style="color: red;">click on the submit button</strong> in order to save your work.  You can go back to edit the form at any time.
+{: .challenge}
+
 > Problems have been reported running amd-based containers such as this on MacOS with M1 chip. Increasing the memory available to Docker may help. Please check the possible solutions in [this post](https://opendata-forum.cern.ch/t/cms-open-data-docker-test-and-validate-error/111/12).
 {: .testimonial}
 
