@@ -191,8 +191,11 @@ Congratulations! You are all set with your Docker environment.
 > Now, submit your assignment for this lesson.  You will find a task in our [assignment form](https://forms.gle/7YYRv6ZCTfRYiocr7); remember you must sign in and <strong style="color: red;">click on the submit button</strong> in order to save your work.  You can go back to edit the form at any time.
 {: .challenge}
 
-> Problems have been reported running amd-based containers such as this on MacOS with M1 chip. Increasing the memory available to Docker may help. Please check the possible solutions in [this post](https://opendata-forum.cern.ch/t/cms-open-data-docker-test-and-validate-error/111/12).
-{: .testimonial}
+<blockquote class="testimonial">
+  <p> Problems have been reported running amd-based containers such as this on MacOS with M1 chip. Increasing the memory available to Docker may help. Please check the possible solutions in <a href="https://opendata-forum.cern.ch/t/cms-open-data-docker-test-and-validate-error/111/12">this post</a> in the CERN Open Data forum. Note, however, that this may help you to open the container, but it is very likely that problems remain when you try to compile code and run jobs in it.</p> <p>For the CMS open data workshop, we provide a <a href=" http://docker.cms-cloud.net/">temporary solution</a> which gives a docker environment in browser. You can use it for the CMSSW container during the lessons, if needed. Note the following: <ul>
+  <li>in the "Play with docker" terminal, after having created the working directory and before starting the container, change the permission of the working directory with <code class="language-plaintext highlighter-rouge">chmod 777 cms_open_data_work</code></li>
+  <li>if you use the editor that comes with "Play with docker", the owner of the edited file needs to be changed back in the container with <code class="language-plaintext highlighter-rouge">sudo chown $USER file-name</code></li>
+  <li>for the vnc in browser, open it by cliking "Open port", give 6080 and then add <code class="language-plaintext highlighter-rouge">vnc.html</code> in the URL of the tab that opens.</li></ul>The other containers used in this workshop should run fine on MacOS with M1 chip.</p></blockquote>
 
 > ## CMSSW jobs still not running in a container on a MacOS with M1 chip?
 > If increasing memory for Docker did not help, there's not much we can do. But this is not a show-stopper, you can still work with the CMS Open data, but you have to work differently. You will not be able to run CMSSW jobs in the CMSSW open data container on your own laptop, but you can still use the container. We propose the following:
