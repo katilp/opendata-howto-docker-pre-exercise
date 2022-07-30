@@ -239,12 +239,10 @@ This is a standalone image for CMSSW_7_6_7 slc6_amd64_gcc493.
 
 <p>This is now a bash shell in the CMS open data environment in which you have access to a complete CMS software release that is appropriate for interfacing with the 2015 13 TeV datasets.</p>
               
-> Problems have been reported running amd-based containers such as this on MacOS with M1 chip. Increasing the memory available to Docker may help. Please check the possible solutions in [this post](https://opendata-forum.cern.ch/t/cms-open-data-docker-test-and-validate-error/111/12).
-{: .testimonial}
  <blockquote class="testimonial">
   <p> Problems have been reported running amd-based containers such as this on MacOS with M1 chip. Increasing the memory available to Docker may help. Please check the possible solutions in <a href="https://opendata-forum.cern.ch/t/cms-open-data-docker-test-and-validate-error/111/12">this post</a> in the CERN Open Data forum. Note, however, that this may help you to open the container, but it is very likely that problems remain when you try to compile code and run jobs in it.</p> <p>For the CMS open data workshop, we provide a <a href=" http://docker.cms-cloud.net/">temporary solution</a> which gives a docker environment in browser. You can use it for the CMSSW container during the lessons, if needed. Note the following: <ul>
   <li>before starting the container, change the permission of the working directory with <code class="language-plaintext highlighter-rouge">chmod 777 cms_open_data_work</code></li>
-  <li>if you use the editor that comes with, the owner of the edited file needs to be changed back in the container with <code class="language-plaintext highlighter-rouge">sudo chown $USER <file-name></code></li>
+  <li>if you use the editor that comes with, the owner of the edited file needs to be changed back in the container with <code class="language-plaintext highlighter-rouge">sudo chown $USER file-name</code></li>
   <li>for the vnc in browser (see below), opens it by cliking "Open port", give 6080 and then add <code class="language-plaintext highlighter-rouge">vnc.html</code> in the URL of the tab that opens.</li>
 </ul>The other containers used in thi workshop should run fine on MacOS with M1 chip.
 </blockquote>
