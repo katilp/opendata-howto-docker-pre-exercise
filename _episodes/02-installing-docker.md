@@ -30,9 +30,6 @@ their installation procedure.
 
 In the episodes of this lesson that follow, we assume that Windows users have [WSL2](https://docs.microsoft.com/en-us/windows/wsl/install-win10) activated with a Linux bash shell (e.g. Ubuntu) and Docker Desktop installed. All commands indicated with "bash" are expected to be typed in this Linux shell.
 
-> Note that WSL2 can take around an hour to install.
-{: .testimonial}
-
 If you are new to Linux bash shell, you should first follow [the tutorial on shell environment](https://swcarpentry.github.io/shell-novice/). Make sure that you are familiar with the directory structure and that you know how to create and remove directories and how to create files and save them to a specific directory. Make also sure that you have an editor with which you are confortable. A common choice is VS Code, but you can use any other editor.
 
 ## Testing
@@ -48,12 +45,12 @@ commands.
 ~~~
 docker --version
 ~~~
-{: .bash}
+{: .language-bash}
 
 ~~~
 docker run hello-world
 ~~~
-{: .bash}
+{: .language-bash}
 
 ## Images and Containers
 
@@ -70,75 +67,89 @@ Docker provides the ability to create, build and/or modify images, which can the
 There are many [Docker commands](https://docs.docker.com/engine/reference/commandline/docker/) that can be executed for different tasks.  However, the most useful for our purposes are the following.  We will show some usage examples for some of these commands later.  Feel free to explore other commands.
 
 * Download image:
-~~~
-docker pull <image>
-~~~
+  ~~~
+  docker pull <image>
+  ~~~
+  {: .language-bash}
 
 * List images:
-~~~
-docker image ls
-~~~
+  ~~~
+  docker image ls
+  ~~~
+  {: .language-bash}
 
 * Remove images
-~~~
-docker image rm <image>
-~~~
-or
-~~~
-docker rmi <image>
-~~~
+  ~~~
+  docker image rm <image>
+  ~~~
+  {: .language-bash}
+  or
+  ~~~
+  docker rmi <image>
+  ~~~
+  {: .language-bash}
 
 * List containers
-~~~
-docker container ls -a
-~~~
+  ~~~
+  docker container ls -a
+  ~~~
+  {: .language-bash}
   or
-~~~
-docker ps -a
-~~~
+  ~~~
+  docker ps -a
+  ~~~
+  {: .language-bash}
   The `-a` option shows all containers (default shows just those running)
 
 
 * Remove containers
-~~~
-docker container rm <container>
-~~~
+  ~~~
+  docker container rm <container>
+  ~~~
+  {: .language-bash}
 or
-~~~
-docker rm <container>
-~~~
+  ~~~
+  docker rm <container>
+  ~~~
+  {: .language-bash}
 
 * Create and start a container based on a specific image
-~~~
-docker run [options] <image>
-~~~
+  ~~~
+  docker run [options] <image>
+  ~~~
+  {: .language-bash}
   This command will be used later to create our CMS open data container.
   
   The option `-v` for mounting a directory from the local computer to the container will also be used so that you can edit files on your normal editor and used them in the container:
-~~~
-docker -v <directory-on-your-local-computer>:<directory-in-the-container> <image>
-~~~
+  ~~~
+  docker -v <directory-on-your-local-computer>:<directory-in-the-container> <image>
+  ~~~
+  {: .language-bash}
 
 * Stop a running container
-~~~
-docker stop <container>
-~~~
+  ~~~
+  docker stop <container>
+  ~~~
+  {: .language-bash}
 
 * Attach a running (but detached) container
-~~~
-docker attach <container>
-~~~
+  ~~~
+  docker attach <container>
+  ~~~
+  {: .language-bash}
 
 * Start and attach a container that was stopped
-~~~
-docker start -i <container>
-~~~
+  ~~~
+  docker start -i <container>
+  ~~~
+  {: .language-bash}
 
 * Copy files in or out of a container_run
-~~~
-docker cp <container>:<path> <local path>
-docker cp <local path> <container>:<path>
-~~~
+  ~~~
+  docker cp <container>:<path> <local path>
+  docker cp <local path> <container>:<path>
+  ~~~
+  {: .language-bash}
 
 
 

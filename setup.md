@@ -10,10 +10,33 @@ title: Setup
 > check out the [Software Carpentry lesson on the Unix shell](https://swcarpentry.github.io/shell-novice/).
 {: .prereq}
 
-<!--  
-> If you experience problems with clipboard sharing between your host machine and your Docker container, the [text dump file](files/lessonDump.txt) of the lesson might be of help. You can download this file directly in your container using, e.g., the `wget` command, and follow along to copy the necessary commands directly from the text file.
-> -->
-> Finally, please remember that you will find simple <strong style="color: red;">work assignments that must be submitted</strong> using our [assignment form](https://forms.gle/7YYRv6ZCTfRYiocr7); you have to sign in and <strong style="color: red;">click on the submit button</strong> in order to save your work.  You can come back to edit the form at any time.
-{: .testimonial}
+
+> ## Windows users:
+> You are expected to have WSL2 (Windows Subsystem Linux 2) installed and work in the Ubuntu Linux shell (not in the Windows command prompt or the git bash shell).
+>
+> To install WSL2, run
+> ~~~
+> wsl --install
+> ~~~
+> {: .source}
+as administrator in Windows PowerShell of Command Prompt as [instructed](https://learn.microsoft.com/en-us/windows/wsl/install).
+>
+> This will install the Ubuntu Linux shell in which you are expected to work during the open data workshop.
+> 
+> In order to one of the [containers to work on WSL2](https://opendata-forum.cern.ch/t/running-cms-opendata-containers-in-wsl2/30/2), do the following (replacing `<your-windows-username>` with your actual Windows user name) in the Linux Ubuntu shell:
+>
+> ~~~
+> echo [wsl2] > /mnt/c/Users/<your-windows-username>/.wslconfig
+> echo kernelCommandLine = vsyscall=emulate >> /mnt/c/Users/<your-windows-username>/.wslconfig
+> ~~~
+> {: .language-bash}
+>
+> The shutdown WSL by typing
+> ~~~
+> wsl --shutdown
+> ~~~
+> {: .source}
+> as administrator in Windows PowerShell of Command Prompt. Restart by opening the Linux Ubuntu shell.
+{: .callout}
 
 {% include links.md %}

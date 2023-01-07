@@ -6,11 +6,8 @@ questions:
 - "How do I use docker to effectively interface with the CMS open data?"
 - "What container images are available for my work with the CMS open data?"
 objectives:
-- "Download the CMSSW open data docker image"
+- "Download the container images needed for the introduction to open data"
 - "Open your own CMSSW open data container and check that graphical windows open"
-- "Download the ROOT and python images and build your own container"
-- "Restart an existing container"
-- "Delete and rebuild containers"
 keypoints:
 - "You have now set up a docker container as a working enviroment for CMS open data. You know how to open a graphical window in it and how to pass files between your own computer and the container."
 
@@ -19,44 +16,65 @@ keypoints:
 ## Overview
 
 This exercise will walk you through setting up and familiarizing yourself with Docker, so that
-you can effectively use it to interface with the CMS open data. It is *not* meant to completely
-cover containers and everything you can do with Docker. <!--- Reach out to the organizers
-using the [dedicated Mattermost channel][mattermost]
-if we are missing something. -->
+you can effectively use it to interface with the CMS open data and have the containers needed for the open data workshop downloaded in advance. It is *not* meant to completely
+cover containers and everything you can do with Docker.
 
-Three types of container images are provided: [one with the CMS software (CMSSW)](https://gitlab.cern.ch/cms-cloud/cmssw-docker-opendata/-/blob/master/README.md) compatible with the released data, and two others with [ROOT](https://gitlab.cern.ch/cms-cloud/root-vnc) and [python](https://gitlab.cern.ch/cms-cloud/python-vnc) libraries needed in this workshop. The CMSSW container is mandatory if you want to access the CMS data in AOD and MiniAOD formats (you will learn about them later), as you will not be able to install CMSSW software on your own computer. The two others are provided to make setting up and using ROOT and/or python libraries easier for you for this tutorial, but if you wish, you can also install them on your computer. 
+Three types of container images are provided by the CMS open data group: [one with the CMS software (CMSSW)](https://gitlab.cern.ch/cms-cloud/cmssw-docker-opendata/-/blob/master/README.md) compatible with the released data, and two others with [ROOT](https://gitlab.cern.ch/cms-cloud/root-vnc) and [python](https://gitlab.cern.ch/cms-cloud/python-vnc) libraries needed in this workshop. 
 
-All container images come with [VNC](https://gitlab.cern.ch/cms-cloud/cmssw-docker-opendata/-/blob/master/README.md#use-vnc) for the graphical use interface. It opens directly in a browser window. Optionally, you can also connect to the VNC server of the container using a VNC viewer (VNC viewer (TigerVNC, RealVNC, TightVNC, OSX built-in VNC viewer, etc.) installed on your local machine, but only the browser option for which no additional tools are needed is described in these instructions. On native Linux, you can also use X11-forwarding.
+The CMSSW container is mandatory for the exercises related to CMS open data, as you will not be able to install CMSSW software on your own computer. The two others are provided to make setting up and using ROOT and/or python libraries easier in context with CSM open data, but they are not needed in the introduction to open data. 
 
-For different CMSSW container images, some guidance can be found on the
-[Open Data Portal introduction to Docker](http://opendata.cern.ch/docs/cms-guide-docker). In this tutorial, we will use the container image needed for the CMS open data from 2015. The use of graphical interfaces, such the graphics window from ROOT, depends on the operating system of your computer. Therefore, in the following, separate instructions are given for Windows WSL, Linux and MacOS.
+These three images come with [VNC](https://gitlab.cern.ch/cms-cloud/cmssw-docker-opendata/-/blob/master/README.md#use-vnc) for the graphical use interface. It opens directly in a browser window. Optionally, you can also connect to the VNC server of the container using a VNC viewer (VNC viewer (TigerVNC, RealVNC, TightVNC, OSX built-in VNC viewer, etc.) installed on your local machine, but only the browser option for which no additional tools are needed is described in these instructions. On native Linux, you can also use X11-forwarding.
 
+> ## Note!
 > Note that the container images are large (the compressed download size is 6.6GB for the CMSSW container, and of order of 1GB for the ROOT and python containers). Make sure that you make it in time to download them and work through the exercises before the workshop.
-{: .testimonial}
+{: .callout}
 
+## Download the container images needed in the open data introduction
 
-## Download the docker image for CMSSW open data and start a container
+In the bash shell, download the CMSSW container image from the docker image registry with
 
-The first time you start a container, a docker image file gets downloaded from an image registry. The CMSSW open data image is large (6.6GB) and it may take very long to
-download, depending on the speed of your internet
-connection. After the download, a container created from that image starts. The image download needs to be done only once. Afterwards, when starting a container, it will find the downloaded image on your computer, and it will be much faster.
+~~~
+docker pull cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493
+~~~
+{: .language-bash}
 
-The containers do not have modern editors and it is expected that you mount your working directory from the local computer into the container, and use your normal editor for editing the files. Note that all your compiling and executing still has to be done *in the Docker container*!
+Download the jupyter/datascience-notebook container image with
 
-First, before you start up your container, create a local directory
+~~~
+docker pull jupyter/datascience-notebook
+~~~
+{: .language-bash}
+
+Download the python container image with
+
+~~~
+docker pull python:slim-bullseye
+~~~
+{: .language-bash}
+
+> ## Note!
+> The container would start also without doing the `docker pull ...` before. However, if it has not been done, when you start a container, the image file gets downloaded. After the download, a container created from that image starts. The image download needs to be done only once. Afterwards, when starting a container, it will find the downloaded image on your computer, and it will be much faster.
+{: .callout}
+
+## Start a CMSSW open data container
+
+> ## Note!
+> The containers do not have modern editors and it is expected that you mount your working directory from the local computer into the container, and use your normal editor for editing the files. Note that all your compiling and executing of the CMSSW still has to be done *in the Docker container*!
+>
+> Before you start up your container, create a local directory
 where you will be doing your code development. In the example below, it is called
-`cms_open_data_work` and it will live in the `$HOME` directory. You may choose a different location and a shorter directory name if you like. :)
-
-> ## Local machine
+`cms_open_data_work` and it will live in the `$HOME` directory.
 > ~~~
 > cd # This is to make sure I'm in my home directory
 > mkdir cms_open_data_work
 > ~~~
 > {: .language-bash}
-{: .challenge}
+{: .callout}
 
 > ## Warning!
 > If you do not create the directory on your local computer before creating the container, the directory is created automatically but with the wrong user/group. When starting the container, you will get a message `cannot make directory CMSSW_7_6_7 Permission denied`. In that case, delete the directory with `rm -rf cms_open_data_work/`, and remove the failing container with `docker rm <container-name>` so that you can use the same name. In the following, we will use `my_od` as the container name. And then, remember to create the directory before creating the container!
+> 
+> If the problem persist, try changing the permissions in the local bash shell with `chmod 777 cms_open_data_work`. 
 {: .callout}
 
 Start the container following the instructions below depending on the operating system you are using.
@@ -296,9 +314,9 @@ To kill the vncserver enter 'vncserver -kill :1'
     </div><!-- nav-tabs  -->
 </div><!-- docker-run  -->
 
-## Download the docker images for ROOT and python tools and start container
+## Other the docker images for the work with CMS open data
 
-Containers with ROOT and python libraries installed are provided for your convenience. These containers can be used in the [C++, ROOT and python tools lesson](https://cms-opendata-workshop.github.io/workshop2022-lesson-cpp-root-python/) and later on for your work with CMS open data.
+Containers with ROOT and python libraries installed are provided for your convenience. These containers are not needed in the introduction to open data, but they can be used in the [C++, ROOT and python tools lesson](https://cms-opendata-workshop.github.io/workshop2022-lesson-cpp-root-python/) is you are interested in CMS open data.
 
 ### ROOT container
 
@@ -493,6 +511,5 @@ docker rm $(docker ps -aq)
 > quite some time to download! Whew!
 >
 {: .callout}
-
 
 {% include links.md %}
