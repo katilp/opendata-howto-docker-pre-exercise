@@ -3,14 +3,13 @@ title: "Using Docker with the CMS open data"
 teaching: 10
 exercises: 40 
 questions:
-- "How do I use docker to effectively interface with the CMS open data?"
-- "What container images are available for my work with the CMS open data?"
+- "What are the container images needed for the open data workshop?"
+- "How do I use the container effectively to interface with the CMS open data?"
 objectives:
 - "Download the container images needed for the introduction to open data"
 - "Open your own CMSSW open data container and check that graphical windows open"
 keypoints:
 - "The CMSSW open data container is mandatory for working with CMS open data"
-- "Other containers are provided for your convenience."
 - "The containers are large and they need to downloaded in advance before the workshop."
 
 ---
@@ -18,20 +17,22 @@ keypoints:
 ## Overview
 
 This exercise will walk you through setting up and familiarizing yourself with Docker, so that
-you can effectively use it to interface with the CMS open data and have the containers needed for the open data workshop downloaded in advance. It is *not* meant to completely
+you can effectively use it to interface with CMS and other open data and have the containers needed for the open data workshop downloaded in advance. It is *not* meant to completely
 cover containers and everything you can do with Docker.
 
-Three types of container images are provided by the CMS open data group: [one with the CMS software (CMSSW)](https://gitlab.cern.ch/cms-cloud/cmssw-docker-opendata/-/blob/master/README.md) compatible with the released data, and two others with [ROOT](https://gitlab.cern.ch/cms-cloud/root-vnc) and [python](https://gitlab.cern.ch/cms-cloud/python-vnc) libraries needed in this workshop. 
+Three types of container images are provided by the CMS open data group: [one with the CMS software (CMSSW)](https://gitlab.cern.ch/cms-cloud/cmssw-docker-opendata/-/blob/master/README.md) compatible with the released data, and two others with [ROOT](https://gitlab.cern.ch/cms-cloud/root-vnc) and [python](https://gitlab.cern.ch/cms-cloud/python-vnc) libraries useful when working with CMS open data. 
 
-The CMSSW container is mandatory for the exercises related to CMS open data, as you will not be able to install CMSSW software on your own computer. The two others are provided to make setting up and using ROOT and/or python libraries easier in context with CSM open data, but they are not needed in the introduction to open data. 
+The CMSSW container is mandatory for the exercises related to CMS open data, as you will not be able to install CMSSW software on your own computer. The two others are provided to make setting up and using ROOT and/or python libraries easier in context with CMS open data, but they are not needed in the introduction to open data. If you are interested, you can find out how to use them in the CMS open data workshop [docker pre-exercise](https://cms-opendata-workshop.github.io/workshop2022-lesson-docker/03-docker-for-cms-opendata/#download-the-docker-images-for-root-and-python-tools-and-start-container) from which this lesson has been adapted.
 
 These three images come with [VNC](https://gitlab.cern.ch/cms-cloud/cmssw-docker-opendata/-/blob/master/README.md#use-vnc) for the graphical use interface. It opens directly in a browser window. Optionally, you can also connect to the VNC server of the container using a VNC viewer (VNC viewer (TigerVNC, RealVNC, TightVNC, OSX built-in VNC viewer, etc.) installed on your local machine, but only the browser option for which no additional tools are needed is described in these instructions. On native Linux, you can also use X11-forwarding.
 
 > ## Note!
-> Note that some container images are large (the compressed download size is 6.6GB for the CMSSW container, 1.5GB for notebook container). Make sure that you make it in time to download them and work through the exercises before the workshop.
+> Note that some container images are large (some GB). Make sure to download them before traveling to the workshop. Test that you can start a CMSSW container from the image so that eventual problems can be solved before the tutorial session.
 {: .callout}
 
 ## Download the container images needed in the open data introduction
+
+You should download three container images before the workshop: the CMSSW container image for hands-on work with CMS open data, and the [jupyter/datascience-notebook container image](https://hub.docker.com/r/jupyter/datascience-notebook) and a [python container image](https://hub.docker.com/_/python). The compressed download size for these images are 6.6GB, 1.5GB and 47MB, respectively.
 
 In the bash shell, download the CMSSW container image from the docker image registry with
 
@@ -39,8 +40,6 @@ In the bash shell, download the CMSSW container image from the docker image regi
 docker pull cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493
 ~~~
 {: .language-bash}
-
-For the open data introduction two other containers will be used:
 
 Download the jupyter/datascience-notebook container image with
 
@@ -62,7 +61,9 @@ docker pull python:slim-bullseye
 
 ## Start a CMSSW open data container
 
-The containers do not have modern editors and it is expected that you mount your working directory from the local computer into the container, and use your normal editor for editing the files. Note that all your compiling and executing of the CMSSW still has to be done *in the Docker container*!
+This section shows how to start a CMSSW container so that you can easily edit files and open a graphical user interface from it.
+
+The CMS open data containers do not have modern editors and it is expected that you mount your working directory from the local computer into the container, and use your normal editor for editing the files. Note that all your compiling and executing of the CMSSW still has to be done *in the Docker container*!
 
 Before you start up your container, create a local directory
 where you will be doing your code development. In the example below, it is called
@@ -74,7 +75,7 @@ mkdir cms_open_data_work
 {: .language-bash}
 
 > ## Warning!
-> If you do not create the directory on your local computer before creating the container, the directory is created automatically but with the wrong user/group. When starting the container, you will get a message
+> If you do not create the directory on your local computer before creating the container, the directory will be created automatically at the container start but with the wrong user/group. You would get a message
 > ~~~
 > cannot make directory CMSSW_7_6_7 Permission denied
 > ~~~
@@ -328,111 +329,6 @@ To kill the vncserver enter 'vncserver -kill :1'
     </div><!-- nav-tabs  -->
 </div><!-- docker-run  -->
 
-## Other the docker images for the work with CMS open data
-
-Containers with ROOT and python libraries installed are provided for your convenience. These containers are not needed in the introduction to open data, but they can be used in the [C++, ROOT and python tools lesson](https://cms-opendata-workshop.github.io/workshop2022-lesson-cpp-root-python/) is you are interested in CMS open data.
-
-### ROOT container
-
-ROOT is included in the CMSSW container, but it is an old version because it needs to be compatible with the environment needed to access CMS open data AOD and MiniAOD files. In this tutorial, and in your work with CMS open data, you will often work on data that have been derived from the AOD or MiniAOD files and are not tied to a specific ROOT version. Therefore, a container with more recent ROOT version is provided. 
-
-First, create a working directory on your local computer:
-
-~~~
-cd
-mkdir cms_open_data_root
-~~~
-{: .language-bash}
-
-Then, download [the ROOT container](https://gitlab.cern.ch/cms-cloud/root-vnc) and start it with the `docker run` command.
-
-If you are on native Linux and want to use X11-forwarding, use
-
-~~~
-docker run -it --name my_root --net=host --env="DISPLAY" -v $HOME/.Xauthority:/home/cmsusr/.Xauthority:rw -v ${HOME}/cms_open_data_root:/code gitlab-registry.cern.ch/cms-cloud/root-vnc:latest
-~~~
-{: .language-bash}
-
-On MacOS and Windows WSL2 (and on native Linux if you do not want to use X11-forwarding), use
-
-~~~
-docker run -it --name my_root -P -p 5901:5901 -p 6080:6080 -v ${HOME}/cms_open_data_root:/code gitlab-registry.cern.ch/cms-cloud/root-vnc:latest
-~~~
-{: .language-bash}
-
-
-This opens a bash shell where you can type your commands. Edit files in the `cms_open_data_root` directory on your local computer, but run the commands in the container.
-
-For graphics, on native Linux, use X11-forwarding. On other systems, use VNC that is installed in the container and start the graphics windows with `vnc_start`. Open the browser window in the address given at the start message ([http://127.0.0.1:6080/vnc.html](http://127.0.0.1:6080/vnc.html)) with the default VNC password is `cms.cern`. It shows an empty screen to start with and all graphics will pop up there.
-
-Type `exit` to leave the container, and if you have started VNC, stop it first:
-
-~~~
-stop_vnc
-exit
-~~~
-{: .language-bash}
-
-
-### Python tools container
-
-ROOT is not the only option for analysis of CMS open data. A container image is provided with all python libraries that will be needed in this tutorial.
-
-First, create a working directory on your local computer:
-
-~~~
-cd
-mkdir cms_open_data_python
-~~~
-{: .language-bash}
-
-Then, download [the python container](https://gitlab.cern.ch/cms-cloud/python-vnc) and start it with the `docker run` command.
-
-If you are on native Linux and want to use X11-forwarding, use
-
-~~~
-docker run -it --name my_python -P -p 8888:8888 --net=host --env="DISPLAY" -v $HOME/.Xauthority:/home/cmsusr/.Xauthority:rw -v ${HOME}/cms_open_data_python:/code gitlab-registry.cern.ch/cms-cloud/python-vnc:latest
-~~~
-{: .language-bash}
-
-On MacOS and Windows WSL2 (and on native Linux if you do not want to use X11-forwarding), use
-
-~~~
-docker run -it --name my_python -P -p 5901:5901 -p 6080:6080 -p 8888:8888 -v ${HOME}/cms_open_data_python:/code gitlab-registry.cern.ch/cms-cloud/python-vnc:latest
-~~~
-{: .language-bash}
-
-
-This opens a bash shell where you can type your commands. Edit files in the `cms_open_data_python` directory on your local computer, but run the commands in the container.
-
-You can run jupyter notebooks in this container by typing in the container prompt
-
-~~~
-jupyter-lab --ip=0.0.0.0 --no-browser
-~~~
-{: .language-bash}
-
-and opening the link in the message on your browser.
-
-> If you see `Permission denied` when you try to open a new notebook, you most likely forgot to create the local working directory before creating the container. In that case, the directory was created automatically but with the wrong user/group. Exit from the container with `exit`. Then remove the container, remove the working directory, create it again:
-> ~~~
-> docker rm my_python
-> rm -rf cms_open_data_python
-> mkdir cms_open_data_python
-> ~~~
-> {: .language-bash}
-> and create the container again with the `docker run ...` command above.
-{: .testimonial}
-
-For other graphics, on native Linux, use X11-forwarding. On other systems, use VNC that is installed in the container and start the graphics windows with `vnc_start`. Open the browser window in the address given at the start message ([http://127.0.0.1:6080/vnc.html](http://127.0.0.1:6080/vnc.html)) with the default VNC password is `cms.cern`. It shows an empty screen to start with and all graphics will pop up there.
-
-Type `exit` to leave the container, and if you have started VNC, stop it first:
-
-~~~
-stop_vnc
-exit
-~~~
-{: .language-bash}
 
 ## Coming back to the same container
 

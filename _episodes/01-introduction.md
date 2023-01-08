@@ -35,11 +35,9 @@ official documentation provided by [Docker](https://www.docker.com/).
 >
 > As much as we'd like, we can't give you a *complete* overview of Docker. However, we do hope to explain
 > why we run Docker in the way we do so that you gain some understanding. More specifically, we'll
-> be showing you how to set up Docker for not just this workshop, but for interfacing with the 
-> CMS open data in general
+> be showing you how to set up Docker for not just this workshop, but for interfacing with open data in general
 >
 {: .objectives}
-
 
 
 {% include links.md %}
