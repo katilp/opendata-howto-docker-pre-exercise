@@ -1,6 +1,6 @@
 ---
 title: "Using Docker with the CMS open data"
-teaching: Self-guided
+teaching: 10
 exercises: 40 
 questions:
 - "How do I use docker to effectively interface with the CMS open data?"
@@ -9,7 +9,9 @@ objectives:
 - "Download the container images needed for the introduction to open data"
 - "Open your own CMSSW open data container and check that graphical windows open"
 keypoints:
-- "You have now set up a docker container as a working enviroment for CMS open data. You know how to open a graphical window in it and how to pass files between your own computer and the container."
+- "The CMSSW open data container is mandatory for working with CMS open data"
+- "Other containers are provided for your convenience."
+- "The containers are large and they need to downloaded in advance before the workshop."
 
 ---
 
@@ -26,7 +28,7 @@ The CMSSW container is mandatory for the exercises related to CMS open data, as 
 These three images come with [VNC](https://gitlab.cern.ch/cms-cloud/cmssw-docker-opendata/-/blob/master/README.md#use-vnc) for the graphical use interface. It opens directly in a browser window. Optionally, you can also connect to the VNC server of the container using a VNC viewer (VNC viewer (TigerVNC, RealVNC, TightVNC, OSX built-in VNC viewer, etc.) installed on your local machine, but only the browser option for which no additional tools are needed is described in these instructions. On native Linux, you can also use X11-forwarding.
 
 > ## Note!
-> Note that the container images are large (the compressed download size is 6.6GB for the CMSSW container, and of order of 1GB for the ROOT and python containers). Make sure that you make it in time to download them and work through the exercises before the workshop.
+> Note that some container images are large (the compressed download size is 6.6GB for the CMSSW container, 1.5GB for notebook container). Make sure that you make it in time to download them and work through the exercises before the workshop.
 {: .callout}
 
 ## Download the container images needed in the open data introduction
@@ -37,6 +39,8 @@ In the bash shell, download the CMSSW container image from the docker image regi
 docker pull cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493
 ~~~
 {: .language-bash}
+
+For the open data introduction two other containers will be used:
 
 Download the jupyter/datascience-notebook container image with
 
@@ -58,23 +62,36 @@ docker pull python:slim-bullseye
 
 ## Start a CMSSW open data container
 
-> ## Note!
-> The containers do not have modern editors and it is expected that you mount your working directory from the local computer into the container, and use your normal editor for editing the files. Note that all your compiling and executing of the CMSSW still has to be done *in the Docker container*!
->
-> Before you start up your container, create a local directory
+The containers do not have modern editors and it is expected that you mount your working directory from the local computer into the container, and use your normal editor for editing the files. Note that all your compiling and executing of the CMSSW still has to be done *in the Docker container*!
+
+Before you start up your container, create a local directory
 where you will be doing your code development. In the example below, it is called
 `cms_open_data_work` and it will live in the `$HOME` directory.
-> ~~~
-> cd # This is to make sure I'm in my home directory
-> mkdir cms_open_data_work
-> ~~~
-> {: .language-bash}
-{: .callout}
+~~~
+cd # This is to make sure I'm in my home directory
+mkdir cms_open_data_work
+~~~
+{: .language-bash}
 
 > ## Warning!
-> If you do not create the directory on your local computer before creating the container, the directory is created automatically but with the wrong user/group. When starting the container, you will get a message `cannot make directory CMSSW_7_6_7 Permission denied`. In that case, delete the directory with `rm -rf cms_open_data_work/`, and remove the failing container with `docker rm <container-name>` so that you can use the same name. In the following, we will use `my_od` as the container name. And then, remember to create the directory before creating the container!
+> If you do not create the directory on your local computer before creating the container, the directory is created automatically but with the wrong user/group. When starting the container, you will get a message
+> ~~~
+> cannot make directory CMSSW_7_6_7 Permission denied
+> ~~~
+> {: .error}
+> In that case, delete the directory and remove the failing container with `docker rm <container-name>` with
+> ~~~
+> rm -rf cms_open_data_work/
+> docker rm <container-name>
+> ~~~
+> {: .language-bash}
+> so that you can use the same name. In the following, we will use `my_od` as the container name. And then, remember to create the directory before creating the container!
 > 
-> If the problem persist, try changing the permissions in the local bash shell with `chmod 777 cms_open_data_work`. 
+> If the problem persist, try changing the permissions in the local bash shell with
+> ~~~
+> chmod 777 cms_open_data_work
+> ~~~
+> {: .language-bash}
 {: .callout}
 
 Start the container following the instructions below depending on the operating system you are using.
@@ -258,10 +275,7 @@ This is a standalone image for CMSSW_7_6_7 slc6_amd64_gcc493.
 <p>This is now a bash shell in the CMS open data environment in which you have access to a complete CMS software release that is appropriate for interfacing with the 2015 13 TeV datasets.</p>
               
  <blockquote class="testimonial">
-  <p> Problems have been reported running amd-based containers such as this on MacOS with M1 chip. Increasing the memory available to Docker may help. Please check the possible solutions in <a href="https://opendata-forum.cern.ch/t/cms-open-data-docker-test-and-validate-error/111/12">this post</a> in the CERN Open Data forum. Note, however, that this may help you to open the container, but it is very likely that problems remain when you try to compile code and run jobs in it.</p> <p>For the CMS open data workshop, we provide a <a href=" http://docker.cms-cloud.net/">temporary solution</a> which gives a docker environment in browser. You can use it for the CMSSW container during the lessons, if needed. Note the following: <ul>
-  <li>in the "Play with docker" terminal, after having created the working directory and before starting the container, change the permission of the working directory with <code class="language-plaintext highlighter-rouge">chmod 777 cms_open_data_work</code></li>
-  <li>if you use the editor that comes with "Play with docker", the owner of the edited file needs to be changed back in the container with <code class="language-plaintext highlighter-rouge">sudo chown $USER file-name</code></li>
-  <li>for the vnc in browser (see below), opens it by cliking "Open port", give 6080 and then add <code class="language-plaintext highlighter-rouge">vnc.html</code> in the URL of the tab that opens.</li></ul>The other containers used in this workshop should run fine on MacOS with M1 chip.</p></blockquote>
+  <p> Problems have been reported running amd-based containers such as this on MacOS with M1 chip. Increasing the memory available to Docker may help. Please check the possible solutions in <a href="https://opendata-forum.cern.ch/t/cms-open-data-docker-test-and-validate-error/111/12">this post</a> in the CERN Open Data forum. Note, however, that this may help you to open the container, but it is very likely that problems remain when you try to compile code and run jobs in it.</p> <p>The other containers used in this workshop should run fine on MacOS with M1 chip.</p></blockquote>
 
 <p>As there are rate limits for pulls from Docker Hub, you may get the following error message: <code class="language-plaintext highlighter-rouge">docker: Error response from daemon: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading.</code>. In that case, try later (the limit is per 6 hours) or use the mirror <code class="language-plaintext highlighter-rouge">gitlab-registry.cern.ch/cms-cloud/cmssw-docker-opendata/cmssw_7_6_7-slc6_amd64_gcc493</code> instead of <code class="language-plaintext highlighter-rouge">cmsopendata/cmssw_7_6_7-slc6_amd64_gcc493</code>.</p>
               

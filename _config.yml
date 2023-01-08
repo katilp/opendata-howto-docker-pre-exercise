@@ -32,7 +32,7 @@ kind: "lesson"
 repository: <USERNAME>/<PROJECT>
 
 # Email address, no mailto:
-email: "team@carpentries.org"
+email: "kati.lassila-perini@cern.ch"
 
 # Sites.
 amy_site: "https://amy.carpentries.org/"

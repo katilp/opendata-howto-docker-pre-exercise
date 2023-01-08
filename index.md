@@ -9,8 +9,8 @@ These pre-exercises are designed to prepare you for using Docker containers in t
 the open data workshop in January 2023. This is *not* a full introduction to Docker, however,
 we do take time to explain some key concepts that should make your experience a smooth one.
 
-To interface with the open data from the CMS experiment, on could use virtual machines (VMs),
-but in this workshop, we will only use the Docker container environment. You may find both VMs and containers mentioned in some instructions, and in that case, always follow the instructions for containers.
+To interface with the open data from the CMS experiment, one could use virtual machines (VMs),
+but in this workshop, we will only use the Docker container environment. You may find both VMs and containers mentioned in some instructions that are linked from the tutorial lesson. In that case, always follow the instructions for containers.
 
 <!-- this is an html comment -->
 
@@ -18,7 +18,8 @@ but in this workshop, we will only use the Docker container environment. You may
 
 > ## Prerequisites
 >
-> Basic knowledge of [bash](https://swcarpentry.github.io/shell-novice/01-intro/index.html#the-shell)
+> - Basic knowledge of [bash](https://swcarpentry.github.io/shell-novice/01-intro/index.html#the-shell)
+> - Setup of this lesson
 {: .prereq}
 
 {% include links.md %}

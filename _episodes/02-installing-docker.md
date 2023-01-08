@@ -1,9 +1,8 @@
 ---
 title: "Installing Docker"
 teaching: 10
-exercises: 15
+exercises: 10
 questions:
-- "What equipment do I need?"
 - "How do I install Docker?"
 - "How do I test my installation?"
 - "What are the main Docker concepts and commands I need to know?"
@@ -28,7 +27,7 @@ to install Docker for your operating system.
 We see no need to go beyond the documentation they provide so we leave it up to you to follow
 their installation procedure.
 
-In the episodes of this lesson that follow, we assume that Windows users have [WSL2](https://docs.microsoft.com/en-us/windows/wsl/install-win10) activated with a Linux bash shell (e.g. Ubuntu) and Docker Desktop installed. All commands indicated with "bash" are expected to be typed in this Linux shell.
+In the episodes of this lesson that follow, we assume that Windows users have [WSL2](https://docs.microsoft.com/en-us/windows/wsl/install-win10) activated with a Linux bash shell (e.g. Ubuntu) and Docker Desktop installed. All commands in a **Bash** box should be typed in this Linux shell (and **not** in the Windows command prompt or the git bash shell).
 
 If you are new to Linux bash shell, you should first follow [the tutorial on shell environment](https://swcarpentry.github.io/shell-novice/). Make sure that you are familiar with the directory structure and that you know how to create and remove directories and how to create files and save them to a specific directory. Make also sure that you have an editor with which you are confortable. A common choice is VS Code, but you can use any other editor.
 
@@ -150,15 +149,5 @@ or
   docker cp <local path> <container>:<path>
   ~~~
   {: .language-bash}
-
-
-
-
-
-
-
-
-
-
 
 {% include links.md %}
