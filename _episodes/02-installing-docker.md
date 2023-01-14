@@ -24,9 +24,9 @@ test it out.
 Go to the offical [Docker site and their installation instructions](https://docs.docker.com/get-docker/)
 to install Docker for your operating system.
 
-> ## Use Docker Desktop version 4.15.0 or earlier
+> ## Do not use Docker Desktop version 4.16.0
 >
-> Docker Dekstop version 4.16.0 may have some [trouble](https://github.com/docker/for-mac/issues/6675) with the containers, please download the [version 4.15.0](https://docs.docker.com/desktop/release-notes/#4150) or earlier!
+> Docker Dekstop version 4.16.0 may have some [trouble](https://github.com/docker/for-mac/issues/6675) with the containers, please download the [version 4.16.1](https://docs.docker.com/desktop/release-notes/#4161) or [version 4.15.0](https://docs.docker.com/desktop/release-notes/#4150)!
 >
 {: .caution}
 
