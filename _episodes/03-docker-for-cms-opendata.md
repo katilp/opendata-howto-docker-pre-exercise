@@ -95,6 +95,18 @@ mkdir cms_open_data_work
 > {: .language-bash}
 {: .callout}
 
+
+> ## Do not use Docker Desktop version 4.16.0
+>
+> Docker Dekstop version 4.16.0 may have some [trouble](https://github.com/docker/for-mac/issues/6675) with the CMSSW containers. If, when starting the container, you get the following:
+> ~~~
+> sudo: effective uid is not 0, is sudo installed setuid root?
+> ~~~
+> {: .error}
+> update to  the Docker Desktop [version 4.16.1](https://docs.docker.com/desktop/release-notes/#4161).
+>
+{: .caution}
+
 Start the container following the instructions below depending on the operating system you are using.
 
 <div id="docker-run">
